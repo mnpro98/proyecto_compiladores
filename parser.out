@@ -1,0 +1,1256 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM ID DOTCOMMA a
+Rule 2     a -> vars bloque
+Rule 3     a -> bloque
+Rule 4     b -> ID TWODOTS tipo DOTCOMMA
+Rule 5     b -> ID COMMA b
+Rule 6     b -> ID TWODOTS tipo DOTCOMMA b
+Rule 7     c -> estatuto
+Rule 8     c -> estatuto c
+Rule 9     d -> expresion
+Rule 10    d -> expresion COMMA d
+Rule 11    d -> CTESTRING
+Rule 12    d -> CTESTRING COMMA d
+Rule 13    e -> GT exp
+Rule 14    e -> LT exp
+Rule 15    e -> NOTEQUAL exp
+Rule 16    f -> bloque
+Rule 17    f -> bloque ELSE bloque
+Rule 18    vars -> VAR b
+Rule 19    tipo -> INT
+Rule 20    tipo -> FLOAT
+Rule 21    bloque -> LKEY RKEY
+Rule 22    bloque -> LKEY c RKEY
+Rule 23    estatuto -> asignacion
+Rule 24    estatuto -> condicion
+Rule 25    estatuto -> escritura
+Rule 26    asignacion -> ID EQUALS expresion DOTCOMMA
+Rule 27    escritura -> PRINT LPAREN d RPAREN DOTCOMMA
+Rule 28    expresion -> exp
+Rule 29    expresion -> exp e
+Rule 30    condicion -> IF LPAREN expresion RPAREN f DOTCOMMA
+Rule 31    exp -> termino
+Rule 32    exp -> termino PLUS exp
+Rule 33    exp -> termino MINUS exp
+Rule 34    termino -> factor
+Rule 35    termino -> factor TIMES exp
+Rule 36    termino -> factor DIVIDE exp
+Rule 37    factor -> LPAREN expresion RPAREN
+Rule 38    factor -> PLUS varcte
+Rule 39    factor -> MINUS varcte
+Rule 40    factor -> varcte
+Rule 41    varcte -> ID
+Rule 42    varcte -> CTEI
+Rule 43    varcte -> CTEF
+
+Terminals, with rules where they appear
+
+COMMA                : 5 10 12
+CTEF                 : 43
+CTEI                 : 42
+CTESTRING            : 11 12
+DIVIDE               : 36
+DOTCOMMA             : 1 4 6 26 27 30
+ELSE                 : 17
+EQUALS               : 26
+FLOAT                : 20
+GT                   : 13
+ID                   : 1 4 5 6 26 41
+IF                   : 30
+INT                  : 19
+LKEY                 : 21 22
+LPAREN               : 27 30 37
+LT                   : 14
+MINUS                : 33 39
+NOTEQUAL             : 15
+PLUS                 : 32 38
+PRINT                : 27
+PROGRAM              : 1
+RKEY                 : 21 22
+RPAREN               : 27 30 37
+TIMES                : 35
+TWODOTS              : 4 6
+VAR                  : 18
+error                : 
+
+Nonterminals, with rules where they appear
+
+a                    : 1
+asignacion           : 23
+b                    : 5 6 18
+bloque               : 2 3 16 17 17
+c                    : 8 22
+condicion            : 24
+d                    : 10 12 27
+e                    : 29
+escritura            : 25
+estatuto             : 7 8
+exp                  : 13 14 15 28 29 32 33 35 36
+expresion            : 9 10 26 30 37
+f                    : 30
+factor               : 34 35 36
+program              : 0
+termino              : 31 32 33
+tipo                 : 4 6
+varcte               : 38 39 40
+vars                 : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . PROGRAM ID DOTCOMMA a
+
+    PROGRAM         shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> PROGRAM . ID DOTCOMMA a
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) program -> PROGRAM ID . DOTCOMMA a
+
+    DOTCOMMA        shift and go to state 4
+
+
+state 4
+
+    (1) program -> PROGRAM ID DOTCOMMA . a
+    (2) a -> . vars bloque
+    (3) a -> . bloque
+    (18) vars -> . VAR b
+    (21) bloque -> . LKEY RKEY
+    (22) bloque -> . LKEY c RKEY
+
+    VAR             shift and go to state 8
+    LKEY            shift and go to state 9
+
+    a                              shift and go to state 5
+    vars                           shift and go to state 6
+    bloque                         shift and go to state 7
+
+state 5
+
+    (1) program -> PROGRAM ID DOTCOMMA a .
+
+    $end            reduce using rule 1 (program -> PROGRAM ID DOTCOMMA a .)
+
+
+state 6
+
+    (2) a -> vars . bloque
+    (21) bloque -> . LKEY RKEY
+    (22) bloque -> . LKEY c RKEY
+
+    LKEY            shift and go to state 9
+
+    bloque                         shift and go to state 10
+
+state 7
+
+    (3) a -> bloque .
+
+    $end            reduce using rule 3 (a -> bloque .)
+
+
+state 8
+
+    (18) vars -> VAR . b
+    (4) b -> . ID TWODOTS tipo DOTCOMMA
+    (5) b -> . ID COMMA b
+    (6) b -> . ID TWODOTS tipo DOTCOMMA b
+
+    ID              shift and go to state 12
+
+    b                              shift and go to state 11
+
+state 9
+
+    (21) bloque -> LKEY . RKEY
+    (22) bloque -> LKEY . c RKEY
+    (7) c -> . estatuto
+    (8) c -> . estatuto c
+    (23) estatuto -> . asignacion
+    (24) estatuto -> . condicion
+    (25) estatuto -> . escritura
+    (26) asignacion -> . ID EQUALS expresion DOTCOMMA
+    (30) condicion -> . IF LPAREN expresion RPAREN f DOTCOMMA
+    (27) escritura -> . PRINT LPAREN d RPAREN DOTCOMMA
+
+    RKEY            shift and go to state 13
+    ID              shift and go to state 19
+    IF              shift and go to state 20
+    PRINT           shift and go to state 21
+
+    c                              shift and go to state 14
+    estatuto                       shift and go to state 15
+    asignacion                     shift and go to state 16
+    condicion                      shift and go to state 17
+    escritura                      shift and go to state 18
+
+state 10
+
+    (2) a -> vars bloque .
+
+    $end            reduce using rule 2 (a -> vars bloque .)
+
+
+state 11
+
+    (18) vars -> VAR b .
+
+    LKEY            reduce using rule 18 (vars -> VAR b .)
+
+
+state 12
+
+    (4) b -> ID . TWODOTS tipo DOTCOMMA
+    (5) b -> ID . COMMA b
+    (6) b -> ID . TWODOTS tipo DOTCOMMA b
+
+    TWODOTS         shift and go to state 22
+    COMMA           shift and go to state 23
+
+
+state 13
+
+    (21) bloque -> LKEY RKEY .
+
+    $end            reduce using rule 21 (bloque -> LKEY RKEY .)
+    ELSE            reduce using rule 21 (bloque -> LKEY RKEY .)
+    DOTCOMMA        reduce using rule 21 (bloque -> LKEY RKEY .)
+
+
+state 14
+
+    (22) bloque -> LKEY c . RKEY
+
+    RKEY            shift and go to state 24
+
+
+state 15
+
+    (7) c -> estatuto .
+    (8) c -> estatuto . c
+    (7) c -> . estatuto
+    (8) c -> . estatuto c
+    (23) estatuto -> . asignacion
+    (24) estatuto -> . condicion
+    (25) estatuto -> . escritura
+    (26) asignacion -> . ID EQUALS expresion DOTCOMMA
+    (30) condicion -> . IF LPAREN expresion RPAREN f DOTCOMMA
+    (27) escritura -> . PRINT LPAREN d RPAREN DOTCOMMA
+
+    RKEY            reduce using rule 7 (c -> estatuto .)
+    ID              shift and go to state 19
+    IF              shift and go to state 20
+    PRINT           shift and go to state 21
+
+    estatuto                       shift and go to state 15
+    c                              shift and go to state 25
+    asignacion                     shift and go to state 16
+    condicion                      shift and go to state 17
+    escritura                      shift and go to state 18
+
+state 16
+
+    (23) estatuto -> asignacion .
+
+    ID              reduce using rule 23 (estatuto -> asignacion .)
+    IF              reduce using rule 23 (estatuto -> asignacion .)
+    PRINT           reduce using rule 23 (estatuto -> asignacion .)
+    RKEY            reduce using rule 23 (estatuto -> asignacion .)
+
+
+state 17
+
+    (24) estatuto -> condicion .
+
+    ID              reduce using rule 24 (estatuto -> condicion .)
+    IF              reduce using rule 24 (estatuto -> condicion .)
+    PRINT           reduce using rule 24 (estatuto -> condicion .)
+    RKEY            reduce using rule 24 (estatuto -> condicion .)
+
+
+state 18
+
+    (25) estatuto -> escritura .
+
+    ID              reduce using rule 25 (estatuto -> escritura .)
+    IF              reduce using rule 25 (estatuto -> escritura .)
+    PRINT           reduce using rule 25 (estatuto -> escritura .)
+    RKEY            reduce using rule 25 (estatuto -> escritura .)
+
+
+state 19
+
+    (26) asignacion -> ID . EQUALS expresion DOTCOMMA
+
+    EQUALS          shift and go to state 26
+
+
+state 20
+
+    (30) condicion -> IF . LPAREN expresion RPAREN f DOTCOMMA
+
+    LPAREN          shift and go to state 27
+
+
+state 21
+
+    (27) escritura -> PRINT . LPAREN d RPAREN DOTCOMMA
+
+    LPAREN          shift and go to state 28
+
+
+state 22
+
+    (4) b -> ID TWODOTS . tipo DOTCOMMA
+    (6) b -> ID TWODOTS . tipo DOTCOMMA b
+    (19) tipo -> . INT
+    (20) tipo -> . FLOAT
+
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+
+    tipo                           shift and go to state 29
+
+state 23
+
+    (5) b -> ID COMMA . b
+    (4) b -> . ID TWODOTS tipo DOTCOMMA
+    (5) b -> . ID COMMA b
+    (6) b -> . ID TWODOTS tipo DOTCOMMA b
+
+    ID              shift and go to state 12
+
+    b                              shift and go to state 32
+
+state 24
+
+    (22) bloque -> LKEY c RKEY .
+
+    $end            reduce using rule 22 (bloque -> LKEY c RKEY .)
+    ELSE            reduce using rule 22 (bloque -> LKEY c RKEY .)
+    DOTCOMMA        reduce using rule 22 (bloque -> LKEY c RKEY .)
+
+
+state 25
+
+    (8) c -> estatuto c .
+
+    RKEY            reduce using rule 8 (c -> estatuto c .)
+
+
+state 26
+
+    (26) asignacion -> ID EQUALS . expresion DOTCOMMA
+    (28) expresion -> . exp
+    (29) expresion -> . exp e
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 34
+    exp                            shift and go to state 35
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 27
+
+    (30) condicion -> IF LPAREN . expresion RPAREN f DOTCOMMA
+    (28) expresion -> . exp
+    (29) expresion -> . exp e
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 44
+    exp                            shift and go to state 35
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 28
+
+    (27) escritura -> PRINT LPAREN . d RPAREN DOTCOMMA
+    (9) d -> . expresion
+    (10) d -> . expresion COMMA d
+    (11) d -> . CTESTRING
+    (12) d -> . CTESTRING COMMA d
+    (28) expresion -> . exp
+    (29) expresion -> . exp e
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    CTESTRING       shift and go to state 47
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    d                              shift and go to state 45
+    expresion                      shift and go to state 46
+    exp                            shift and go to state 35
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 29
+
+    (4) b -> ID TWODOTS tipo . DOTCOMMA
+    (6) b -> ID TWODOTS tipo . DOTCOMMA b
+
+    DOTCOMMA        shift and go to state 48
+
+
+state 30
+
+    (19) tipo -> INT .
+
+    DOTCOMMA        reduce using rule 19 (tipo -> INT .)
+
+
+state 31
+
+    (20) tipo -> FLOAT .
+
+    DOTCOMMA        reduce using rule 20 (tipo -> FLOAT .)
+
+
+state 32
+
+    (5) b -> ID COMMA b .
+
+    LKEY            reduce using rule 5 (b -> ID COMMA b .)
+
+
+state 33
+
+    (41) varcte -> ID .
+
+    TIMES           reduce using rule 41 (varcte -> ID .)
+    DIVIDE          reduce using rule 41 (varcte -> ID .)
+    PLUS            reduce using rule 41 (varcte -> ID .)
+    MINUS           reduce using rule 41 (varcte -> ID .)
+    GT              reduce using rule 41 (varcte -> ID .)
+    LT              reduce using rule 41 (varcte -> ID .)
+    NOTEQUAL        reduce using rule 41 (varcte -> ID .)
+    DOTCOMMA        reduce using rule 41 (varcte -> ID .)
+    RPAREN          reduce using rule 41 (varcte -> ID .)
+    COMMA           reduce using rule 41 (varcte -> ID .)
+
+
+state 34
+
+    (26) asignacion -> ID EQUALS expresion . DOTCOMMA
+
+    DOTCOMMA        shift and go to state 49
+
+
+state 35
+
+    (28) expresion -> exp .
+    (29) expresion -> exp . e
+    (13) e -> . GT exp
+    (14) e -> . LT exp
+    (15) e -> . NOTEQUAL exp
+
+    DOTCOMMA        reduce using rule 28 (expresion -> exp .)
+    RPAREN          reduce using rule 28 (expresion -> exp .)
+    COMMA           reduce using rule 28 (expresion -> exp .)
+    GT              shift and go to state 51
+    LT              shift and go to state 52
+    NOTEQUAL        shift and go to state 53
+
+    e                              shift and go to state 50
+
+state 36
+
+    (31) exp -> termino .
+    (32) exp -> termino . PLUS exp
+    (33) exp -> termino . MINUS exp
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    GT              reduce using rule 31 (exp -> termino .)
+    LT              reduce using rule 31 (exp -> termino .)
+    NOTEQUAL        reduce using rule 31 (exp -> termino .)
+    DOTCOMMA        reduce using rule 31 (exp -> termino .)
+    RPAREN          reduce using rule 31 (exp -> termino .)
+    COMMA           reduce using rule 31 (exp -> termino .)
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+
+  ! PLUS            [ reduce using rule 31 (exp -> termino .) ]
+  ! MINUS           [ reduce using rule 31 (exp -> termino .) ]
+
+
+state 37
+
+    (38) factor -> PLUS . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    varcte                         shift and go to state 56
+
+state 38
+
+    (39) factor -> MINUS . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    varcte                         shift and go to state 57
+
+state 39
+
+    (34) termino -> factor .
+    (35) termino -> factor . TIMES exp
+    (36) termino -> factor . DIVIDE exp
+
+    PLUS            reduce using rule 34 (termino -> factor .)
+    MINUS           reduce using rule 34 (termino -> factor .)
+    GT              reduce using rule 34 (termino -> factor .)
+    LT              reduce using rule 34 (termino -> factor .)
+    NOTEQUAL        reduce using rule 34 (termino -> factor .)
+    DOTCOMMA        reduce using rule 34 (termino -> factor .)
+    RPAREN          reduce using rule 34 (termino -> factor .)
+    COMMA           reduce using rule 34 (termino -> factor .)
+    TIMES           shift and go to state 58
+    DIVIDE          shift and go to state 59
+
+
+state 40
+
+    (37) factor -> LPAREN . expresion RPAREN
+    (28) expresion -> . exp
+    (29) expresion -> . exp e
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 60
+    exp                            shift and go to state 35
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 41
+
+    (40) factor -> varcte .
+
+    TIMES           reduce using rule 40 (factor -> varcte .)
+    DIVIDE          reduce using rule 40 (factor -> varcte .)
+    PLUS            reduce using rule 40 (factor -> varcte .)
+    MINUS           reduce using rule 40 (factor -> varcte .)
+    GT              reduce using rule 40 (factor -> varcte .)
+    LT              reduce using rule 40 (factor -> varcte .)
+    NOTEQUAL        reduce using rule 40 (factor -> varcte .)
+    DOTCOMMA        reduce using rule 40 (factor -> varcte .)
+    RPAREN          reduce using rule 40 (factor -> varcte .)
+    COMMA           reduce using rule 40 (factor -> varcte .)
+
+
+state 42
+
+    (42) varcte -> CTEI .
+
+    TIMES           reduce using rule 42 (varcte -> CTEI .)
+    DIVIDE          reduce using rule 42 (varcte -> CTEI .)
+    PLUS            reduce using rule 42 (varcte -> CTEI .)
+    MINUS           reduce using rule 42 (varcte -> CTEI .)
+    GT              reduce using rule 42 (varcte -> CTEI .)
+    LT              reduce using rule 42 (varcte -> CTEI .)
+    NOTEQUAL        reduce using rule 42 (varcte -> CTEI .)
+    DOTCOMMA        reduce using rule 42 (varcte -> CTEI .)
+    RPAREN          reduce using rule 42 (varcte -> CTEI .)
+    COMMA           reduce using rule 42 (varcte -> CTEI .)
+
+
+state 43
+
+    (43) varcte -> CTEF .
+
+    TIMES           reduce using rule 43 (varcte -> CTEF .)
+    DIVIDE          reduce using rule 43 (varcte -> CTEF .)
+    PLUS            reduce using rule 43 (varcte -> CTEF .)
+    MINUS           reduce using rule 43 (varcte -> CTEF .)
+    GT              reduce using rule 43 (varcte -> CTEF .)
+    LT              reduce using rule 43 (varcte -> CTEF .)
+    NOTEQUAL        reduce using rule 43 (varcte -> CTEF .)
+    DOTCOMMA        reduce using rule 43 (varcte -> CTEF .)
+    RPAREN          reduce using rule 43 (varcte -> CTEF .)
+    COMMA           reduce using rule 43 (varcte -> CTEF .)
+
+
+state 44
+
+    (30) condicion -> IF LPAREN expresion . RPAREN f DOTCOMMA
+
+    RPAREN          shift and go to state 61
+
+
+state 45
+
+    (27) escritura -> PRINT LPAREN d . RPAREN DOTCOMMA
+
+    RPAREN          shift and go to state 62
+
+
+state 46
+
+    (9) d -> expresion .
+    (10) d -> expresion . COMMA d
+
+    RPAREN          reduce using rule 9 (d -> expresion .)
+    COMMA           shift and go to state 63
+
+
+state 47
+
+    (11) d -> CTESTRING .
+    (12) d -> CTESTRING . COMMA d
+
+    RPAREN          reduce using rule 11 (d -> CTESTRING .)
+    COMMA           shift and go to state 64
+
+
+state 48
+
+    (4) b -> ID TWODOTS tipo DOTCOMMA .
+    (6) b -> ID TWODOTS tipo DOTCOMMA . b
+    (4) b -> . ID TWODOTS tipo DOTCOMMA
+    (5) b -> . ID COMMA b
+    (6) b -> . ID TWODOTS tipo DOTCOMMA b
+
+    LKEY            reduce using rule 4 (b -> ID TWODOTS tipo DOTCOMMA .)
+    ID              shift and go to state 12
+
+    b                              shift and go to state 65
+
+state 49
+
+    (26) asignacion -> ID EQUALS expresion DOTCOMMA .
+
+    ID              reduce using rule 26 (asignacion -> ID EQUALS expresion DOTCOMMA .)
+    IF              reduce using rule 26 (asignacion -> ID EQUALS expresion DOTCOMMA .)
+    PRINT           reduce using rule 26 (asignacion -> ID EQUALS expresion DOTCOMMA .)
+    RKEY            reduce using rule 26 (asignacion -> ID EQUALS expresion DOTCOMMA .)
+
+
+state 50
+
+    (29) expresion -> exp e .
+
+    DOTCOMMA        reduce using rule 29 (expresion -> exp e .)
+    RPAREN          reduce using rule 29 (expresion -> exp e .)
+    COMMA           reduce using rule 29 (expresion -> exp e .)
+
+
+state 51
+
+    (13) e -> GT . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 66
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 52
+
+    (14) e -> LT . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 67
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 53
+
+    (15) e -> NOTEQUAL . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 68
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 54
+
+    (32) exp -> termino PLUS . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    termino                        shift and go to state 36
+    exp                            shift and go to state 69
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 55
+
+    (33) exp -> termino MINUS . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    termino                        shift and go to state 36
+    exp                            shift and go to state 70
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 56
+
+    (38) factor -> PLUS varcte .
+
+    TIMES           reduce using rule 38 (factor -> PLUS varcte .)
+    DIVIDE          reduce using rule 38 (factor -> PLUS varcte .)
+    PLUS            reduce using rule 38 (factor -> PLUS varcte .)
+    MINUS           reduce using rule 38 (factor -> PLUS varcte .)
+    GT              reduce using rule 38 (factor -> PLUS varcte .)
+    LT              reduce using rule 38 (factor -> PLUS varcte .)
+    NOTEQUAL        reduce using rule 38 (factor -> PLUS varcte .)
+    DOTCOMMA        reduce using rule 38 (factor -> PLUS varcte .)
+    RPAREN          reduce using rule 38 (factor -> PLUS varcte .)
+    COMMA           reduce using rule 38 (factor -> PLUS varcte .)
+
+
+state 57
+
+    (39) factor -> MINUS varcte .
+
+    TIMES           reduce using rule 39 (factor -> MINUS varcte .)
+    DIVIDE          reduce using rule 39 (factor -> MINUS varcte .)
+    PLUS            reduce using rule 39 (factor -> MINUS varcte .)
+    MINUS           reduce using rule 39 (factor -> MINUS varcte .)
+    GT              reduce using rule 39 (factor -> MINUS varcte .)
+    LT              reduce using rule 39 (factor -> MINUS varcte .)
+    NOTEQUAL        reduce using rule 39 (factor -> MINUS varcte .)
+    DOTCOMMA        reduce using rule 39 (factor -> MINUS varcte .)
+    RPAREN          reduce using rule 39 (factor -> MINUS varcte .)
+    COMMA           reduce using rule 39 (factor -> MINUS varcte .)
+
+
+state 58
+
+    (35) termino -> factor TIMES . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    factor                         shift and go to state 39
+    exp                            shift and go to state 71
+    termino                        shift and go to state 36
+    varcte                         shift and go to state 41
+
+state 59
+
+    (36) termino -> factor DIVIDE . exp
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    factor                         shift and go to state 39
+    exp                            shift and go to state 72
+    termino                        shift and go to state 36
+    varcte                         shift and go to state 41
+
+state 60
+
+    (37) factor -> LPAREN expresion . RPAREN
+
+    RPAREN          shift and go to state 73
+
+
+state 61
+
+    (30) condicion -> IF LPAREN expresion RPAREN . f DOTCOMMA
+    (16) f -> . bloque
+    (17) f -> . bloque ELSE bloque
+    (21) bloque -> . LKEY RKEY
+    (22) bloque -> . LKEY c RKEY
+
+    LKEY            shift and go to state 9
+
+    f                              shift and go to state 74
+    bloque                         shift and go to state 75
+
+state 62
+
+    (27) escritura -> PRINT LPAREN d RPAREN . DOTCOMMA
+
+    DOTCOMMA        shift and go to state 76
+
+
+state 63
+
+    (10) d -> expresion COMMA . d
+    (9) d -> . expresion
+    (10) d -> . expresion COMMA d
+    (11) d -> . CTESTRING
+    (12) d -> . CTESTRING COMMA d
+    (28) expresion -> . exp
+    (29) expresion -> . exp e
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    CTESTRING       shift and go to state 47
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 46
+    d                              shift and go to state 77
+    exp                            shift and go to state 35
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 64
+
+    (12) d -> CTESTRING COMMA . d
+    (9) d -> . expresion
+    (10) d -> . expresion COMMA d
+    (11) d -> . CTESTRING
+    (12) d -> . CTESTRING COMMA d
+    (28) expresion -> . exp
+    (29) expresion -> . exp e
+    (31) exp -> . termino
+    (32) exp -> . termino PLUS exp
+    (33) exp -> . termino MINUS exp
+    (34) termino -> . factor
+    (35) termino -> . factor TIMES exp
+    (36) termino -> . factor DIVIDE exp
+    (37) factor -> . LPAREN expresion RPAREN
+    (38) factor -> . PLUS varcte
+    (39) factor -> . MINUS varcte
+    (40) factor -> . varcte
+    (41) varcte -> . ID
+    (42) varcte -> . CTEI
+    (43) varcte -> . CTEF
+
+    CTESTRING       shift and go to state 47
+    LPAREN          shift and go to state 40
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 33
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    d                              shift and go to state 78
+    expresion                      shift and go to state 46
+    exp                            shift and go to state 35
+    termino                        shift and go to state 36
+    factor                         shift and go to state 39
+    varcte                         shift and go to state 41
+
+state 65
+
+    (6) b -> ID TWODOTS tipo DOTCOMMA b .
+
+    LKEY            reduce using rule 6 (b -> ID TWODOTS tipo DOTCOMMA b .)
+
+
+state 66
+
+    (13) e -> GT exp .
+
+    DOTCOMMA        reduce using rule 13 (e -> GT exp .)
+    RPAREN          reduce using rule 13 (e -> GT exp .)
+    COMMA           reduce using rule 13 (e -> GT exp .)
+
+
+state 67
+
+    (14) e -> LT exp .
+
+    DOTCOMMA        reduce using rule 14 (e -> LT exp .)
+    RPAREN          reduce using rule 14 (e -> LT exp .)
+    COMMA           reduce using rule 14 (e -> LT exp .)
+
+
+state 68
+
+    (15) e -> NOTEQUAL exp .
+
+    DOTCOMMA        reduce using rule 15 (e -> NOTEQUAL exp .)
+    RPAREN          reduce using rule 15 (e -> NOTEQUAL exp .)
+    COMMA           reduce using rule 15 (e -> NOTEQUAL exp .)
+
+
+state 69
+
+    (32) exp -> termino PLUS exp .
+
+    GT              reduce using rule 32 (exp -> termino PLUS exp .)
+    LT              reduce using rule 32 (exp -> termino PLUS exp .)
+    NOTEQUAL        reduce using rule 32 (exp -> termino PLUS exp .)
+    DOTCOMMA        reduce using rule 32 (exp -> termino PLUS exp .)
+    RPAREN          reduce using rule 32 (exp -> termino PLUS exp .)
+    COMMA           reduce using rule 32 (exp -> termino PLUS exp .)
+    PLUS            reduce using rule 32 (exp -> termino PLUS exp .)
+    MINUS           reduce using rule 32 (exp -> termino PLUS exp .)
+
+
+state 70
+
+    (33) exp -> termino MINUS exp .
+
+    GT              reduce using rule 33 (exp -> termino MINUS exp .)
+    LT              reduce using rule 33 (exp -> termino MINUS exp .)
+    NOTEQUAL        reduce using rule 33 (exp -> termino MINUS exp .)
+    DOTCOMMA        reduce using rule 33 (exp -> termino MINUS exp .)
+    RPAREN          reduce using rule 33 (exp -> termino MINUS exp .)
+    COMMA           reduce using rule 33 (exp -> termino MINUS exp .)
+    PLUS            reduce using rule 33 (exp -> termino MINUS exp .)
+    MINUS           reduce using rule 33 (exp -> termino MINUS exp .)
+
+
+state 71
+
+    (35) termino -> factor TIMES exp .
+
+    PLUS            reduce using rule 35 (termino -> factor TIMES exp .)
+    MINUS           reduce using rule 35 (termino -> factor TIMES exp .)
+    GT              reduce using rule 35 (termino -> factor TIMES exp .)
+    LT              reduce using rule 35 (termino -> factor TIMES exp .)
+    NOTEQUAL        reduce using rule 35 (termino -> factor TIMES exp .)
+    DOTCOMMA        reduce using rule 35 (termino -> factor TIMES exp .)
+    RPAREN          reduce using rule 35 (termino -> factor TIMES exp .)
+    COMMA           reduce using rule 35 (termino -> factor TIMES exp .)
+
+
+state 72
+
+    (36) termino -> factor DIVIDE exp .
+
+    PLUS            reduce using rule 36 (termino -> factor DIVIDE exp .)
+    MINUS           reduce using rule 36 (termino -> factor DIVIDE exp .)
+    GT              reduce using rule 36 (termino -> factor DIVIDE exp .)
+    LT              reduce using rule 36 (termino -> factor DIVIDE exp .)
+    NOTEQUAL        reduce using rule 36 (termino -> factor DIVIDE exp .)
+    DOTCOMMA        reduce using rule 36 (termino -> factor DIVIDE exp .)
+    RPAREN          reduce using rule 36 (termino -> factor DIVIDE exp .)
+    COMMA           reduce using rule 36 (termino -> factor DIVIDE exp .)
+
+
+state 73
+
+    (37) factor -> LPAREN expresion RPAREN .
+
+    TIMES           reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    DIVIDE          reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    PLUS            reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    MINUS           reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    GT              reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    LT              reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    NOTEQUAL        reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    DOTCOMMA        reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    RPAREN          reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+    COMMA           reduce using rule 37 (factor -> LPAREN expresion RPAREN .)
+
+
+state 74
+
+    (30) condicion -> IF LPAREN expresion RPAREN f . DOTCOMMA
+
+    DOTCOMMA        shift and go to state 79
+
+
+state 75
+
+    (16) f -> bloque .
+    (17) f -> bloque . ELSE bloque
+
+    DOTCOMMA        reduce using rule 16 (f -> bloque .)
+    ELSE            shift and go to state 80
+
+
+state 76
+
+    (27) escritura -> PRINT LPAREN d RPAREN DOTCOMMA .
+
+    ID              reduce using rule 27 (escritura -> PRINT LPAREN d RPAREN DOTCOMMA .)
+    IF              reduce using rule 27 (escritura -> PRINT LPAREN d RPAREN DOTCOMMA .)
+    PRINT           reduce using rule 27 (escritura -> PRINT LPAREN d RPAREN DOTCOMMA .)
+    RKEY            reduce using rule 27 (escritura -> PRINT LPAREN d RPAREN DOTCOMMA .)
+
+
+state 77
+
+    (10) d -> expresion COMMA d .
+
+    RPAREN          reduce using rule 10 (d -> expresion COMMA d .)
+
+
+state 78
+
+    (12) d -> CTESTRING COMMA d .
+
+    RPAREN          reduce using rule 12 (d -> CTESTRING COMMA d .)
+
+
+state 79
+
+    (30) condicion -> IF LPAREN expresion RPAREN f DOTCOMMA .
+
+    ID              reduce using rule 30 (condicion -> IF LPAREN expresion RPAREN f DOTCOMMA .)
+    IF              reduce using rule 30 (condicion -> IF LPAREN expresion RPAREN f DOTCOMMA .)
+    PRINT           reduce using rule 30 (condicion -> IF LPAREN expresion RPAREN f DOTCOMMA .)
+    RKEY            reduce using rule 30 (condicion -> IF LPAREN expresion RPAREN f DOTCOMMA .)
+
+
+state 80
+
+    (17) f -> bloque ELSE . bloque
+    (21) bloque -> . LKEY RKEY
+    (22) bloque -> . LKEY c RKEY
+
+    LKEY            shift and go to state 9
+
+    bloque                         shift and go to state 81
+
+state 81
+
+    (17) f -> bloque ELSE bloque .
+
+    DOTCOMMA        reduce using rule 17 (f -> bloque ELSE bloque .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 36 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 36 resolved as shift
