@@ -6,10 +6,8 @@ reserved = {
     'if': 'IF',
     'else': 'ELSE',
     'program': 'PROGRAM',
-    'var': 'VAR',
     'int': 'INT',
     'float': 'FLOAT',
-    'print': 'PRINT'
 }
 
 
@@ -53,7 +51,7 @@ t_RPAREN = r'\)'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value,'ID')    # Check for reserved words
+    t.type = reserved.get(t.value, 'ID')    # Check for reserved words
     return t
 
 
@@ -75,105 +73,244 @@ lex.lex()
 names = {}
 
 
-def p_program(p):
-    '''program : PROGRAM ID DOTCOMMA a'''
+def p_programa(p):
+    '''programa : PROGRAM ID SC programa_a bloque'''
     print("apropiado")
 
 
-def p_a(p):
-    '''a : vars bloque
-        | bloque'''
+def p_programa_a(p):
+    '''programa_a : programa_b
+                | programa_b programa_a'''
 
 
-def p_b(p):
-    '''b : ID TWODOTS tipo DOTCOMMA
-        | ID COMMA b
-        | ID TWODOTS tipo DOTCOMMA b'''
+def p_programa_b(p):
+    '''programa_b : vars
+                | vars_vect_mat'''
 #
 #
-def p_c(p):
-    '''c : estatuto
-        | estatuto c'''
-
-
-def p_d(p):
-    '''d : expresion
-        | expresion COMMA d
-        | CTESTRING
-        | CTESTRING COMMA d'''
-
-
-def p_e(p):
-    '''e : GT exp
-        | LT exp
-        | NOTEQUAL exp'''
-
-
-def p_f(p):
-    '''f : bloque
-        | bloque ELSE bloque'''
-
-
 def p_vars(p):
-    '''vars : VAR b'''
+    '''vars : tipo vars_a SC'''
 
 
-def p_tipo(p):
-    '''tipo : INT
-        | FLOAT'''
+def p_vars_a(p):
+    '''vars_a : vars_b
+            | vars_b COMMA vars_a'''
+
+def p_vars_b(p):
+    '''vars_b : ID
+            | ID EQ var_cte'''
+
+
+def p_vars_vect_mat(p):
+    '''vars_vect_mat : tipo ID vars_vect_mat_a SC
+                    | tipo ID vars_vect_mat_a vars_vect_mat_a SC'''
+
+
+def p_vars_vect_mat_a(p):
+    '''vars_vect_mat_a : OSB exp CSB'''
+
+
+def p_m_exp(p):
+    '''m_exp : term
+            | term m_exp_a m_exp'''
+
+
+def p_m_exp_a(p):
+    '''m_exp_a : ADD
+            | SUB'''
+
+
+def p_term(p):
+    '''term : fact
+            | fact term_a term'''
+
+
+def p_term_a(p):
+    '''term_a : MULT
+            | DIV'''
+
+
+def p_tiposimple(p):
+    '''tiposimple : INT
+                | FLOAT
+                | CHAR'''
+
+
+def p_tipocompuesto(p):
+    '''tipocompuesto : DATAFRAME
+                    | ID
+                    | FILE'''
 
 
 def p_bloque(p):
-    '''bloque : LKEY RKEY
-        | LKEY c RKEY'''
+    '''bloque : OB bloquea CB'''
+
+
+def p_bloque_a(p):
+    '''bloque_a : estatuto
+                | bloque_b'''
+
+
+def p_bloque_b(p):
+    '''bloque_b : bloque_a
+                | empty'''
 
 
 def p_estatuto(p):
     '''estatuto : asignacion
-        | condicion
-        | escritura'''
-
-
-def p_asignacion(p):
-    '''asignacion : ID EQUALS expresion DOTCOMMA'''
-
-
-def p_escritura(p):
-    '''escritura : PRINT LPAREN d RPAREN DOTCOMMA'''
+                | condicion
+                | llamada
+                | while
+                | for'''
 
 
 def p_expresion(p):
-    '''expresion : exp
-        | exp e'''
+    '''expresion : m_exp
+                | m_exp expresion_a m_exp'''
 
 
-def p_condicion(p):
-    '''condicion : IF LPAREN expresion RPAREN f DOTCOMMA'''
-
-
-def p_exp(p):
-    '''exp : termino
-        | termino PLUS exp
-        | termino MINUS exp'''
-
-
-def p_termino(p):
-    '''termino : factor
-        | factor TIMES exp
-        | factor DIVIDE exp'''
-
-
-def p_factor(p):
-    '''factor : LPAREN expresion RPAREN
-        | PLUS varcte
-        | MINUS varcte
-        | varcte'''
+def p_expresion_a(p):
+    '''expresion_a : LT
+                | GT
+                | NE
+                | EQEQ
+                | LE
+                | GE'''
 
 
 def p_varcte(p):
     '''varcte : ID
-        | CTEI
-        | CTEF'''
+            | CTE_I
+            | CTE_F'''
+
+
+def p_while(p):
+    '''while : WHILE OB expresion CB bloque'''
+
+
+def p_exp(p):
+    '''exp : and_exp exp_a'''
+
+
+def p_exp_a(p):
+    '''exp_a : OR
+            | empty'''
+
+
+def p_and_exp(p):
+    '''and_exp : expresion and_exp_a'''
+
+
+def p_and_exp_a(p):
+    '''and_exp_a : AND
+                | empty'''
+
+
+def p_for(p):
+    '''for : OB asignacionsencilla SC expresion asignacionsencilla CP bloque'''
+
+
+def p_llamada(p):
+    '''llamada : ID OP llamada_a CP SC'''
+
+
+def p_llamada_a(p):
+    '''llamada_a : expresion llamada_b
+                | CTE_STRING llamada_b
+                | llamada_b'''
+
+
+def p_llamada_b(p):
+    '''llamada_b : COMMA llamada_a
+                | empty'''
+
+
+def p_fact(p):
+    '''fact : OP exp CP
+            | CTE_I
+            | CTE_F
+            | CTE_CHAR
+            | vars
+            | vars_vect_mat
+            | llamada'''
+
+
+def p_classcreate(p):
+    '''classcreate : CLASS CLASS_ID OB classcreate_a function classcreate_c CB'''
+
+
+def p_classcreate_a(p):
+    '''classcreate_a : vars
+                    | vars_vect_mat
+                    | classcreate_b'''
+
+
+def p_classcreate_b(p):
+    '''classcreate_b : classcreate_a
+                    | empty'''
+
+
+def p_classcreate_c(p):
+    '''classcreate_c : function classcreate_d
+                    | classcreate_d'''
+
+
+def p_classcreate_d(p):
+    '''classcreate_d : classcreate_c
+                    | empty'''
+
+
+def p_condicion(p):
+    '''condicion : IF OP expresion CP bloque condiciona SC'''
+
+
+def p_condicion_a(p):
+    '''condicion_a : ELSE condicion_b bloque'''
+
+
+def p_condicion_b(p):
+    '''condicion_b : condicion
+                | empty'''
+
+def p_classdeclare(p):
+    '''classdeclare : CLASS_ID ID SC'''
+
+
+def p_llamadafuncionclase(p):
+    '''llamadafuncionclase : ID POINT llamada'''
+
+
+def p_asignacion(p):
+    '''asignacion : ID asignacion_a asignacion_a EQ expresion SC'''
+
+
+def p_asignacion_a(p):
+    '''asignacion_a : OSB exp CSB
+                    | empty'''
+
+
+def p_asignacionsencilla(p):
+    '''asignacionsencilla : ID EQ expresion'''
+
+
+def p_function(p):
+    '''function : function_a ID OP function_b CP bloque'''
+
+
+def p_function_a(p):
+    '''function_a : VOID
+                | tipo_simple'''
+
+
+def p_function_b(p):
+    '''function_b : tipo_simple ID
+                | tipo_simple ID COMMA function_b
+                | empty'''
+
+
+def p_empty(p):
+    'empty :'
+    pass
 
 
 def p_error(p):
@@ -188,5 +325,5 @@ try:
     s = f.read()
 
 except EOFError:
-    print("ERROR")
+    print("Sintax Error")
 yacc.parse(s)
