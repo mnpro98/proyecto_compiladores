@@ -3,56 +3,88 @@ import ply.yacc as yacc
 
 
 reserved = {
-    'if': 'IF',
-    'else': 'ELSE',
-    'program': 'PROGRAM',
-    'var': 'VAR',
     'int': 'INT',
     'float': 'FLOAT',
-    'print': 'PRINT'
+    'char' : 'CHAR',
+    'if': 'IF',
+    'else': 'ELSE',
+    'or' : 'OR',
+    'and' : 'AND',
+    'program': 'PROGRAM',
+    'class' : 'CLASS',
+    'void' : 'VOID',
+    'for' : 'FOR',
+    'while' : 'WHILE',
+    'dataframe' : 'DATAFRAME',
+    'file' : 'FILE'
 }
 
 
 tokens = [
-    'ID', 'DOTCOMMA', 'COMMA',
-    'TWODOTS', 'LKEY', 'RKEY',
-    'EQUALS', 'LPAREN', 'RPAREN',
-    'GT', 'LT', 'NOTEQUAL',
-    'PLUS', 'MINUS', 'TIMES',
-    'DIVIDE', 'CTEI', 'CTEF', 'CTESTRING'
+    'DIGIT', 'DIGITS', 'LETTER',
+    'CAPT', 'ID', 'CLASSID',
+    'OB', 'CB', 'OP', 'CP',
+    'OSB', 'CSB', 'GT', 
+    'LT', 'GE', 'LE',
+    'NE', 'EQ', 'EQEQ',
+    'ADD', 'SUB', 'DIV'
+    'MULT', 'SC', 'COL',
+    'POINT', 'COMMA', 'CTE_I',
+    'CTE_F', 'CTE_CHAR', 'CTE.STRING'
 ] + list(reserved.values())
 
 # Tokens
 
-t_PROGRAM = r'program'
-t_DOTCOMMA = r'\;'
-t_VAR = r'var'
-t_COMMA = r'\,'
-t_TWODOTS = r'\:'
 t_INT = r'int'
 t_FLOAT = r'float'
-t_LKEY = r'\{'
-t_RKEY = r'\}'
-t_PRINT = r'print'
-t_CTESTRING = r'\".*\"'
-t_GT = r'\>'
-t_LT = r'\<'
-t_NOTEQUAL = r'<>'
+t_CHAR = r'char'
 t_IF = r'if'
 t_ELSE = r'else'
-t_CTEI = r'-?[0-9]+'
-t_CTEF = r'-?[0-9]+.[0-9]+'
-t_PLUS = r'\+'
-t_MINUS = r'-'
-t_TIMES = r'\*'
-t_DIVIDE = r'/'
-t_EQUALS = r'='
-t_LPAREN = r'\('
-t_RPAREN = r'\)'
-
+t_OR = r'or'
+t_AND = r'and'
+t_PROGRAM = r'program'
+t_CLASS = r'class'
+t_VOID = r'void'
+t_FOR = r'for'
+t_WHILE = r'while'
+t_DATAFRAME = r'dataframe'
+t_FILE= r'file'
+t_DIGIT = r'[0-9]'
+t_DIGITS = r'[0-9]+'
+t_LETTER = r'[A-Za-z]'
+t_CAPT =  r'[A-Z]'
+t_OB = r'\{'
+t_CB = r'\}'
+t_OP = r'\('
+t_CP = r'\)'
+t_OSB = r'\['
+t_CSB = r'\]'
+t_GT = r'\>'
+t_LT = r'\<'
+t_GE = r'>='
+t_LE = r'<='
+t_NE = r'!='
+t_EQ = r'\='
+t_EQEQ = r'=='
+t_ADD = r'\+'
+t_SUB = r'\-'
+t_DIV = r'\/'
+t_MULT = r'\*'
+t_SC = r'\;'
+t_COL = r'\:'
+t_POINT = r'\.'
+t_COMMA = r'\,'
+t_CTE_I = r'-?[0-9]+'
+t_CTE_F = r'-?[0-9]+.[0-9]+'
+t_CTE_CHAR = r'\'.\''
+t_CTE_STRING = r'\".*\"'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'ID')    # Check for reserved words
+    return t
+def t_CLASSID(t):
+    r'[A-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
     return t
 
