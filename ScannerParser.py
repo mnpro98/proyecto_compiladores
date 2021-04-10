@@ -1,36 +1,37 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
+amount = 0
 
 reserved = {
     'int': 'INT',
     'float': 'FLOAT',
-    'char' : 'CHAR',
+    'char': 'CHAR',
     'if': 'IF',
     'else': 'ELSE',
-    'or' : 'OR',
-    'and' : 'AND',
+    'or': 'OR',
+    'and': 'AND',
     'program': 'PROGRAM',
-    'class' : 'CLASS',
-    'void' : 'VOID',
-    'for' : 'FOR',
-    'while' : 'WHILE',
-    'dataframe' : 'DATAFRAME',
-    'file' : 'FILE'
+    'class': 'CLASS',
+    'void': 'VOID',
+    'for': 'FOR',
+    'while': 'WHILE',
+    'dataframe': 'DATAFRAME',
+    'file': 'FILE'
 }
 
 
 tokens = [
     'DIGIT', 'DIGITS', 'LETTER',
-    'CAPT', 'ID', 'CLASSID',
+    'CAPT', 'ID', 'CLASS_ID',
     'OB', 'CB', 'OP', 'CP',
     'OSB', 'CSB', 'GT', 
     'LT', 'GE', 'LE',
     'NE', 'EQ', 'EQEQ',
-    'ADD', 'SUB', 'DIV'
+    'ADD', 'SUB', 'DIV',
     'MULT', 'SC', 'COL',
     'POINT', 'COMMA', 'CTE_I',
-    'CTE_F', 'CTE_CHAR', 'CTE.STRING'
+    'CTE_F', 'CTE_CHAR', 'CTE_STRING'
 ] + list(reserved.values())
 
 # Tokens
@@ -48,11 +49,11 @@ t_VOID = r'void'
 t_FOR = r'for'
 t_WHILE = r'while'
 t_DATAFRAME = r'dataframe'
-t_FILE= r'file'
+t_FILE = r'file'
 t_DIGIT = r'[0-9]'
 t_DIGITS = r'[0-9]+'
 t_LETTER = r'[A-Za-z]'
-t_CAPT =  r'[A-Z]'
+t_CAPT = r'[A-Z]'
 t_OB = r'\{'
 t_CB = r'\}'
 t_OP = r'\('
@@ -65,7 +66,7 @@ t_GE = r'>='
 t_LE = r'<='
 t_NE = r'!='
 t_EQ = r'\='
-t_EQEQ = r'=='
+t_EQEQ = r'\=\='
 t_ADD = r'\+'
 t_SUB = r'\-'
 t_DIV = r'\/'
@@ -79,13 +80,16 @@ t_CTE_F = r'-?[0-9]+.[0-9]+'
 t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
+
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
     return t
-def t_CLASSID(t):
-    r'[A-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value,'ID')    # Check for reserved words
+
+
+def t_CLASS_ID(t):
+    r'[A-Z_][a-z_0-9]*'
+    t.type = reserved.get(t.value, 'CLASS_ID')    # Check for reserved words
     return t
 
 
@@ -123,7 +127,8 @@ def p_programa_b(p):
 #
 #
 def p_vars(p):
-    '''vars : tipo vars_a SC'''
+    '''vars : tiposimple vars_a SC
+            | tipocompuesto vars_a SC'''
 
 
 def p_vars_a(p):
@@ -132,12 +137,12 @@ def p_vars_a(p):
 
 def p_vars_b(p):
     '''vars_b : ID
-            | ID EQ var_cte'''
+            | ID EQ varcte'''
 
 
 def p_vars_vect_mat(p):
-    '''vars_vect_mat : tipo ID vars_vect_mat_a SC
-                    | tipo ID vars_vect_mat_a vars_vect_mat_a SC'''
+    '''vars_vect_mat : tiposimple ID vars_vect_mat_a SC
+                    | tiposimple ID vars_vect_mat_a vars_vect_mat_a SC'''
 
 
 def p_vars_vect_mat_a(p):
@@ -177,16 +182,13 @@ def p_tipocompuesto(p):
 
 
 def p_bloque(p):
-    '''bloque : OB bloquea CB'''
+    '''bloque : OB bloque_a CB'''
+    print("bloque")
 
 
 def p_bloque_a(p):
-    '''bloque_a : estatuto
-                | bloque_b'''
-
-
-def p_bloque_b(p):
-    '''bloque_b : bloque_a
+    '''bloque_a : estatuto bloque_a
+                | estatuto
                 | empty'''
 
 
@@ -195,12 +197,18 @@ def p_estatuto(p):
                 | condicion
                 | llamada
                 | while
-                | for'''
+                | for
+                | classcreate
+                | vars
+                | classdeclare
+                | llamadafuncionclase
+                | function'''
 
 
 def p_expresion(p):
     '''expresion : m_exp
                 | m_exp expresion_a m_exp'''
+    print("expresion")
 
 
 def p_expresion_a(p):
@@ -241,7 +249,7 @@ def p_and_exp_a(p):
 
 
 def p_for(p):
-    '''for : OB asignacionsencilla SC expresion asignacionsencilla CP bloque'''
+    '''for : FOR OP asignacionsencilla SC expresion SC asignacionsencilla CP bloque'''
 
 
 def p_llamada(p):
@@ -264,23 +272,18 @@ def p_fact(p):
             | CTE_I
             | CTE_F
             | CTE_CHAR
-            | vars
-            | vars_vect_mat
+            | ID
             | llamada'''
 
 
 def p_classcreate(p):
     '''classcreate : CLASS CLASS_ID OB classcreate_a function classcreate_c CB'''
+    print("classcreate")
 
 
 def p_classcreate_a(p):
-    '''classcreate_a : vars
-                    | vars_vect_mat
-                    | classcreate_b'''
-
-
-def p_classcreate_b(p):
-    '''classcreate_b : classcreate_a
+    '''classcreate_a : vars classcreate_a
+                    | vars_vect_mat classcreate_a
                     | empty'''
 
 
@@ -295,7 +298,7 @@ def p_classcreate_d(p):
 
 
 def p_condicion(p):
-    '''condicion : IF OP expresion CP bloque condiciona SC'''
+    '''condicion : IF OP expresion CP bloque condicion_a'''
 
 
 def p_condicion_a(p):
@@ -316,6 +319,7 @@ def p_llamadafuncionclase(p):
 
 def p_asignacion(p):
     '''asignacion : ID asignacion_a asignacion_a EQ expresion SC'''
+    print("asignacion")
 
 
 def p_asignacion_a(p):
@@ -325,6 +329,9 @@ def p_asignacion_a(p):
 
 def p_asignacionsencilla(p):
     '''asignacionsencilla : ID EQ expresion'''
+    global amount
+    amount += 1
+    print(str(amount) + ".- asignacion sencilla")
 
 
 def p_function(p):
@@ -333,12 +340,12 @@ def p_function(p):
 
 def p_function_a(p):
     '''function_a : VOID
-                | tipo_simple'''
+                | tiposimple'''
 
 
 def p_function_b(p):
-    '''function_b : tipo_simple ID
-                | tipo_simple ID COMMA function_b
+    '''function_b : tiposimple ID
+                | tiposimple ID COMMA function_b
                 | empty'''
 
 
@@ -355,7 +362,7 @@ yacc.yacc()
 
 
 try:
-    f = open("correct.txt", "r")
+    f = open("./Tests/test_1", "r")
     s = f.read()
 
 except EOFError:
