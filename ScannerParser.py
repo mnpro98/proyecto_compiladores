@@ -1,7 +1,18 @@
 import ply.lex as lex
 import ply.yacc as yacc
+from pprint import PrettyPrinter
 
-amount = 0
+token_dic = {
+    "id": "",
+    "tipo": "",
+    "valor": "null"
+}  # 0 - Tipo, 1 - id, 2 - valor
+
+table = {
+    "classes": {},
+    "variables": {},
+    "funciones": {}
+}
 
 reserved = {
     'int': 'INT',
@@ -81,6 +92,12 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def token_dic_clear():
+    token_dic["tipo"] = ""
+    token_dic["id"] = ""
+    token_dic["valor"] = "null"
+
+
 def t_ID(t):
     r'[a-z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
@@ -113,7 +130,6 @@ names = {}
 
 def p_programa(p):
     '''programa : PROGRAM ID SC programa_a bloque'''
-    print("apropiado")
 
 
 def p_programa_a(p):
@@ -129,6 +145,12 @@ def p_programa_b(p):
 def p_vars(p):
     '''vars : tiposimple vars_a SC
             | tipocompuesto vars_a SC'''
+    table['variables'][token_dic['id']] = {
+        "tipo": token_dic['tipo'],
+        "valor": token_dic['valor']
+    }
+
+    token_dic_clear()
 
 
 def p_vars_a(p):
@@ -138,6 +160,7 @@ def p_vars_a(p):
 def p_vars_b(p):
     '''vars_b : ID
             | ID EQ varcte'''
+    token_dic['id'] = p[1]
 
 
 def p_vars_vect_mat(p):
@@ -173,6 +196,7 @@ def p_tiposimple(p):
     '''tiposimple : INT
                 | FLOAT
                 | CHAR'''
+    token_dic['tipo'] = p[1]
 
 
 def p_tipocompuesto(p):
@@ -183,7 +207,6 @@ def p_tipocompuesto(p):
 
 def p_bloque(p):
     '''bloque : OB bloque_a CB'''
-    print("bloque")
 
 
 def p_bloque_a(p):
@@ -208,7 +231,6 @@ def p_estatuto(p):
 def p_expresion(p):
     '''expresion : m_exp
                 | m_exp expresion_a m_exp'''
-    print("expresion")
 
 
 def p_expresion_a(p):
@@ -224,6 +246,10 @@ def p_varcte(p):
     '''varcte : ID
             | CTE_I
             | CTE_F'''
+    try:
+        token_dic['valor'] = p[1]
+    except IndexError:
+        token_dic['valor'] = "Null"
 
 
 def p_while(p):
@@ -278,7 +304,6 @@ def p_fact(p):
 
 def p_classcreate(p):
     '''classcreate : CLASS CLASS_ID OB classcreate_a function classcreate_c CB'''
-    print("classcreate")
 
 
 def p_classcreate_a(p):
@@ -319,7 +344,6 @@ def p_llamadafuncionclase(p):
 
 def p_asignacion(p):
     '''asignacion : ID asignacion_a asignacion_a EQ expresion SC'''
-    print("asignacion")
 
 
 def p_asignacion_a(p):
@@ -329,9 +353,6 @@ def p_asignacion_a(p):
 
 def p_asignacionsencilla(p):
     '''asignacionsencilla : ID EQ expresion'''
-    global amount
-    amount += 1
-    print(str(amount) + ".- asignacion sencilla")
 
 
 def p_function(p):
@@ -367,4 +388,8 @@ try:
 
 except EOFError:
     print("Sintax Error")
+
 yacc.parse(s)
+
+pp = PrettyPrinter(indent=4)
+pp.pprint(table)
