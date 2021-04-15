@@ -10,6 +10,8 @@ class State(Enum):
 
 curr_state = 0
 
+expresion_helper = ""
+
 token_dic = {
     "id": "",
     "tipo": "",
@@ -210,6 +212,7 @@ def p_m_exp(p):
 def p_m_exp_a(p):
     '''m_exp_a : ADD
             | SUB'''
+    expresion_helper = expresion_helper + p[1]
 
 
 def p_term(p):
@@ -220,6 +223,7 @@ def p_term(p):
 def p_term_a(p):
     '''term_a : MULT
             | DIV'''
+    expresion_helper = expresion_helper + p[1]
 
 
 def p_tiposimple(p):
@@ -270,6 +274,7 @@ def p_expresion_a(p):
                 | EQEQ
                 | LE
                 | GE'''
+    expresion_helper = expresion_helper + p[1]
 
 
 def p_varcte(p):
@@ -336,6 +341,12 @@ def p_fact(p):
             | CTE_CHAR
             | ID
             | llamada'''
+    if p[1] == '(':
+        expresion_helper = expresion_helper + p[1]
+    elif type(p[1]) == float or type(p[1]) == int:
+        expresion_helper = expresion_helper + str(p[1])
+    else:
+        expresion_helper = expresion_helper + p[1]
 
 
 def p_classcreate(p):
