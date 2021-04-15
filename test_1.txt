@@ -1,0 +1,29 @@
+program pelos;
+
+int a = 5;
+int b = 3;
+
+{
+    class Casa {
+        int cantidadPisos;
+        int tamano;
+
+        void setTamano(int tam) {
+            tamano = tam;
+            int k = 1;
+        }
+    }
+
+    void main() {
+        Casa casuca;
+        casuca.setTamano(400);
+
+        for(i = 0; i < 200; i = i + 1) {
+            if(i == 3) {
+                print(3);
+            } else {
+                print("not 3");
+            }
+        }
+    }
+}

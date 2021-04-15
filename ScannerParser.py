@@ -16,6 +16,11 @@ token_dic = {
     "valor": "null"
 }  # 0 - Tipo, 1 - id, 2 - valor
 
+llamada_dic = {
+    "id": "",
+    "parametros": {}
+}
+
 table = {
     "clases": {},
     "variables": {},
@@ -111,6 +116,9 @@ def state_switcher(arg):
     func = switcher.get(arg, "Invalid state")
     func()
 
+def llamada_dic_clear():
+    llamada_dic["id"] = ""
+    llamada_dic["parametros"] = ""
 
 def token_dic_clear():
     token_dic["tipo"] = ""
@@ -302,17 +310,23 @@ def p_for(p):
 
 def p_llamada(p):
     '''llamada : ID OP llamada_a CP SC'''
+    llamada_dic["id"] = p[1]
+    print(llamada_dic)
 
 
 def p_llamada_a(p):
     '''llamada_a : expresion llamada_b
                 | CTE_STRING llamada_b
                 | llamada_b'''
+    if p[1] != None:
+        llamada_dic["parametros"] = p[1]
 
 
 def p_llamada_b(p):
     '''llamada_b : COMMA llamada_a
                 | empty'''
+    if p[1] == ',':
+        llamada_dic["parametros"] = llamada_dic["parametros"] + p[1]
 
 
 def p_fact(p):
@@ -409,7 +423,7 @@ yacc.yacc()
 
 
 try:
-    f = open("./Tests/test_1", "r")
+    f = open("test_1.txt", "r")
     s = f.read()
 
 except EOFError:
