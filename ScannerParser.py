@@ -1,6 +1,14 @@
 import ply.lex as lex
 import ply.yacc as yacc
 from pprint import PrettyPrinter
+from enum import Enum
+
+
+class State(Enum):
+    CLASS_CREATE = 1
+
+
+curr_state = 0
 
 token_dic = {
     "id": "",
@@ -9,7 +17,7 @@ token_dic = {
 }  # 0 - Tipo, 1 - id, 2 - valor
 
 table = {
-    "classes": {},
+    "clases": {},
     "variables": {},
     "funciones": {}
 }
@@ -92,6 +100,18 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def create_class_variable():
+    pass
+
+
+def state_switcher(arg):
+    switcher = {
+        State.CLASS_CREATE: create_class_variable
+    }
+    func = switcher.get(arg, "Invalid state")
+    func()
+
+
 def token_dic_clear():
     token_dic["tipo"] = ""
     token_dic["id"] = ""
@@ -145,6 +165,8 @@ def p_programa_b(p):
 def p_vars(p):
     '''vars : tiposimple vars_a SC
             | tipocompuesto vars_a SC'''
+
+
     table['variables'][token_dic['id']] = {
         "tipo": token_dic['tipo'],
         "valor": token_dic['valor']
@@ -304,6 +326,10 @@ def p_fact(p):
 
 def p_classcreate(p):
     '''classcreate : CLASS CLASS_ID OB classcreate_a function classcreate_c CB'''
+    global curr_state
+    curr_state = 0
+
+    table['clases'][p[2]] = {}
 
 
 def p_classcreate_a(p):
