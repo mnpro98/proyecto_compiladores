@@ -36,11 +36,20 @@ semantics = {
     },
 }
 
+expresion_helper = ""
+
 token_dic = {
     "id": "",
     "tipo": "",
     "valor": "null"
 }  # 0 - Tipo, 1 - id, 2 - valor
+
+#llamada_dic = {}
+
+funciones_dic = {
+    "id": "",
+    "tipo": ""
+}
 
 table = {
     "clases": {},
@@ -200,6 +209,13 @@ def state_switcher(arg):
     func = switcher.get(arg, "Invalid state")
     func()
 
+#def llamada_dic_clear():
+#    llamada_dic["id"] = ""
+#    llamada_dic["parametros"] = ""
+
+def funciones_dic_clear():
+    funciones_dic["id"] = ""
+    funciones_dic["tipo"] = ""
 
 def token_dic_clear():
     token_dic["tipo"] = ""
@@ -294,6 +310,8 @@ def p_m_exp_a(p):
     '''m_exp_a : ADD
             | SUB'''
     math_expression_4()
+#    global expresion_helper
+#    expresion_helper = expresion_helper + p[1]
 
 
 def p_term(p):
@@ -304,6 +322,8 @@ def p_term(p):
 def p_term_a(p):
     '''term_a : MULT
             | DIV'''
+#    global expresion_helper
+#    expresion_helper = expresion_helper + p[1]
 
 
 def p_tiposimple(p):
@@ -354,6 +374,8 @@ def p_expresion_a(p):
                 | EQEQ
                 | LE
                 | GE'''
+#    global expresion_helper
+#    expresion_helper = expresion_helper + p[1]
 
 
 def p_varcte(p):
@@ -394,17 +416,23 @@ def p_for(p):
 
 def p_llamada(p):
     '''llamada : ID OP llamada_a CP SC'''
+#    llamada_dic[p[1]] = ""
+#    print(llamada_dic)
 
 
 def p_llamada_a(p):
     '''llamada_a : expresion llamada_b
                 | CTE_STRING llamada_b
                 | llamada_b'''
+#    if p[1] != None:
+#        llamada_dic["parametros"] = p[1]
 
 
 def p_llamada_b(p):
     '''llamada_b : COMMA llamada_a
                 | empty'''
+#    if p[1] == ',':
+#        llamada_dic["parametros"] = llamada_dic["parametros"] + p[1]
 
 
 def p_fact(p):
@@ -414,10 +442,19 @@ def p_fact(p):
             | CTE_CHAR
             | ID
             | llamada'''
+
     if p[1] is not '(': #1
         math_expression_1(p[1])
     else: #7
         math_expression_7()
+
+#    global expresion_helper
+#    if p[1] == '(':
+#        expresion_helper = expresion_helper + p[1]
+#    elif type(p[1]) == float or type(p[1]) == int:
+#        expresion_helper = expresion_helper + str(p[1])
+#    else:
+#        expresion_helper = expresion_helper + p[1]
 
 
 def p_classcreate(p):
@@ -476,14 +513,24 @@ def p_asignacion_a(p):
 def p_asignacionsencilla(p):
     '''asignacionsencilla : ID EQ expresion'''
 
-
+#falta guardar los parametros de las funciones en la tabla
 def p_function(p):
     '''function : function_a ID OP function_b CP bloque'''
+    funciones_dic["id"] = p[2]
+    table["funciones"][funciones_dic['id']] = {
+        "tipo": funciones_dic['tipo']
+    }
+    funciones_dic_clear()
 
 
 def p_function_a(p):
     '''function_a : VOID
                 | tiposimple'''
+    if p[1] == "void":
+        funciones_dic["tipo"] = "void"
+    else:
+        funciones_dic["tipo"] = token_dic["tipo"]
+
 
 
 def p_function_b(p):
@@ -505,7 +552,7 @@ yacc.yacc()
 
 
 try:
-    f = open("./Tests/test_1", "r")
+    f = open("test_1.txt", "r")
     s = f.read()
 
 except EOFError:
