@@ -10,6 +10,32 @@ class State(Enum):
 
 curr_state = 0
 
+pending_operators = []
+pending_operands = []
+corresponding_types = []
+quad = []
+
+semantics = {
+    'int': {
+        'int': {
+            '+': 'int',
+            '-': 'int'
+        },
+        'float': {},
+        'char': {},
+    },
+    'float': {
+        'int': {},
+        'float': {},
+        'char': {},
+    },
+    'char': {
+        'int': {},
+        'float': {},
+        'char': {},
+    },
+}
+
 token_dic = {
     "id": "",
     "tipo": "",
@@ -98,6 +124,69 @@ t_CTE_I = r'-?[0-9]+'
 t_CTE_F = r'-?[0-9]+.[0-9]+'
 t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
+
+
+def math_expression_1(id):
+    pending_operands.append(id)
+    corresponding_types.append(table['variables'][id]['tipo'])
+
+
+def math_expression_2(operand):
+    if operand == '+' or operand == '-':
+        pending_operators.append(operand)
+    else:
+        print("ERROR: operands should be either + or -")
+
+
+def math_expression_3(operand)
+    if operand == '*' or operand == '/':
+        pending_operators.append(operand)
+    else:
+        print("ERROR: operands should be either + or -")
+
+
+def math_expression_4():
+    if pending_operators[-1] == '+' or pending_operators[-1] == '-':
+        right_operand = pending_operands.pop()
+        right_type = corresponding_types.pop()
+        left_operand = pending_operands.pop()
+        left_type = corresponding_types.pop()
+        operator = pending_operators.pop()
+        result_type = semantics[left_type][right_type][operator]
+        if result_type != 'ERROR':
+            result = avail.next()
+            _quad = [operator, left_operand, right_operand, result]
+            quad.append(_quad)
+            pending_operands.append(result)
+            corresponding_types.append(result_type)
+            # If any operand were a temporal space, return it to AVAIL
+        else:
+            print("ERROR: Type mismatch")
+
+
+def math_expression_5():
+    if pending_operators[-1] == '*' or pending_operators[-1] == '/':
+        pass
+        # = to #4 with *,/
+
+
+def math_expression_6():
+    pending_operators.append('|')
+
+
+def math_expression_7():
+    if pending_operators.pop() != '|':
+        print("ERROR: False bottom mark missing.")
+
+
+def math_expression_8(rel_op):
+    pending_operators.append(rel_op)
+
+
+def math_expression_9(rel_op):
+    if pending_operators[-1] == rel_op:
+        pass
+        # = to #4 with *,/
 
 
 def create_class_variable():
@@ -197,11 +286,14 @@ def p_vars_vect_mat_a(p):
 def p_m_exp(p):
     '''m_exp : term
             | term m_exp_a m_exp'''
+    if len(p) < 3:
+        math_expression_4()
 
 
 def p_m_exp_a(p):
     '''m_exp_a : ADD
             | SUB'''
+    math_expression_4()
 
 
 def p_term(p):
@@ -322,6 +414,10 @@ def p_fact(p):
             | CTE_CHAR
             | ID
             | llamada'''
+    if p[1] is not '(': #1
+        math_expression_1(p[1])
+    else: #7
+        math_expression_7()
 
 
 def p_classcreate(p):
