@@ -269,8 +269,8 @@ def math_expression_3(operand):
         print("ERROR: operands should be either + or -")
 
 
-def math_expression_4():
-    if pending_operators[-1] == '+' or pending_operators[-1] == '-':
+def math_expression_4(symbols):
+    if pending_operators[-1] == symbols[0] or pending_operators[-1] == symbols[1]:
         right_operand = pending_operands.pop()
         right_type = corresponding_types.pop()
         left_operand = pending_operands.pop()
@@ -278,7 +278,7 @@ def math_expression_4():
         operator = pending_operators.pop()
         result_type = semantics[left_type][right_type][operator]
         if result_type != 'ERROR':
-            result = avail.next()
+            result = avail.next() # Avail continene registros temporales, direcciones disponibles
             _quad = [operator, left_operand, right_operand, result]
             quad.append(_quad)
             pending_operands.append(result)
@@ -290,8 +290,7 @@ def math_expression_4():
 
 def math_expression_5():
     if pending_operators[-1] == '*' or pending_operators[-1] == '/':
-        pass
-        # = to #4 with *,/
+        math_expression_4(['*', '/'])
 
 
 def math_expression_6():
@@ -309,8 +308,7 @@ def math_expression_8(rel_op):
 
 def math_expression_9(rel_op):
     if pending_operators[-1] == rel_op:
-        pass
-        # = to #4 with *,/
+        math_expression_4(['*', '/'])
 
 
 def create_class_variable():
@@ -428,7 +426,7 @@ def p_m_exp_a(p):
 
 def p_m_exp_b(p):
     '''m_exp_b : term '''
-    math_expression_4()
+    math_expression_4(['+', '-'])
 
 
 def p_term(p):
