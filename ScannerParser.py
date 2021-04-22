@@ -9,6 +9,7 @@ class State(Enum):
 
 
 curr_state = 0
+rel_op = ""
 
 pending_operators = []
 pending_operands = []
@@ -261,7 +262,7 @@ def math_expression_2(operand):
         print("ERROR: operands should be either + or -")
 
 
-def math_expression_3(operand)
+def math_expression_3(operand):
     if operand == '*' or operand == '/':
         pending_operators.append(operand)
     else:
@@ -414,30 +415,37 @@ def p_vars_vect_mat_a(p):
 
 
 def p_m_exp(p):
-    '''m_exp : term
-            | term m_exp_a m_exp'''
-    if len(p) < 3:
-        math_expression_4()
+    '''m_exp : m_exp_b
+            | m_exp_b m_exp_a m_exp'''
 
 
 def p_m_exp_a(p):
     '''m_exp_a : ADD
             | SUB'''
-    math_expression_4()
+    math_expression_2(p[1])
 #    global expresion_helper
 #    expresion_helper = expresion_helper + p[1]
 
+def p_m_exp_b(p):
+    '''m_exp_b : term '''
+    math_expression_4()
+
 
 def p_term(p):
-    '''term : fact
-            | fact term_a term'''
+    '''term : term_b
+            | term_b term_a term'''
 
 
 def p_term_a(p):
     '''term_a : MULT
             | DIV'''
+    math_expression_3(p[1])
 #    global expresion_helper
 #    expresion_helper = expresion_helper + p[1]
+
+def p_term_b(p):
+    '''term_b : fact'''
+    math_expression_5()
 
 
 def p_tiposimple(p):
@@ -479,6 +487,10 @@ def p_estatuto(p):
 def p_expresion(p):
     '''expresion : m_exp
                 | m_exp expresion_a m_exp'''
+    global rel_op
+    if len(p) == 4:
+        math_expression_9(rel_op)
+    rel_op = ""
 
 
 def p_expresion_a(p):
@@ -488,6 +500,9 @@ def p_expresion_a(p):
                 | EQEQ
                 | LE
                 | GE'''
+    global rel_op
+    math_expression_8(p[1])
+    rel_op = p[1]
 #    global expresion_helper
 #    expresion_helper = expresion_helper + p[1]
 
@@ -508,7 +523,7 @@ def p_while(p):
 
 def p_exp(p):
     '''exp : and_exp exp_a'''
-
+    math_expression_6()
 
 def p_exp_a(p):
     '''exp_a : OR
@@ -550,14 +565,14 @@ def p_llamada_b(p):
 
 
 def p_fact(p):
-    '''fact : OP exp CP
+    '''fact : fact_a exp CP
             | CTE_I
             | CTE_F
             | CTE_CHAR
             | ID
             | llamada'''
 
-    if p[1] is not '(': #1
+    if p[1] is not 'None': #1
         math_expression_1(p[1])
     else: #7
         math_expression_7()
@@ -569,6 +584,11 @@ def p_fact(p):
 #        expresion_helper = expresion_helper + str(p[1])
 #    else:
 #        expresion_helper = expresion_helper + p[1]
+
+
+def p_fact_a(p):
+    '''fact_a : OP'''
+    math_expression_6()
 
 
 def p_classcreate(p):
