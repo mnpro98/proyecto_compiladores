@@ -20,6 +20,7 @@ class MemoryRegister:
         return "t" + str(self.index)
 
     def clear_space(self, space_num):
+        space_num = int(space_num)
         self.array[space_num] = None
 
 
@@ -435,6 +436,13 @@ def p_vars_b(p):
     '''vars_b : ID
             | ID EQ varcte'''
     token_dic['id'] = p[1]
+    if len(p) > 2:
+        operator = p[2]
+        left_operand = '_'
+        right_operand = pending_operands.pop()
+        result = p[1]
+        _quad = [operator, left_operand, right_operand, result]
+        quad.append(_quad)
 
 
 def p_vars_vect_mat(p):
@@ -547,6 +555,7 @@ def p_varcte(p):
         token_dic['valor'] = p[1]
     except IndexError:
         token_dic['valor'] = "Null"
+    pending_operands.append(p[1])
 
 
 def p_while(p):
@@ -659,6 +668,12 @@ def p_llamadafuncionclase(p):
 
 def p_asignacion(p):
     '''asignacion : ID asignacion_a asignacion_a EQ expresion SC'''
+    operator = p[4]
+    left_operand = '_'
+    right_operand = pending_operands.pop()
+    result = p[1]
+    _quad = [operator, left_operand, right_operand, result]
+    quad.append(_quad)
 
 
 def p_asignacion_a(p):
@@ -668,6 +683,12 @@ def p_asignacion_a(p):
 
 def p_asignacionsencilla(p):
     '''asignacionsencilla : ID EQ expresion'''
+    operator = p[2]
+    left_operand = '_'
+    right_operand = pending_operands.pop()
+    result = p[1]
+    _quad = [operator, left_operand, right_operand, result]
+    quad.append(_quad)
 
 #falta guardar los parametros de las funciones en la tabla
 def p_function(p):
@@ -717,4 +738,4 @@ except EOFError:
 yacc.parse(s)
 
 pp = PrettyPrinter(indent=4)
-pp.pprint(table)
+pp.pprint(quad)

@@ -9,6 +9,7 @@ int b = 3;
         int tamano;
 
         void setTamano() {
+            a = 5 * 7 + 1 / 8;
             tamano = 1;
             int k = 1;
         }
