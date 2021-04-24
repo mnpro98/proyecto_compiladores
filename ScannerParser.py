@@ -4,6 +4,25 @@ from pprint import PrettyPrinter
 from enum import Enum
 
 
+class MemoryRegister:
+    array: list
+    index: int
+
+    def __init__(self):
+        self.array = [None]*1000
+        self.index = 0
+
+    def next(self):
+        self.index += 1
+        return "t" + str(self.index)
+
+    def get_curr_value(self):
+        return "t" + str(self.index)
+
+    def clear_space(self, space_num):
+        self.array[space_num] = None
+
+
 class State(Enum):
     CLASS_CREATE = 1
 
@@ -11,6 +30,7 @@ class State(Enum):
 curr_state = 0
 rel_op = ""
 
+avail = MemoryRegister()
 pending_operators = []
 pending_operands = []
 corresponding_types = []
@@ -159,8 +179,6 @@ token_dic = {
     "valor": "null"
 }  # 0 - Tipo, 1 - id, 2 - valor
 
-#llamada_dic = {}
-
 funciones_dic = {
     "id": "",
     "tipo": ""
@@ -251,8 +269,19 @@ t_CTE_STRING = r'\".*\"'
 
 
 def math_expression_1(id):
+    type_converter = {
+        "<class 'str'>": "char"
+    }
+
     pending_operands.append(id)
-    corresponding_types.append(table['variables'][id]['tipo'])
+    if id in table['variables']:
+        corresponding_types.append(table['variables'][id]['tipo'])
+    else:
+        try:  #TODO Detectar cuando es float
+            int(id)
+            corresponding_types.append('int')
+        except ValueError:
+            corresponding_types.append('char')
 
 
 def math_expression_2(operand):
@@ -270,27 +299,35 @@ def math_expression_3(operand):
 
 
 def math_expression_4(symbols):
-    if pending_operators[-1] == symbols[0] or pending_operators[-1] == symbols[1]:
-        right_operand = pending_operands.pop()
-        right_type = corresponding_types.pop()
-        left_operand = pending_operands.pop()
-        left_type = corresponding_types.pop()
-        operator = pending_operators.pop()
-        result_type = semantics[left_type][right_type][operator]
-        if result_type != 'ERROR':
-            result = avail.next() # Avail continene registros temporales, direcciones disponibles
-            _quad = [operator, left_operand, right_operand, result]
-            quad.append(_quad)
-            pending_operands.append(result)
-            corresponding_types.append(result_type)
-            # If any operand were a temporal space, return it to AVAIL
-        else:
-            print("ERROR: Type mismatch")
+    global avail
+    if len(pending_operators) != 0:
+        if pending_operators[-1] == symbols[0] or pending_operators[-1] == symbols[1]:
+            right_operand = pending_operands.pop()
+            right_type = corresponding_types.pop()
+            left_operand = pending_operands.pop()
+            left_type = corresponding_types.pop()
+            operator = pending_operators.pop()
+            result_type = semantics[left_type][right_type][operator]
+            if result_type != 'ERROR':
+                result = avail.next()  # Avail continene registros temporales, direcciones disponibles
+                _quad = [operator, left_operand, right_operand, result]
+                quad.append(_quad)
+                pending_operands.append(result)
+                corresponding_types.append(result_type)
+
+                # If any operand were a temporal space, return it to AVAIL
+                if left_operand[0] == "t":
+                    avail.clear_space(left_operand[1])
+                if right_operand[0] == "t":
+                    avail.clear_space(right_operand[1])
+            else:
+                print("ERROR: Type mismatch")
 
 
 def math_expression_5():
-    if pending_operators[-1] == '*' or pending_operators[-1] == '/':
-        math_expression_4(['*', '/'])
+    if len(pending_operators) != 0:
+        if pending_operators[-1] == '*' or pending_operators[-1] == '/':
+            math_expression_4(['*', '/'])
 
 
 def math_expression_6():
@@ -322,9 +359,6 @@ def state_switcher(arg):
     func = switcher.get(arg, "Invalid state")
     func()
 
-#def llamada_dic_clear():
-#    llamada_dic["id"] = ""
-#    llamada_dic["parametros"] = ""
 
 def funciones_dic_clear():
     funciones_dic["id"] = ""
@@ -558,8 +592,6 @@ def p_llamada_a(p):
 def p_llamada_b(p):
     '''llamada_b : COMMA llamada_a
                 | empty'''
-#    if p[1] == ',':
-#        llamada_dic["parametros"] = llamada_dic["parametros"] + p[1]
 
 
 def p_fact(p):
@@ -570,18 +602,10 @@ def p_fact(p):
             | ID
             | llamada'''
 
-    if p[1] is not 'None': #1
+    if p[1] != 'None':  # 1
         math_expression_1(p[1])
-    else: #7
+    else:  # 7
         math_expression_7()
-
-#    global expresion_helper
-#    if p[1] == '(':
-#        expresion_helper = expresion_helper + p[1]
-#    elif type(p[1]) == float or type(p[1]) == int:
-#        expresion_helper = expresion_helper + str(p[1])
-#    else:
-#        expresion_helper = expresion_helper + p[1]
 
 
 def p_fact_a(p):

@@ -8,8 +8,8 @@ int b = 3;
         int cantidadPisos;
         int tamano;
 
-        void setTamano(int tam) {
-            tamano = tam;
+        void setTamano() {
+            tamano = 1;
             int k = 1;
         }
     }
@@ -19,6 +19,7 @@ int b = 3;
         casuca.setTamano(400);
 
         for(i = 0; i < 200; i = i + 1) {
+            ab = 3 * 90;
             if(i == 3) {
                 print(3);
             } else {
