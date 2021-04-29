@@ -334,6 +334,11 @@ def math_expression_4(symbols):
             left_operand = pending_operands.pop()
             left_type = corresponding_types.pop()
             operator = pending_operators.pop()
+            print("L ", left_type)
+            print("R ", right_type)
+            print("O ", operator)
+            print(table)
+
             result_type = semantics[left_type][right_type][operator]
             if result_type != 'ERROR':
                 result = avail.next()  # Avail continene registros temporales, direcciones disponibles
@@ -456,7 +461,7 @@ def p_vars(p):
 
 def p_vars_a(p):
     '''vars_a : vars_b
-            | vars_b COMMA vars_a'''
+            | vars_c vars_a'''
 
 def p_vars_b(p):
     '''vars_b : ID
@@ -469,6 +474,15 @@ def p_vars_b(p):
         result = p[1]
         _quad = [operator, left_operand, right_operand, result]
         quad.append(_quad)
+
+
+def p_vars_c(p):
+    '''vars_c : vars_b COMMA'''
+
+    table['variables'][token_dic['id']] = {
+        "tipo": token_dic['tipo'],
+        "valor": token_dic['valor']
+    }
 
 
 def p_vars_vect_mat(p):
