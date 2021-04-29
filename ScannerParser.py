@@ -37,6 +37,8 @@ pending_operands = []
 corresponding_types = []
 quad = []
 
+psaltos = []
+
 semantics = {
     'int': {
         'int': {
@@ -269,6 +271,30 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def while_1():
+    psaltos.append(len(quad))
+
+
+def while_2():
+    cond = pending_operands.pop()
+    t_cond = corresponding_types.pop()
+    print(table)
+
+    if t_cond != "int":
+        print("Tcond ")
+        print("ERROR")
+    else:
+        quad.append(["gotoF", "_", cond, "_"])
+        psaltos.append(len(quad) - 1)
+
+
+def while_3():
+    falso = psaltos.pop()
+    ret = psaltos.pop()
+    quad.append(["goto", "_", "_", ret])
+    quad[falso][3] = len(quad)
+
+
 def math_expression_1(id):
     type_converter = {
         "<class 'str'>": "char"
@@ -407,7 +433,8 @@ def p_programa(p):
 
 def p_programa_a(p):
     '''programa_a : programa_b
-                | programa_b programa_a'''
+                | programa_b programa_a
+                | empty'''
 
 
 def p_programa_b(p):
@@ -418,7 +445,6 @@ def p_programa_b(p):
 def p_vars(p):
     '''vars : tiposimple vars_a SC
             | tipocompuesto vars_a SC'''
-
 
     table['variables'][token_dic['id']] = {
         "tipo": token_dic['tipo'],
@@ -434,7 +460,7 @@ def p_vars_a(p):
 
 def p_vars_b(p):
     '''vars_b : ID
-            | ID EQ varcte'''
+            | ID EQ expresion'''
     token_dic['id'] = p[1]
     if len(p) > 2:
         operator = p[2]
@@ -559,12 +585,25 @@ def p_varcte(p):
 
 
 def p_while(p):
-    '''while : WHILE OB expresion CB bloque'''
+    '''while : while_b bloque'''
+    while_3()
+
+
+def p_while_a(p):
+    '''while_a : WHILE'''
+    print(1)
+    while_1()
+
+
+def p_while_b(p):
+    '''while_b : while_a OP expresion CP'''
+    while_2()
 
 
 def p_exp(p):
     '''exp : and_exp exp_a'''
     math_expression_6()
+
 
 def p_exp_a(p):
     '''exp_a : OR
@@ -690,7 +729,7 @@ def p_asignacionsencilla(p):
     _quad = [operator, left_operand, right_operand, result]
     quad.append(_quad)
 
-#falta guardar los parametros de las funciones en la tabla
+# falta guardar los parametros de las funciones en la tabla
 def p_function(p):
     '''function : function_a ID OP function_b CP bloque'''
     funciones_dic["id"] = p[2]
@@ -729,7 +768,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_1.txt", "r")
+    f = open("test_2.txt", "r")
     s = f.read()
 
 except EOFError:

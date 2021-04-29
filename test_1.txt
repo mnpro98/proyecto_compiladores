@@ -1,6 +1,6 @@
 program pelos;
 
-int a = 5;
+int a = 5 + 8;
 int b = 3;
 
 {
