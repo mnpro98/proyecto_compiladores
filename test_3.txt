@@ -3,8 +3,6 @@ program s;
     int a,b,c,d;
     if(a + b > c * d) {
         a = b + d;
-    } else {
-        a = d - c;
     }
     b = a * c + d;
 }

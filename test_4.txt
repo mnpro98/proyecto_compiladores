@@ -1,0 +1,10 @@
+program h;
+{
+    int a, b;
+    int i;
+    for(i = 0; i < 30; i = i + 1) {
+        b = b + 1;
+        a = b + 1;
+    }
+    b = a - 1;
+}

@@ -271,6 +271,36 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def for_1():
+    psaltos.append(len(quad))
+
+
+def for_2():
+    print("Psaltos ", psaltos)
+    print("Poperators ", pending_operators)
+    print("Poperands ", pending_operands)
+    cond = pending_operands.pop()
+    t_cond_for = corresponding_types.pop()
+
+    if t_cond_for != "int":
+        print("Tcond ")
+        print("ERROR")
+    else:
+        quad.append(["gotoF", "_", cond, "_"])
+        psaltos.append(len(quad) - 1)
+
+
+def for_3():
+    falso = psaltos.pop()
+    ret = psaltos.pop()
+    temp_operand = pending_operands.pop()
+    var_operand = pending_operands.pop()
+    operator = pending_operators.pop()
+    quad.append(["goto", "_", "_", ret])
+    quad[falso][3] = len(quad)
+    quad.append([operator, "_", temp_operand, var_operand])
+
+
 def if_1():
     cond = pending_operands.pop()
     t_cond_if = corresponding_types.pop()
@@ -650,7 +680,18 @@ def p_and_exp_a(p):
 
 
 def p_for(p):
-    '''for : FOR OP asignacionsencilla SC expresion SC asignacionsencilla CP bloque'''
+    '''for : for_a for_b bloque'''
+    for_3()
+
+
+def p_for_a(p):
+    '''for_a : FOR'''
+    for_1()
+
+
+def p_for_b(p):
+    '''for_b : OP asignacionsencilla SC expresion SC asignacionsencilla CP'''
+    for_2()
 
 
 def p_llamada(p):
@@ -765,12 +806,14 @@ def p_asignacion_a(p):
 
 def p_asignacionsencilla(p):
     '''asignacionsencilla : ID EQ expresion'''
+
     operator = p[2]
     left_operand = '_'
     right_operand = pending_operands.pop()
     result = p[1]
     _quad = [operator, left_operand, right_operand, result]
     quad.append(_quad)
+
 
 # falta guardar los parametros de las funciones en la tabla
 def p_function(p):
@@ -811,7 +854,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_3.txt", "r")
+    f = open("test_4.txt", "r")
     s = f.read()
 
 except EOFError:
