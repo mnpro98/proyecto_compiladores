@@ -271,6 +271,28 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def if_1():
+    cond = pending_operands.pop()
+    t_cond_if = corresponding_types.pop()
+    if t_cond_if != 'int':
+        print("ERROR: Cond is not int")
+    else:
+        quad.append(["gotoF", "_", cond, "_"])
+        psaltos.append(len(quad) - 1)
+
+
+def if_2():
+    fin = psaltos.pop()
+    quad[fin][3] = len(quad)
+
+
+def if_3():
+    falso = psaltos.pop()
+    quad.append(["goto", "_", "_", "_"])
+    psaltos.append(len(quad) - 1)
+    quad[falso][3] = len(quad)
+
+
 def while_1():
     psaltos.append(len(quad))
 
@@ -700,16 +722,28 @@ def p_classcreate_d(p):
 
 
 def p_condicion(p):
-    '''condicion : IF OP expresion CP bloque condicion_a'''
+    '''condicion : condicion_c bloque condicion_a'''
+    if_2()
 
 
 def p_condicion_a(p):
-    '''condicion_a : ELSE condicion_b bloque'''
+    '''condicion_a : condicion_d condicion_b bloque'''
 
 
 def p_condicion_b(p):
     '''condicion_b : condicion
                 | empty'''
+
+
+def p_condicion_c(p):
+    '''condicion_c : IF OP expresion CP'''
+    if_1()
+
+
+def p_condicion_d(p):
+    '''condicion_d : ELSE'''
+    if_3()
+
 
 def p_classdeclare(p):
     '''classdeclare : CLASS_ID ID SC'''
@@ -721,6 +755,7 @@ def p_llamadafuncionclase(p):
 
 def p_asignacion(p):
     '''asignacion : ID asignacion_a asignacion_a EQ expresion SC'''
+
     operator = p[4]
     left_operand = '_'
     right_operand = pending_operands.pop()
@@ -782,7 +817,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_2.txt", "r")
+    f = open("test_3.txt", "r")
     s = f.read()
 
 except EOFError:
