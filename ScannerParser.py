@@ -328,7 +328,7 @@ def math_expression_3(operand):
 def math_expression_4(symbols):
     global avail
     if len(pending_operators) != 0:
-        if pending_operators[-1] == symbols[0] or pending_operators[-1] == symbols[1]:
+        if pending_operators[-1] in symbols:
             right_operand = pending_operands.pop()
             right_type = corresponding_types.pop()
             left_operand = pending_operands.pop()
@@ -372,7 +372,7 @@ def math_expression_8(rel_op):
 
 def math_expression_9(rel_op):
     if pending_operators[-1] == rel_op:
-        math_expression_4(['*', '/'])
+        math_expression_4(['>', '<', '>=', '<=', '==', '!='])
 
 
 def create_class_variable():

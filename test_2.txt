@@ -4,7 +4,7 @@ program pelos;
     int b;
     int c;
     int d;
-    while(a > b * c){
+    while(a == b * c){
         a = a - d;
     }
     b = c + a;
