@@ -36,6 +36,7 @@ pending_operators = []
 pending_operands = []
 corresponding_types = []
 quad = []
+pila_fors = []
 
 psaltos = []
 
@@ -272,33 +273,39 @@ t_CTE_STRING = r'\".*\"'
 
 
 def for_1():
-    psaltos.append(len(quad))
+    pila_fors.append({})
 
 
 def for_2():
-    print("Psaltos ", psaltos)
-    print("Poperators ", pending_operators)
-    print("Poperands ", pending_operands)
+    pila_fors[-1]["condicion"] = len(quad)
+
+
+def for_3():
     cond = pending_operands.pop()
     t_cond_for = corresponding_types.pop()
 
     if t_cond_for != "int":
-        print("Tcond ")
-        print("ERROR")
+        print("Tcond ERROR")
     else:
         quad.append(["gotoF", "_", cond, "_"])
-        psaltos.append(len(quad) - 1)
+        pila_fors[-1]["gotoF"] = len(quad) - 1
+        quad.append(["goto", "_", "_", "_"])
+        pila_fors[-1]["goto1"] = len(quad) - 1
 
 
-def for_3():
-    falso = psaltos.pop()
-    ret = psaltos.pop()
-    temp_operand = pending_operands.pop()
-    var_operand = pending_operands.pop()
-    operator = pending_operators.pop()
-    quad.append(["goto", "_", "_", ret])
-    quad[falso][3] = len(quad)
-    quad.append([operator, "_", temp_operand, var_operand])
+def for_4():
+    pila_fors[-1]["goto2"] = len(quad)
+
+
+def for_5():
+    quad.append(["goto", "_", "_", pila_fors[-1]["condicion"]])
+    quad[pila_fors[-1]["goto1"]][3] = len(quad)
+
+
+def for_6():
+    quad.append(["goto", "_", "_", pila_fors[-1]["goto2"]])
+    quad[pila_fors[-1]["gotoF"]][3] = len(quad)
+    pila_fors.pop()
 
 
 def if_1():
@@ -681,7 +688,7 @@ def p_and_exp_a(p):
 
 def p_for(p):
     '''for : for_a for_b bloque'''
-    for_3()
+    for_6()
 
 
 def p_for_a(p):
@@ -690,8 +697,23 @@ def p_for_a(p):
 
 
 def p_for_b(p):
-    '''for_b : OP asignacionsencilla SC expresion SC asignacionsencilla CP'''
+    '''for_b : for_e asignacionsencilla CP'''
+    for_5()
+
+
+def p_for_c(p):
+    '''for_c : OP asignacionsencilla SC'''
     for_2()
+
+
+def p_for_d(p):
+    '''for_d : for_c expresion'''
+    for_3()
+
+
+def p_for_e(p):
+    '''for_e : for_d SC'''
+    for_4()
 
 
 def p_llamada(p):

@@ -1,10 +1,15 @@
 program h;
 {
-    int a, b;
-    int i;
+    int a, b, c, d;
+    int i, j;
     for(i = 0; i < 30; i = i + 1) {
         b = b + 1;
         a = b + 1;
+        for(j = 0; j < 30; j = j + 1) {
+            c = b + 1;
+            d = b + 1;
+        }
+        b = 4;
     }
     b = a - 1;
 }
