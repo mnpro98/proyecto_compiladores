@@ -208,7 +208,8 @@ reserved = {
     'for': 'FOR',
     'while': 'WHILE',
     'dataframe': 'DATAFRAME',
-    'file': 'FILE'
+    'file': 'FILE',
+    'return': 'RETURN'
 }
 
 
@@ -236,6 +237,7 @@ t_OR = r'or'
 t_AND = r'and'
 t_PROGRAM = r'program'
 t_CLASS = r'class'
+t_RETURN = r'return'
 t_VOID = r'void'
 t_FOR = r'for'
 t_WHILE = r'while'
@@ -615,7 +617,12 @@ def p_estatuto(p):
                 | vars
                 | classdeclare
                 | llamadafuncionclase
-                | function'''
+                | function
+                | return'''
+
+
+def p_return(p):
+    '''return : RETURN expresion SC'''
 
 
 def p_expresion(p):
@@ -842,7 +849,8 @@ def p_function(p):
     '''function : function_a ID OP function_b CP bloque'''
     funciones_dic["id"] = p[2]
     table["funciones"][funciones_dic['id']] = {
-        "tipo": funciones_dic['tipo']
+        "tipo": funciones_dic['tipo'],
+        "linea": len(quad)
     }
     funciones_dic_clear()
 

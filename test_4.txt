@@ -1,5 +1,6 @@
 program h;
 {
+    return t;
     int a, b, c, d;
     int i, j;
     for(i = 0; i < 30; i = i + 1) {
