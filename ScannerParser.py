@@ -176,6 +176,7 @@ semantics = {
 }
 
 expresion_helper = ""
+k = -1
 
 token_dic = {
     "id": "",
@@ -187,6 +188,8 @@ funciones_dic = {
     "id": "",
     "tipo": ""
 }
+
+func_call_id = ""
 
 table = {
     "clases": {},
@@ -272,6 +275,82 @@ t_CTE_I = r'-?[0-9]+'
 t_CTE_F = r'-?[0-9]+.[0-9]+'
 t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
+
+
+def module_def_1(proc_name):
+    funciones_dic["id"] = proc_name
+    table["funciones"][funciones_dic['id']] = {
+        "tipo": funciones_dic['tipo'],
+        "parametros": [],
+        "variables": {},
+    }
+
+
+def module_def_2(param):
+    table["funciones"][funciones_dic['id']]["variables"][param["id"]] = {
+        "tipo": param["tipo"]
+    }
+
+
+def module_def_3(param):
+    table["funciones"][funciones_dic['id']]["parametros"].append(param["tipo"])
+
+
+# Insert the number of parameters.
+def module_def_4():
+    table["funciones"][funciones_dic['id']]["param_cont"] = len(table["funciones"][funciones_dic['id']]["parametros"])
+
+
+def module_def_5():
+    table["funciones"][funciones_dic['id']]["var_cont"] = len(table["funciones"][funciones_dic['id']]["variables"])
+
+
+def module_def_6():
+    table["funciones"][funciones_dic['id']]["linea"] = len(quad)
+
+
+def module_def_7():
+    table["funciones"][funciones_dic['id']]["variables"] = {}
+    quad.append(["ENDFUNC", "_", "_", "_"])
+    funciones_dic_clear()
+    # TODO: NOS FALTO EL ULTIMO PASO
+
+
+def module_call_1(_id):
+    global func_call_id
+    func_call_id = _id
+    if _id not in table["funciones"]:
+        print("ERROR: funcion no existe")
+        exit(-1)
+
+
+def module_call_2():
+    global k
+    quad.append(["ERA", func_call_id, "_", "_"])
+    k = 1
+
+
+def module_call_3():
+    argument = pending_operands.pop()
+    arg_type = corresponding_types.pop()
+    if table["funciones"][func_call_id]["parametros"][k - 1] != arg_type:
+        print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
+        exit(-1)
+    quad.append(["param", argument, "_", "param" + str(k)])
+
+
+def module_call_4():
+    global k
+    k = k + 1
+
+
+def module_call_5():
+    if k != table["funciones"][func_call_id]["param_cont"]:
+        print("ERROR: se paso el limite de argumentos en la llamada.")
+
+
+def module_call_6():
+    quad.append(["GOSUB", func_call_id, "_", table["funciones"][func_call_id]["linea"]])
 
 
 def for_1():
@@ -724,22 +803,40 @@ def p_for_e(p):
 
 
 def p_llamada(p):
-    '''llamada : ID OP llamada_a CP SC'''
-#    llamada_dic[p[1]] = ""
-#    print(llamada_dic)
+    '''llamada : llamada_d llamada_a CP SC'''
+    module_call_5()
+    module_call_6()
 
 
 def p_llamada_a(p):
-    '''llamada_a : expresion llamada_b
-                | CTE_STRING llamada_b
+    '''llamada_a : llamada_e llamada_b
                 | llamada_b'''
-#    if p[1] != None:
-#        llamada_dic["parametros"] = p[1]
 
 
 def p_llamada_b(p):
-    '''llamada_b : COMMA llamada_a
+    '''llamada_b : llamada_f llamada_a
                 | empty'''
+
+
+def p_llamada_c(p):
+    '''llamada_c : ID'''
+    module_call_1(p[1])
+
+
+def p_llamada_d(p):
+    '''llamada_d : llamada_c OP'''
+    module_call_2()
+
+
+def p_llamada_e(p):
+    '''llamada_e : expresion
+                | CTE_STRING'''
+    module_call_3()
+
+
+def p_llamada_f(p):
+    '''llamada_f : COMMA'''
+    module_call_4()
 
 
 def p_fact(p):
@@ -846,13 +943,10 @@ def p_asignacionsencilla(p):
 
 # falta guardar los parametros de las funciones en la tabla
 def p_function(p):
-    '''function : function_a ID OP function_b CP bloque'''
-    funciones_dic["id"] = p[2]
-    table["funciones"][funciones_dic['id']] = {
-        "tipo": funciones_dic['tipo'],
-        "linea": len(quad)
-    }
-    funciones_dic_clear()
+    '''function : function_c OP function_b CP bloque'''
+    module_def_5()
+    module_def_6()
+    module_def_7()
 
 
 def p_function_a(p):
@@ -866,9 +960,24 @@ def p_function_a(p):
 
 
 def p_function_b(p):
-    '''function_b : tiposimple ID
-                | tiposimple ID COMMA function_b
+    '''function_b : function_d
+                | function_d COMMA function_b
                 | empty'''
+
+
+def p_function_c(p):
+    '''function_c : function_a ID'''
+    module_def_1(p[2])
+
+
+def p_function_d(p):
+    '''function_d : tiposimple ID'''
+    _dic = {
+        "tipo": token_dic['tipo'],
+        "id": p[2]
+    }
+    module_def_2(_dic)
+    module_def_3(_dic)
 
 
 def p_empty(p):
