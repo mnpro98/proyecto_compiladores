@@ -1,0 +1,28 @@
+program patito;
+int a, b;
+float f;
+{
+    void uno(int a)
+    int localuno;
+    {
+        a = a + b * a;
+    }
+
+    void dos(int a, int b, float g)
+    int i;
+    {
+        i=b;
+        while(i > 0) {
+            a=a+b*i+b;
+            uno(i*2);
+            i= i - 1;
+        }
+    }
+
+    void main(){
+        a=3;
+        b=a+1;
+        f=3.14;
+        dos(a+b*2, b, f*3);
+    }
+}

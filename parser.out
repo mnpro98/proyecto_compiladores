@@ -85,94 +85,102 @@ Rule 71    for_b -> for_e asignacionsencilla CP
 Rule 72    for_c -> OP asignacionsencilla SC
 Rule 73    for_d -> for_c expresion
 Rule 74    for_e -> for_d SC
-Rule 75    llamada -> ID OP llamada_a CP SC
-Rule 76    llamada_a -> expresion llamada_b
-Rule 77    llamada_a -> CTE_STRING llamada_b
-Rule 78    llamada_a -> llamada_b
-Rule 79    llamada_b -> COMMA llamada_a
-Rule 80    llamada_b -> empty
-Rule 81    fact -> fact_a exp CP
-Rule 82    fact -> CTE_I
-Rule 83    fact -> CTE_F
-Rule 84    fact -> CTE_CHAR
-Rule 85    fact -> ID
-Rule 86    fact -> llamada
-Rule 87    fact_a -> OP
-Rule 88    classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB
-Rule 89    classcreate_a -> vars classcreate_a
-Rule 90    classcreate_a -> vars_vect_mat classcreate_a
-Rule 91    classcreate_a -> empty
-Rule 92    classcreate_c -> function classcreate_d
-Rule 93    classcreate_c -> classcreate_d
-Rule 94    classcreate_d -> classcreate_c
-Rule 95    classcreate_d -> empty
-Rule 96    condicion -> condicion_c bloque condicion_a
-Rule 97    condicion_a -> condicion_d condicion_b bloque
-Rule 98    condicion_b -> condicion
-Rule 99    condicion_b -> empty
-Rule 100   condicion_c -> IF OP expresion CP
-Rule 101   condicion_d -> ELSE
-Rule 102   classdeclare -> CLASS_ID ID SC
-Rule 103   llamadafuncionclase -> ID POINT llamada
-Rule 104   asignacion -> ID asignacion_a asignacion_a EQ expresion SC
-Rule 105   asignacion_a -> OSB exp CSB
-Rule 106   asignacion_a -> empty
-Rule 107   asignacionsencilla -> ID EQ expresion
-Rule 108   function -> function_a ID OP function_b CP bloque
-Rule 109   function_a -> VOID
-Rule 110   function_a -> tiposimple
-Rule 111   function_b -> tiposimple ID
-Rule 112   function_b -> tiposimple ID COMMA function_b
-Rule 113   function_b -> empty
-Rule 114   empty -> <empty>
+Rule 75    llamada -> llamada_d llamada_a CP SC
+Rule 76    llamada_a -> llamada_e llamada_b
+Rule 77    llamada_a -> llamada_b
+Rule 78    llamada_b -> llamada_f llamada_a
+Rule 79    llamada_b -> empty
+Rule 80    llamada_c -> ID
+Rule 81    llamada_d -> llamada_c OP
+Rule 82    llamada_e -> expresion
+Rule 83    llamada_e -> CTE_STRING
+Rule 84    llamada_f -> COMMA
+Rule 85    fact -> fact_a exp CP
+Rule 86    fact -> CTE_I
+Rule 87    fact -> CTE_F
+Rule 88    fact -> CTE_CHAR
+Rule 89    fact -> ID
+Rule 90    fact -> llamada
+Rule 91    fact_a -> OP
+Rule 92    classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB
+Rule 93    classcreate_a -> vars classcreate_a
+Rule 94    classcreate_a -> vars_vect_mat classcreate_a
+Rule 95    classcreate_a -> empty
+Rule 96    classcreate_c -> function classcreate_d
+Rule 97    classcreate_c -> classcreate_d
+Rule 98    classcreate_d -> classcreate_c
+Rule 99    classcreate_d -> empty
+Rule 100   condicion -> condicion_c bloque condicion_a
+Rule 101   condicion_a -> condicion_d condicion_b bloque
+Rule 102   condicion_b -> condicion
+Rule 103   condicion_b -> empty
+Rule 104   condicion_c -> IF OP expresion CP
+Rule 105   condicion_d -> ELSE
+Rule 106   classdeclare -> CLASS_ID ID SC
+Rule 107   llamadafuncionclase -> ID POINT llamada
+Rule 108   asignacion -> ID asignacion_a asignacion_a EQ expresion SC
+Rule 109   asignacion_a -> OSB exp CSB
+Rule 110   asignacion_a -> empty
+Rule 111   asignacionsencilla -> ID EQ expresion
+Rule 112   function -> function_e bloque
+Rule 113   function_a -> VOID
+Rule 114   function_a -> tiposimple
+Rule 115   function_b -> function_d
+Rule 116   function_b -> function_d COMMA function_b
+Rule 117   function_b -> empty
+Rule 118   function_c -> function_a ID
+Rule 119   function_d -> tiposimple ID
+Rule 120   function_e -> function_c OP function_b CP vars
+Rule 121   function_e -> function_c OP function_b CP empty
+Rule 122   empty -> <empty>
 
 Terminals, with rules where they appear
 
 ADD                  : 19
 AND                  : 67
 CAPT                 : 
-CB                   : 33 88
+CB                   : 33 92
 CHAR                 : 29
-CLASS                : 88
-CLASS_ID             : 88 102
+CLASS                : 92
+CLASS_ID             : 92 106
 COL                  : 
-COMMA                : 13 79 112
-CP                   : 62 71 75 81 100 108
-CSB                  : 16 105
-CTE_CHAR             : 84
-CTE_F                : 59 83
-CTE_I                : 58 82
-CTE_STRING           : 77
+COMMA                : 13 84 116
+CP                   : 62 71 75 85 104 120 121
+CSB                  : 16 109
+CTE_CHAR             : 88
+CTE_F                : 59 87
+CTE_I                : 58 86
+CTE_STRING           : 83
 DATAFRAME            : 30
 DIGIT                : 
 DIGITS               : 
 DIV                  : 25
-ELSE                 : 101
-EQ                   : 12 104 107
+ELSE                 : 105
+EQ                   : 12 108 111
 EQEQ                 : 54
 FILE                 : 32
 FLOAT                : 28
 FOR                  : 70
 GE                   : 56
 GT                   : 52
-ID                   : 1 11 12 14 15 31 57 75 85 102 103 104 107 108 111 112
-IF                   : 100
+ID                   : 1 11 12 14 15 31 57 80 89 106 107 108 111 118 119
+IF                   : 104
 INT                  : 27
 LE                   : 55
 LETTER               : 
 LT                   : 51
 MULT                 : 24
 NE                   : 53
-OB                   : 33 88
-OP                   : 62 72 75 87 100 108
+OB                   : 33 92
+OP                   : 62 72 81 91 104 120 121
 OR                   : 64
-OSB                  : 16 105
-POINT                : 103
+OSB                  : 16 109
+POINT                : 107
 PROGRAM              : 1
 RETURN               : 48
-SC                   : 1 7 8 14 15 48 72 74 75 102 104
+SC                   : 1 7 8 14 15 48 72 74 75 106 108
 SUB                  : 20
-VOID                 : 109
+VOID                 : 113
 WHILE                : 61
 error                : 
 
@@ -181,40 +189,47 @@ Nonterminals, with rules where they appear
 and_exp              : 63
 and_exp_a            : 66
 asignacion           : 37
-asignacion_a         : 104 104
+asignacion_a         : 108 108
 asignacionsencilla   : 71 72
-bloque               : 1 60 69 96 97 108
+bloque               : 1 60 69 100 101 112
 bloque_a             : 33 34
 classcreate          : 42
-classcreate_a        : 88 89 90
-classcreate_c        : 88 94
-classcreate_d        : 92 93
+classcreate_a        : 92 93 94
+classcreate_c        : 92 98
+classcreate_d        : 96 97
 classdeclare         : 44
-condicion            : 38 98
-condicion_a          : 96
-condicion_b          : 97
-condicion_c          : 96
-condicion_d          : 97
-empty                : 4 36 65 68 80 91 95 99 106 113
+condicion            : 38 102
+condicion_a          : 100
+condicion_b          : 101
+condicion_c          : 100
+condicion_d          : 101
+empty                : 4 36 65 68 79 95 99 103 110 117 121
 estatuto             : 34 35
-exp                  : 16 81 105
+exp                  : 16 85 109
 exp_a                : 63
-expresion            : 12 48 62 66 73 76 100 104 107
+expresion            : 12 48 62 66 73 82 104 108 111
 expresion_a          : 50
 fact                 : 26
-fact_a               : 81
+fact_a               : 85
 for                  : 41
 for_a                : 69
 for_b                : 69
 for_c                : 73
 for_d                : 74
 for_e                : 71
-function             : 46 88 92
-function_a           : 108
-function_b           : 108 112
-llamada              : 39 86 103
-llamada_a            : 75 79
-llamada_b            : 76 77 78
+function             : 46 92 96
+function_a           : 118
+function_b           : 116 120 121
+function_c           : 120 121
+function_d           : 115 116
+function_e           : 112
+llamada              : 39 90 107
+llamada_a            : 75 78
+llamada_b            : 76 77
+llamada_c            : 81
+llamada_d            : 75
+llamada_e            : 76
+llamada_f            : 78
 llamadafuncionclase  : 45
 m_exp                : 18 49 50 50
 m_exp_a              : 18
@@ -227,13 +242,13 @@ term                 : 21 23
 term_a               : 23
 term_b               : 22 23
 tipocompuesto        : 8
-tiposimple           : 7 14 15 110 111 112
+tiposimple           : 7 14 15 114 119
 varcte               : 
-vars                 : 5 43 89
+vars                 : 5 43 93 120
 vars_a               : 7 8 10
 vars_b               : 9 13
 vars_c               : 10
-vars_vect_mat        : 6 90
+vars_vect_mat        : 6 94
 vars_vect_mat_a      : 14 15 15
 while                : 40
 while_a              : 62
@@ -278,7 +293,7 @@ state 4
     (4) programa_a -> . empty
     (5) programa_b -> . vars
     (6) programa_b -> . vars_vect_mat
-    (114) empty -> .
+    (122) empty -> .
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
@@ -290,7 +305,7 @@ state 4
     (31) tipocompuesto -> . ID
     (32) tipocompuesto -> . FILE
 
-    OB              reduce using rule 114 (empty -> .)
+    OB              reduce using rule 122 (empty -> .)
     INT             shift and go to state 13
     FLOAT           shift and go to state 14
     CHAR            shift and go to state 15
@@ -331,7 +346,7 @@ state 7
     (4) programa_a -> . empty
     (5) programa_b -> . vars
     (6) programa_b -> . vars_vect_mat
-    (114) empty -> .
+    (122) empty -> .
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
@@ -352,7 +367,7 @@ state 7
     ID              shift and go to state 5
     FILE            shift and go to state 17
 
-  ! OB              [ reduce using rule 114 (empty -> .) ]
+  ! OB              [ reduce using rule 122 (empty -> .) ]
 
     programa_b                     shift and go to state 7
     programa_a                     shift and go to state 20
@@ -486,20 +501,21 @@ state 19
     (45) estatuto -> . llamadafuncionclase
     (46) estatuto -> . function
     (47) estatuto -> . return
-    (114) empty -> .
-    (104) asignacion -> . ID asignacion_a asignacion_a EQ expresion SC
-    (96) condicion -> . condicion_c bloque condicion_a
-    (75) llamada -> . ID OP llamada_a CP SC
+    (122) empty -> .
+    (108) asignacion -> . ID asignacion_a asignacion_a EQ expresion SC
+    (100) condicion -> . condicion_c bloque condicion_a
+    (75) llamada -> . llamada_d llamada_a CP SC
     (60) while -> . while_b bloque
     (69) for -> . for_a for_b bloque
-    (88) classcreate -> . CLASS CLASS_ID OB classcreate_a function classcreate_c CB
+    (92) classcreate -> . CLASS CLASS_ID OB classcreate_a function classcreate_c CB
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
-    (102) classdeclare -> . CLASS_ID ID SC
-    (103) llamadafuncionclase -> . ID POINT llamada
-    (108) function -> . function_a ID OP function_b CP bloque
+    (106) classdeclare -> . CLASS_ID ID SC
+    (107) llamadafuncionclase -> . ID POINT llamada
+    (112) function -> . function_e bloque
     (48) return -> . RETURN expresion SC
-    (100) condicion_c -> . IF OP expresion CP
+    (104) condicion_c -> . IF OP expresion CP
+    (81) llamada_d -> . llamada_c OP
     (62) while_b -> . while_a OP expresion CP
     (70) for_a -> . FOR
     (27) tiposimple -> . INT
@@ -508,24 +524,28 @@ state 19
     (30) tipocompuesto -> . DATAFRAME
     (31) tipocompuesto -> . ID
     (32) tipocompuesto -> . FILE
-    (109) function_a -> . VOID
-    (110) function_a -> . tiposimple
+    (120) function_e -> . function_c OP function_b CP vars
+    (121) function_e -> . function_c OP function_b CP empty
+    (80) llamada_c -> . ID
     (61) while_a -> . WHILE
+    (118) function_c -> . function_a ID
+    (113) function_a -> . VOID
+    (114) function_a -> . tiposimple
 
-    CB              reduce using rule 114 (empty -> .)
+    CB              reduce using rule 122 (empty -> .)
     ID              shift and go to state 41
-    CLASS           shift and go to state 45
-    CLASS_ID        shift and go to state 46
-    RETURN          shift and go to state 49
-    IF              shift and go to state 50
-    FOR             shift and go to state 52
+    CLASS           shift and go to state 46
+    CLASS_ID        shift and go to state 47
+    RETURN          shift and go to state 50
+    IF              shift and go to state 51
+    FOR             shift and go to state 54
     INT             shift and go to state 13
     FLOAT           shift and go to state 14
     CHAR            shift and go to state 15
     DATAFRAME       shift and go to state 16
     FILE            shift and go to state 17
-    VOID            shift and go to state 53
-    WHILE           shift and go to state 54
+    WHILE           shift and go to state 56
+    VOID            shift and go to state 58
 
     bloque_a                       shift and go to state 27
     estatuto                       shift and go to state 28
@@ -542,12 +562,16 @@ state 19
     function                       shift and go to state 39
     return                         shift and go to state 40
     condicion_c                    shift and go to state 42
-    while_b                        shift and go to state 43
-    for_a                          shift and go to state 44
-    tiposimple                     shift and go to state 47
+    llamada_d                      shift and go to state 43
+    while_b                        shift and go to state 44
+    for_a                          shift and go to state 45
+    tiposimple                     shift and go to state 48
     tipocompuesto                  shift and go to state 12
-    function_a                     shift and go to state 48
-    while_a                        shift and go to state 51
+    function_e                     shift and go to state 49
+    llamada_c                      shift and go to state 52
+    while_a                        shift and go to state 53
+    function_c                     shift and go to state 55
+    function_a                     shift and go to state 57
 
 state 20
 
@@ -560,7 +584,7 @@ state 21
 
     (7) vars -> tiposimple vars_a . SC
 
-    SC              shift and go to state 55
+    SC              shift and go to state 59
 
 
 state 22
@@ -573,10 +597,10 @@ state 22
 
     COMMA           reduce using rule 11 (vars_b -> ID .)
     SC              reduce using rule 11 (vars_b -> ID .)
-    EQ              shift and go to state 57
-    OSB             shift and go to state 58
+    EQ              shift and go to state 61
+    OSB             shift and go to state 62
 
-    vars_vect_mat_a                shift and go to state 56
+    vars_vect_mat_a                shift and go to state 60
 
 state 23
 
@@ -584,7 +608,7 @@ state 23
     (13) vars_c -> vars_b . COMMA
 
     SC              reduce using rule 9 (vars_a -> vars_b .)
-    COMMA           shift and go to state 59
+    COMMA           shift and go to state 63
 
 
 state 24
@@ -599,14 +623,14 @@ state 24
     ID              shift and go to state 26
 
     vars_c                         shift and go to state 24
-    vars_a                         shift and go to state 60
+    vars_a                         shift and go to state 64
     vars_b                         shift and go to state 23
 
 state 25
 
     (8) vars -> tipocompuesto vars_a . SC
 
-    SC              shift and go to state 61
+    SC              shift and go to state 65
 
 
 state 26
@@ -616,14 +640,14 @@ state 26
 
     COMMA           reduce using rule 11 (vars_b -> ID .)
     SC              reduce using rule 11 (vars_b -> ID .)
-    EQ              shift and go to state 57
+    EQ              shift and go to state 61
 
 
 state 27
 
     (33) bloque -> OB bloque_a . CB
 
-    CB              shift and go to state 62
+    CB              shift and go to state 66
 
 
 state 28
@@ -644,20 +668,21 @@ state 28
     (45) estatuto -> . llamadafuncionclase
     (46) estatuto -> . function
     (47) estatuto -> . return
-    (114) empty -> .
-    (104) asignacion -> . ID asignacion_a asignacion_a EQ expresion SC
-    (96) condicion -> . condicion_c bloque condicion_a
-    (75) llamada -> . ID OP llamada_a CP SC
+    (122) empty -> .
+    (108) asignacion -> . ID asignacion_a asignacion_a EQ expresion SC
+    (100) condicion -> . condicion_c bloque condicion_a
+    (75) llamada -> . llamada_d llamada_a CP SC
     (60) while -> . while_b bloque
     (69) for -> . for_a for_b bloque
-    (88) classcreate -> . CLASS CLASS_ID OB classcreate_a function classcreate_c CB
+    (92) classcreate -> . CLASS CLASS_ID OB classcreate_a function classcreate_c CB
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
-    (102) classdeclare -> . CLASS_ID ID SC
-    (103) llamadafuncionclase -> . ID POINT llamada
-    (108) function -> . function_a ID OP function_b CP bloque
+    (106) classdeclare -> . CLASS_ID ID SC
+    (107) llamadafuncionclase -> . ID POINT llamada
+    (112) function -> . function_e bloque
     (48) return -> . RETURN expresion SC
-    (100) condicion_c -> . IF OP expresion CP
+    (104) condicion_c -> . IF OP expresion CP
+    (81) llamada_d -> . llamada_c OP
     (62) while_b -> . while_a OP expresion CP
     (70) for_a -> . FOR
     (27) tiposimple -> . INT
@@ -666,30 +691,34 @@ state 28
     (30) tipocompuesto -> . DATAFRAME
     (31) tipocompuesto -> . ID
     (32) tipocompuesto -> . FILE
-    (109) function_a -> . VOID
-    (110) function_a -> . tiposimple
+    (120) function_e -> . function_c OP function_b CP vars
+    (121) function_e -> . function_c OP function_b CP empty
+    (80) llamada_c -> . ID
     (61) while_a -> . WHILE
+    (118) function_c -> . function_a ID
+    (113) function_a -> . VOID
+    (114) function_a -> . tiposimple
 
   ! reduce/reduce conflict for CB resolved using rule 35 (bloque_a -> estatuto .)
     CB              reduce using rule 35 (bloque_a -> estatuto .)
     ID              shift and go to state 41
-    CLASS           shift and go to state 45
-    CLASS_ID        shift and go to state 46
-    RETURN          shift and go to state 49
-    IF              shift and go to state 50
-    FOR             shift and go to state 52
+    CLASS           shift and go to state 46
+    CLASS_ID        shift and go to state 47
+    RETURN          shift and go to state 50
+    IF              shift and go to state 51
+    FOR             shift and go to state 54
     INT             shift and go to state 13
     FLOAT           shift and go to state 14
     CHAR            shift and go to state 15
     DATAFRAME       shift and go to state 16
     FILE            shift and go to state 17
-    VOID            shift and go to state 53
-    WHILE           shift and go to state 54
+    WHILE           shift and go to state 56
+    VOID            shift and go to state 58
 
-  ! CB              [ reduce using rule 114 (empty -> .) ]
+  ! CB              [ reduce using rule 122 (empty -> .) ]
 
     estatuto                       shift and go to state 28
-    bloque_a                       shift and go to state 63
+    bloque_a                       shift and go to state 67
     empty                          shift and go to state 29
     asignacion                     shift and go to state 30
     condicion                      shift and go to state 31
@@ -703,12 +732,16 @@ state 28
     function                       shift and go to state 39
     return                         shift and go to state 40
     condicion_c                    shift and go to state 42
-    while_b                        shift and go to state 43
-    for_a                          shift and go to state 44
-    tiposimple                     shift and go to state 47
+    llamada_d                      shift and go to state 43
+    while_b                        shift and go to state 44
+    for_a                          shift and go to state 45
+    tiposimple                     shift and go to state 48
     tipocompuesto                  shift and go to state 12
-    function_a                     shift and go to state 48
-    while_a                        shift and go to state 51
+    function_e                     shift and go to state 49
+    llamada_c                      shift and go to state 52
+    while_a                        shift and go to state 53
+    function_c                     shift and go to state 55
+    function_a                     shift and go to state 57
 
 state 29
 
@@ -732,8 +765,8 @@ state 30
     CHAR            reduce using rule 37 (estatuto -> asignacion .)
     DATAFRAME       reduce using rule 37 (estatuto -> asignacion .)
     FILE            reduce using rule 37 (estatuto -> asignacion .)
-    VOID            reduce using rule 37 (estatuto -> asignacion .)
     WHILE           reduce using rule 37 (estatuto -> asignacion .)
+    VOID            reduce using rule 37 (estatuto -> asignacion .)
     CB              reduce using rule 37 (estatuto -> asignacion .)
 
 
@@ -752,8 +785,8 @@ state 31
     CHAR            reduce using rule 38 (estatuto -> condicion .)
     DATAFRAME       reduce using rule 38 (estatuto -> condicion .)
     FILE            reduce using rule 38 (estatuto -> condicion .)
-    VOID            reduce using rule 38 (estatuto -> condicion .)
     WHILE           reduce using rule 38 (estatuto -> condicion .)
+    VOID            reduce using rule 38 (estatuto -> condicion .)
     CB              reduce using rule 38 (estatuto -> condicion .)
 
 
@@ -772,8 +805,8 @@ state 32
     CHAR            reduce using rule 39 (estatuto -> llamada .)
     DATAFRAME       reduce using rule 39 (estatuto -> llamada .)
     FILE            reduce using rule 39 (estatuto -> llamada .)
-    VOID            reduce using rule 39 (estatuto -> llamada .)
     WHILE           reduce using rule 39 (estatuto -> llamada .)
+    VOID            reduce using rule 39 (estatuto -> llamada .)
     CB              reduce using rule 39 (estatuto -> llamada .)
 
 
@@ -792,8 +825,8 @@ state 33
     CHAR            reduce using rule 40 (estatuto -> while .)
     DATAFRAME       reduce using rule 40 (estatuto -> while .)
     FILE            reduce using rule 40 (estatuto -> while .)
-    VOID            reduce using rule 40 (estatuto -> while .)
     WHILE           reduce using rule 40 (estatuto -> while .)
+    VOID            reduce using rule 40 (estatuto -> while .)
     CB              reduce using rule 40 (estatuto -> while .)
 
 
@@ -812,8 +845,8 @@ state 34
     CHAR            reduce using rule 41 (estatuto -> for .)
     DATAFRAME       reduce using rule 41 (estatuto -> for .)
     FILE            reduce using rule 41 (estatuto -> for .)
-    VOID            reduce using rule 41 (estatuto -> for .)
     WHILE           reduce using rule 41 (estatuto -> for .)
+    VOID            reduce using rule 41 (estatuto -> for .)
     CB              reduce using rule 41 (estatuto -> for .)
 
 
@@ -832,8 +865,8 @@ state 35
     CHAR            reduce using rule 42 (estatuto -> classcreate .)
     DATAFRAME       reduce using rule 42 (estatuto -> classcreate .)
     FILE            reduce using rule 42 (estatuto -> classcreate .)
-    VOID            reduce using rule 42 (estatuto -> classcreate .)
     WHILE           reduce using rule 42 (estatuto -> classcreate .)
+    VOID            reduce using rule 42 (estatuto -> classcreate .)
     CB              reduce using rule 42 (estatuto -> classcreate .)
 
 
@@ -852,8 +885,8 @@ state 36
     CHAR            reduce using rule 43 (estatuto -> vars .)
     DATAFRAME       reduce using rule 43 (estatuto -> vars .)
     FILE            reduce using rule 43 (estatuto -> vars .)
-    VOID            reduce using rule 43 (estatuto -> vars .)
     WHILE           reduce using rule 43 (estatuto -> vars .)
+    VOID            reduce using rule 43 (estatuto -> vars .)
     CB              reduce using rule 43 (estatuto -> vars .)
 
 
@@ -872,8 +905,8 @@ state 37
     CHAR            reduce using rule 44 (estatuto -> classdeclare .)
     DATAFRAME       reduce using rule 44 (estatuto -> classdeclare .)
     FILE            reduce using rule 44 (estatuto -> classdeclare .)
-    VOID            reduce using rule 44 (estatuto -> classdeclare .)
     WHILE           reduce using rule 44 (estatuto -> classdeclare .)
+    VOID            reduce using rule 44 (estatuto -> classdeclare .)
     CB              reduce using rule 44 (estatuto -> classdeclare .)
 
 
@@ -892,8 +925,8 @@ state 38
     CHAR            reduce using rule 45 (estatuto -> llamadafuncionclase .)
     DATAFRAME       reduce using rule 45 (estatuto -> llamadafuncionclase .)
     FILE            reduce using rule 45 (estatuto -> llamadafuncionclase .)
-    VOID            reduce using rule 45 (estatuto -> llamadafuncionclase .)
     WHILE           reduce using rule 45 (estatuto -> llamadafuncionclase .)
+    VOID            reduce using rule 45 (estatuto -> llamadafuncionclase .)
     CB              reduce using rule 45 (estatuto -> llamadafuncionclase .)
 
 
@@ -912,8 +945,8 @@ state 39
     CHAR            reduce using rule 46 (estatuto -> function .)
     DATAFRAME       reduce using rule 46 (estatuto -> function .)
     FILE            reduce using rule 46 (estatuto -> function .)
-    VOID            reduce using rule 46 (estatuto -> function .)
     WHILE           reduce using rule 46 (estatuto -> function .)
+    VOID            reduce using rule 46 (estatuto -> function .)
     CB              reduce using rule 46 (estatuto -> function .)
 
 
@@ -932,52 +965,107 @@ state 40
     CHAR            reduce using rule 47 (estatuto -> return .)
     DATAFRAME       reduce using rule 47 (estatuto -> return .)
     FILE            reduce using rule 47 (estatuto -> return .)
-    VOID            reduce using rule 47 (estatuto -> return .)
     WHILE           reduce using rule 47 (estatuto -> return .)
+    VOID            reduce using rule 47 (estatuto -> return .)
     CB              reduce using rule 47 (estatuto -> return .)
 
 
 state 41
 
-    (104) asignacion -> ID . asignacion_a asignacion_a EQ expresion SC
-    (75) llamada -> ID . OP llamada_a CP SC
-    (103) llamadafuncionclase -> ID . POINT llamada
+    (108) asignacion -> ID . asignacion_a asignacion_a EQ expresion SC
+    (107) llamadafuncionclase -> ID . POINT llamada
     (31) tipocompuesto -> ID .
-    (105) asignacion_a -> . OSB exp CSB
-    (106) asignacion_a -> . empty
-    (114) empty -> .
+    (80) llamada_c -> ID .
+    (109) asignacion_a -> . OSB exp CSB
+    (110) asignacion_a -> . empty
+    (122) empty -> .
 
   ! shift/reduce conflict for OSB resolved as shift
-    OP              shift and go to state 65
-    POINT           shift and go to state 66
+    POINT           shift and go to state 69
     ID              reduce using rule 31 (tipocompuesto -> ID .)
-    OSB             shift and go to state 67
-    EQ              reduce using rule 114 (empty -> .)
+    OP              reduce using rule 80 (llamada_c -> ID .)
+    OSB             shift and go to state 70
+    EQ              reduce using rule 122 (empty -> .)
 
-  ! OSB             [ reduce using rule 114 (empty -> .) ]
+  ! OSB             [ reduce using rule 122 (empty -> .) ]
 
-    asignacion_a                   shift and go to state 64
-    empty                          shift and go to state 68
+    asignacion_a                   shift and go to state 68
+    empty                          shift and go to state 71
 
 state 42
 
-    (96) condicion -> condicion_c . bloque condicion_a
+    (100) condicion -> condicion_c . bloque condicion_a
     (33) bloque -> . OB bloque_a CB
 
     OB              shift and go to state 19
 
-    bloque                         shift and go to state 69
+    bloque                         shift and go to state 72
 
 state 43
+
+    (75) llamada -> llamada_d . llamada_a CP SC
+    (76) llamada_a -> . llamada_e llamada_b
+    (77) llamada_a -> . llamada_b
+    (82) llamada_e -> . expresion
+    (83) llamada_e -> . CTE_STRING
+    (78) llamada_b -> . llamada_f llamada_a
+    (79) llamada_b -> . empty
+    (49) expresion -> . m_exp
+    (50) expresion -> . m_exp expresion_a m_exp
+    (84) llamada_f -> . COMMA
+    (122) empty -> .
+    (17) m_exp -> . m_exp_b
+    (18) m_exp -> . m_exp_b m_exp_a m_exp
+    (21) m_exp_b -> . term
+    (22) term -> . term_b
+    (23) term -> . term_b term_a term
+    (26) term_b -> . fact
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
+
+    CTE_STRING      shift and go to state 77
+    COMMA           shift and go to state 81
+    CP              reduce using rule 122 (empty -> .)
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
+
+    llamada_d                      shift and go to state 43
+    llamada_a                      shift and go to state 73
+    llamada_e                      shift and go to state 74
+    llamada_b                      shift and go to state 75
+    expresion                      shift and go to state 76
+    llamada_f                      shift and go to state 78
+    empty                          shift and go to state 79
+    m_exp                          shift and go to state 80
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_c                      shift and go to state 52
+
+state 44
 
     (60) while -> while_b . bloque
     (33) bloque -> . OB bloque_a CB
 
     OB              shift and go to state 19
 
-    bloque                         shift and go to state 70
+    bloque                         shift and go to state 93
 
-state 44
+state 45
 
     (69) for -> for_a . for_b bloque
     (71) for_b -> . for_e asignacionsencilla CP
@@ -985,31 +1073,31 @@ state 44
     (73) for_d -> . for_c expresion
     (72) for_c -> . OP asignacionsencilla SC
 
-    OP              shift and go to state 75
+    OP              shift and go to state 98
 
-    for_b                          shift and go to state 71
-    for_e                          shift and go to state 72
-    for_d                          shift and go to state 73
-    for_c                          shift and go to state 74
-
-state 45
-
-    (88) classcreate -> CLASS . CLASS_ID OB classcreate_a function classcreate_c CB
-
-    CLASS_ID        shift and go to state 76
-
+    for_b                          shift and go to state 94
+    for_e                          shift and go to state 95
+    for_d                          shift and go to state 96
+    for_c                          shift and go to state 97
 
 state 46
 
-    (102) classdeclare -> CLASS_ID . ID SC
+    (92) classcreate -> CLASS . CLASS_ID OB classcreate_a function classcreate_c CB
 
-    ID              shift and go to state 77
+    CLASS_ID        shift and go to state 99
 
 
 state 47
 
+    (106) classdeclare -> CLASS_ID . ID SC
+
+    ID              shift and go to state 100
+
+
+state 48
+
     (7) vars -> tiposimple . vars_a SC
-    (110) function_a -> tiposimple .
+    (114) function_a -> tiposimple .
     (9) vars_a -> . vars_b
     (10) vars_a -> . vars_c vars_a
     (11) vars_b -> . ID
@@ -1019,20 +1107,22 @@ state 47
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 26
 
-  ! ID              [ reduce using rule 110 (function_a -> tiposimple .) ]
+  ! ID              [ reduce using rule 114 (function_a -> tiposimple .) ]
 
     vars_a                         shift and go to state 21
     vars_b                         shift and go to state 23
     vars_c                         shift and go to state 24
 
-state 48
-
-    (108) function -> function_a . ID OP function_b CP bloque
-
-    ID              shift and go to state 78
-
-
 state 49
+
+    (112) function -> function_e . bloque
+    (33) bloque -> . OB bloque_a CB
+
+    OB              shift and go to state 19
+
+    bloque                         shift and go to state 101
+
+state 50
 
     (48) return -> RETURN . expresion SC
     (49) expresion -> . m_exp
@@ -1043,66 +1133,92 @@ state 49
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
-
-    expresion                      shift and go to state 79
-    m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 50
-
-    (100) condicion_c -> IF . OP expresion CP
-
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
     OP              shift and go to state 92
 
+    expresion                      shift and go to state 102
+    m_exp                          shift and go to state 80
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
 state 51
 
-    (62) while_b -> while_a . OP expresion CP
+    (104) condicion_c -> IF . OP expresion CP
 
-    OP              shift and go to state 93
+    OP              shift and go to state 103
 
 
 state 52
+
+    (81) llamada_d -> llamada_c . OP
+
+    OP              shift and go to state 104
+
+
+state 53
+
+    (62) while_b -> while_a . OP expresion CP
+
+    OP              shift and go to state 105
+
+
+state 54
 
     (70) for_a -> FOR .
 
     OP              reduce using rule 70 (for_a -> FOR .)
 
 
-state 53
+state 55
 
-    (109) function_a -> VOID .
+    (120) function_e -> function_c . OP function_b CP vars
+    (121) function_e -> function_c . OP function_b CP empty
 
-    ID              reduce using rule 109 (function_a -> VOID .)
+    OP              shift and go to state 106
 
 
-state 54
+state 56
 
     (61) while_a -> WHILE .
 
     OP              reduce using rule 61 (while_a -> WHILE .)
 
 
-state 55
+state 57
+
+    (118) function_c -> function_a . ID
+
+    ID              shift and go to state 107
+
+
+state 58
+
+    (113) function_a -> VOID .
+
+    ID              reduce using rule 113 (function_a -> VOID .)
+
+
+state 59
 
     (7) vars -> tiposimple vars_a SC .
 
@@ -1118,23 +1234,23 @@ state 55
     RETURN          reduce using rule 7 (vars -> tiposimple vars_a SC .)
     IF              reduce using rule 7 (vars -> tiposimple vars_a SC .)
     FOR             reduce using rule 7 (vars -> tiposimple vars_a SC .)
-    VOID            reduce using rule 7 (vars -> tiposimple vars_a SC .)
     WHILE           reduce using rule 7 (vars -> tiposimple vars_a SC .)
+    VOID            reduce using rule 7 (vars -> tiposimple vars_a SC .)
     CB              reduce using rule 7 (vars -> tiposimple vars_a SC .)
 
 
-state 56
+state 60
 
     (14) vars_vect_mat -> tiposimple ID vars_vect_mat_a . SC
     (15) vars_vect_mat -> tiposimple ID vars_vect_mat_a . vars_vect_mat_a SC
     (16) vars_vect_mat_a -> . OSB exp CSB
 
-    SC              shift and go to state 95
-    OSB             shift and go to state 58
+    SC              shift and go to state 109
+    OSB             shift and go to state 62
 
-    vars_vect_mat_a                shift and go to state 94
+    vars_vect_mat_a                shift and go to state 108
 
-state 57
+state 61
 
     (12) vars_b -> ID EQ . expresion
     (49) expresion -> . m_exp
@@ -1145,31 +1261,35 @@ state 57
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    expresion                      shift and go to state 96
+    expresion                      shift and go to state 110
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
-state 58
+state 62
 
     (16) vars_vect_mat_a -> OSB . exp CSB
     (63) exp -> . and_exp exp_a
@@ -1182,47 +1302,51 @@ state 58
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    exp                            shift and go to state 97
-    and_exp                        shift and go to state 98
-    expresion                      shift and go to state 99
+    exp                            shift and go to state 111
+    and_exp                        shift and go to state 112
+    expresion                      shift and go to state 113
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
-state 59
+state 63
 
     (13) vars_c -> vars_b COMMA .
 
     ID              reduce using rule 13 (vars_c -> vars_b COMMA .)
 
 
-state 60
+state 64
 
     (10) vars_a -> vars_c vars_a .
 
     SC              reduce using rule 10 (vars_a -> vars_c vars_a .)
 
 
-state 61
+state 65
 
     (8) vars -> tipocompuesto vars_a SC .
 
@@ -1238,12 +1362,12 @@ state 61
     RETURN          reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
     IF              reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
     FOR             reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
-    VOID            reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
     WHILE           reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
+    VOID            reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
     CB              reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
 
 
-state 62
+state 66
 
     (33) bloque -> OB bloque_a CB .
 
@@ -1260,91 +1384,48 @@ state 62
     CHAR            reduce using rule 33 (bloque -> OB bloque_a CB .)
     DATAFRAME       reduce using rule 33 (bloque -> OB bloque_a CB .)
     FILE            reduce using rule 33 (bloque -> OB bloque_a CB .)
-    VOID            reduce using rule 33 (bloque -> OB bloque_a CB .)
     WHILE           reduce using rule 33 (bloque -> OB bloque_a CB .)
+    VOID            reduce using rule 33 (bloque -> OB bloque_a CB .)
     CB              reduce using rule 33 (bloque -> OB bloque_a CB .)
     OB              reduce using rule 33 (bloque -> OB bloque_a CB .)
 
 
-state 63
+state 67
 
     (34) bloque_a -> estatuto bloque_a .
 
     CB              reduce using rule 34 (bloque_a -> estatuto bloque_a .)
 
 
-state 64
+state 68
 
-    (104) asignacion -> ID asignacion_a . asignacion_a EQ expresion SC
-    (105) asignacion_a -> . OSB exp CSB
-    (106) asignacion_a -> . empty
-    (114) empty -> .
+    (108) asignacion -> ID asignacion_a . asignacion_a EQ expresion SC
+    (109) asignacion_a -> . OSB exp CSB
+    (110) asignacion_a -> . empty
+    (122) empty -> .
 
-    OSB             shift and go to state 67
-    EQ              reduce using rule 114 (empty -> .)
+    OSB             shift and go to state 70
+    EQ              reduce using rule 122 (empty -> .)
 
-    asignacion_a                   shift and go to state 100
-    empty                          shift and go to state 68
+    asignacion_a                   shift and go to state 114
+    empty                          shift and go to state 71
 
-state 65
+state 69
 
-    (75) llamada -> ID OP . llamada_a CP SC
-    (76) llamada_a -> . expresion llamada_b
-    (77) llamada_a -> . CTE_STRING llamada_b
-    (78) llamada_a -> . llamada_b
-    (49) expresion -> . m_exp
-    (50) expresion -> . m_exp expresion_a m_exp
-    (79) llamada_b -> . COMMA llamada_a
-    (80) llamada_b -> . empty
-    (17) m_exp -> . m_exp_b
-    (18) m_exp -> . m_exp_b m_exp_a m_exp
-    (114) empty -> .
-    (21) m_exp_b -> . term
-    (22) term -> . term_b
-    (23) term -> . term_b term_a term
-    (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (107) llamadafuncionclase -> ID POINT . llamada
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_STRING      shift and go to state 104
-    COMMA           shift and go to state 105
-    CP              reduce using rule 114 (empty -> .)
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    ID              shift and go to state 115
 
-    llamada_a                      shift and go to state 101
-    expresion                      shift and go to state 102
-    llamada_b                      shift and go to state 103
-    m_exp                          shift and go to state 80
-    empty                          shift and go to state 106
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
+    llamada                        shift and go to state 116
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
-state 66
+state 70
 
-    (103) llamadafuncionclase -> ID POINT . llamada
-    (75) llamada -> . ID OP llamada_a CP SC
-
-    ID              shift and go to state 107
-
-    llamada                        shift and go to state 108
-
-state 67
-
-    (105) asignacion_a -> OSB . exp CSB
+    (109) asignacion_a -> OSB . exp CSB
     (63) exp -> . and_exp exp_a
     (66) and_exp -> . expresion and_exp_a
     (49) expresion -> . m_exp
@@ -1355,166 +1436,160 @@ state 67
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    exp                            shift and go to state 109
-    and_exp                        shift and go to state 98
-    expresion                      shift and go to state 99
+    exp                            shift and go to state 117
+    and_exp                        shift and go to state 112
+    expresion                      shift and go to state 113
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 68
-
-    (106) asignacion_a -> empty .
-
-    OSB             reduce using rule 106 (asignacion_a -> empty .)
-    EQ              reduce using rule 106 (asignacion_a -> empty .)
-
-
-state 69
-
-    (96) condicion -> condicion_c bloque . condicion_a
-    (97) condicion_a -> . condicion_d condicion_b bloque
-    (101) condicion_d -> . ELSE
-
-    ELSE            shift and go to state 112
-
-    condicion_a                    shift and go to state 110
-    condicion_d                    shift and go to state 111
-
-state 70
-
-    (60) while -> while_b bloque .
-
-    ID              reduce using rule 60 (while -> while_b bloque .)
-    CLASS           reduce using rule 60 (while -> while_b bloque .)
-    CLASS_ID        reduce using rule 60 (while -> while_b bloque .)
-    RETURN          reduce using rule 60 (while -> while_b bloque .)
-    IF              reduce using rule 60 (while -> while_b bloque .)
-    FOR             reduce using rule 60 (while -> while_b bloque .)
-    INT             reduce using rule 60 (while -> while_b bloque .)
-    FLOAT           reduce using rule 60 (while -> while_b bloque .)
-    CHAR            reduce using rule 60 (while -> while_b bloque .)
-    DATAFRAME       reduce using rule 60 (while -> while_b bloque .)
-    FILE            reduce using rule 60 (while -> while_b bloque .)
-    VOID            reduce using rule 60 (while -> while_b bloque .)
-    WHILE           reduce using rule 60 (while -> while_b bloque .)
-    CB              reduce using rule 60 (while -> while_b bloque .)
-
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
 state 71
 
-    (69) for -> for_a for_b . bloque
-    (33) bloque -> . OB bloque_a CB
+    (110) asignacion_a -> empty .
 
-    OB              shift and go to state 19
+    OSB             reduce using rule 110 (asignacion_a -> empty .)
+    EQ              reduce using rule 110 (asignacion_a -> empty .)
 
-    bloque                         shift and go to state 113
 
 state 72
 
-    (71) for_b -> for_e . asignacionsencilla CP
-    (107) asignacionsencilla -> . ID EQ expresion
+    (100) condicion -> condicion_c bloque . condicion_a
+    (101) condicion_a -> . condicion_d condicion_b bloque
+    (105) condicion_d -> . ELSE
 
-    ID              shift and go to state 115
+    ELSE            shift and go to state 120
 
-    asignacionsencilla             shift and go to state 114
+    condicion_a                    shift and go to state 118
+    condicion_d                    shift and go to state 119
 
 state 73
 
-    (74) for_e -> for_d . SC
+    (75) llamada -> llamada_d llamada_a . CP SC
 
-    SC              shift and go to state 116
+    CP              shift and go to state 121
 
 
 state 74
 
-    (73) for_d -> for_c . expresion
+    (76) llamada_a -> llamada_e . llamada_b
+    (78) llamada_b -> . llamada_f llamada_a
+    (79) llamada_b -> . empty
+    (84) llamada_f -> . COMMA
+    (122) empty -> .
+
+    COMMA           shift and go to state 81
+    CP              reduce using rule 122 (empty -> .)
+
+    llamada_b                      shift and go to state 122
+    llamada_f                      shift and go to state 78
+    empty                          shift and go to state 79
+
+state 75
+
+    (77) llamada_a -> llamada_b .
+
+    CP              reduce using rule 77 (llamada_a -> llamada_b .)
+
+
+state 76
+
+    (82) llamada_e -> expresion .
+
+    COMMA           reduce using rule 82 (llamada_e -> expresion .)
+    CP              reduce using rule 82 (llamada_e -> expresion .)
+
+
+state 77
+
+    (83) llamada_e -> CTE_STRING .
+
+    COMMA           reduce using rule 83 (llamada_e -> CTE_STRING .)
+    CP              reduce using rule 83 (llamada_e -> CTE_STRING .)
+
+
+state 78
+
+    (78) llamada_b -> llamada_f . llamada_a
+    (76) llamada_a -> . llamada_e llamada_b
+    (77) llamada_a -> . llamada_b
+    (82) llamada_e -> . expresion
+    (83) llamada_e -> . CTE_STRING
+    (78) llamada_b -> . llamada_f llamada_a
+    (79) llamada_b -> . empty
     (49) expresion -> . m_exp
     (50) expresion -> . m_exp expresion_a m_exp
+    (84) llamada_f -> . COMMA
+    (122) empty -> .
     (17) m_exp -> . m_exp_b
     (18) m_exp -> . m_exp_b m_exp_a m_exp
     (21) m_exp_b -> . term
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_STRING      shift and go to state 77
+    COMMA           shift and go to state 81
+    CP              reduce using rule 122 (empty -> .)
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    expresion                      shift and go to state 117
+    llamada_f                      shift and go to state 78
+    llamada_a                      shift and go to state 123
+    llamada_e                      shift and go to state 74
+    llamada_b                      shift and go to state 75
+    expresion                      shift and go to state 76
+    empty                          shift and go to state 79
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 75
-
-    (72) for_c -> OP . asignacionsencilla SC
-    (107) asignacionsencilla -> . ID EQ expresion
-
-    ID              shift and go to state 115
-
-    asignacionsencilla             shift and go to state 118
-
-state 76
-
-    (88) classcreate -> CLASS CLASS_ID . OB classcreate_a function classcreate_c CB
-
-    OB              shift and go to state 119
-
-
-state 77
-
-    (102) classdeclare -> CLASS_ID ID . SC
-
-    SC              shift and go to state 120
-
-
-state 78
-
-    (108) function -> function_a ID . OP function_b CP bloque
-
-    OP              shift and go to state 121
-
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
 state 79
 
-    (48) return -> RETURN expresion . SC
+    (79) llamada_b -> empty .
 
-    SC              shift and go to state 122
+    CP              reduce using rule 79 (llamada_b -> empty .)
 
 
 state 80
@@ -1528,22 +1603,36 @@ state 80
     (55) expresion_a -> . LE
     (56) expresion_a -> . GE
 
-    SC              reduce using rule 49 (expresion -> m_exp .)
     COMMA           reduce using rule 49 (expresion -> m_exp .)
+    CP              reduce using rule 49 (expresion -> m_exp .)
+    SC              reduce using rule 49 (expresion -> m_exp .)
     AND             reduce using rule 49 (expresion -> m_exp .)
     OR              reduce using rule 49 (expresion -> m_exp .)
     CSB             reduce using rule 49 (expresion -> m_exp .)
-    CP              reduce using rule 49 (expresion -> m_exp .)
-    LT              shift and go to state 124
-    GT              shift and go to state 125
-    NE              shift and go to state 126
-    EQEQ            shift and go to state 127
-    LE              shift and go to state 128
-    GE              shift and go to state 129
+    LT              shift and go to state 125
+    GT              shift and go to state 126
+    NE              shift and go to state 127
+    EQEQ            shift and go to state 128
+    LE              shift and go to state 129
+    GE              shift and go to state 130
 
-    expresion_a                    shift and go to state 123
+    expresion_a                    shift and go to state 124
 
 state 81
+
+    (84) llamada_f -> COMMA .
+
+    CTE_STRING      reduce using rule 84 (llamada_f -> COMMA .)
+    COMMA           reduce using rule 84 (llamada_f -> COMMA .)
+    CTE_I           reduce using rule 84 (llamada_f -> COMMA .)
+    CTE_F           reduce using rule 84 (llamada_f -> COMMA .)
+    CTE_CHAR        reduce using rule 84 (llamada_f -> COMMA .)
+    ID              reduce using rule 84 (llamada_f -> COMMA .)
+    OP              reduce using rule 84 (llamada_f -> COMMA .)
+    CP              reduce using rule 84 (llamada_f -> COMMA .)
+
+
+state 82
 
     (17) m_exp -> m_exp_b .
     (18) m_exp -> m_exp_b . m_exp_a m_exp
@@ -1556,18 +1645,18 @@ state 81
     EQEQ            reduce using rule 17 (m_exp -> m_exp_b .)
     LE              reduce using rule 17 (m_exp -> m_exp_b .)
     GE              reduce using rule 17 (m_exp -> m_exp_b .)
-    SC              reduce using rule 17 (m_exp -> m_exp_b .)
     COMMA           reduce using rule 17 (m_exp -> m_exp_b .)
+    CP              reduce using rule 17 (m_exp -> m_exp_b .)
+    SC              reduce using rule 17 (m_exp -> m_exp_b .)
     AND             reduce using rule 17 (m_exp -> m_exp_b .)
     OR              reduce using rule 17 (m_exp -> m_exp_b .)
     CSB             reduce using rule 17 (m_exp -> m_exp_b .)
-    CP              reduce using rule 17 (m_exp -> m_exp_b .)
-    ADD             shift and go to state 131
-    SUB             shift and go to state 132
+    ADD             shift and go to state 132
+    SUB             shift and go to state 133
 
-    m_exp_a                        shift and go to state 130
+    m_exp_a                        shift and go to state 131
 
-state 82
+state 83
 
     (21) m_exp_b -> term .
 
@@ -1579,15 +1668,15 @@ state 82
     EQEQ            reduce using rule 21 (m_exp_b -> term .)
     LE              reduce using rule 21 (m_exp_b -> term .)
     GE              reduce using rule 21 (m_exp_b -> term .)
-    SC              reduce using rule 21 (m_exp_b -> term .)
     COMMA           reduce using rule 21 (m_exp_b -> term .)
+    CP              reduce using rule 21 (m_exp_b -> term .)
+    SC              reduce using rule 21 (m_exp_b -> term .)
     AND             reduce using rule 21 (m_exp_b -> term .)
     OR              reduce using rule 21 (m_exp_b -> term .)
     CSB             reduce using rule 21 (m_exp_b -> term .)
-    CP              reduce using rule 21 (m_exp_b -> term .)
 
 
-state 83
+state 84
 
     (22) term -> term_b .
     (23) term -> term_b . term_a term
@@ -1602,18 +1691,18 @@ state 83
     EQEQ            reduce using rule 22 (term -> term_b .)
     LE              reduce using rule 22 (term -> term_b .)
     GE              reduce using rule 22 (term -> term_b .)
-    SC              reduce using rule 22 (term -> term_b .)
     COMMA           reduce using rule 22 (term -> term_b .)
+    CP              reduce using rule 22 (term -> term_b .)
+    SC              reduce using rule 22 (term -> term_b .)
     AND             reduce using rule 22 (term -> term_b .)
     OR              reduce using rule 22 (term -> term_b .)
     CSB             reduce using rule 22 (term -> term_b .)
-    CP              reduce using rule 22 (term -> term_b .)
-    MULT            shift and go to state 134
-    DIV             shift and go to state 135
+    MULT            shift and go to state 135
+    DIV             shift and go to state 136
 
-    term_a                         shift and go to state 133
+    term_a                         shift and go to state 134
 
-state 84
+state 85
 
     (26) term_b -> fact .
 
@@ -1627,17 +1716,17 @@ state 84
     EQEQ            reduce using rule 26 (term_b -> fact .)
     LE              reduce using rule 26 (term_b -> fact .)
     GE              reduce using rule 26 (term_b -> fact .)
-    SC              reduce using rule 26 (term_b -> fact .)
     COMMA           reduce using rule 26 (term_b -> fact .)
+    CP              reduce using rule 26 (term_b -> fact .)
+    SC              reduce using rule 26 (term_b -> fact .)
     AND             reduce using rule 26 (term_b -> fact .)
     OR              reduce using rule 26 (term_b -> fact .)
     CSB             reduce using rule 26 (term_b -> fact .)
-    CP              reduce using rule 26 (term_b -> fact .)
 
 
-state 85
+state 86
 
-    (81) fact -> fact_a . exp CP
+    (85) fact -> fact_a . exp CP
     (63) exp -> . and_exp exp_a
     (66) and_exp -> . expresion and_exp_a
     (49) expresion -> . m_exp
@@ -1648,158 +1737,207 @@ state 85
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    fact_a                         shift and go to state 85
-    exp                            shift and go to state 136
-    and_exp                        shift and go to state 98
-    expresion                      shift and go to state 99
+    fact_a                         shift and go to state 86
+    exp                            shift and go to state 137
+    and_exp                        shift and go to state 112
+    expresion                      shift and go to state 113
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    llamada                        shift and go to state 90
-
-state 86
-
-    (82) fact -> CTE_I .
-
-    MULT            reduce using rule 82 (fact -> CTE_I .)
-    DIV             reduce using rule 82 (fact -> CTE_I .)
-    ADD             reduce using rule 82 (fact -> CTE_I .)
-    SUB             reduce using rule 82 (fact -> CTE_I .)
-    LT              reduce using rule 82 (fact -> CTE_I .)
-    GT              reduce using rule 82 (fact -> CTE_I .)
-    NE              reduce using rule 82 (fact -> CTE_I .)
-    EQEQ            reduce using rule 82 (fact -> CTE_I .)
-    LE              reduce using rule 82 (fact -> CTE_I .)
-    GE              reduce using rule 82 (fact -> CTE_I .)
-    SC              reduce using rule 82 (fact -> CTE_I .)
-    COMMA           reduce using rule 82 (fact -> CTE_I .)
-    AND             reduce using rule 82 (fact -> CTE_I .)
-    OR              reduce using rule 82 (fact -> CTE_I .)
-    CSB             reduce using rule 82 (fact -> CTE_I .)
-    CP              reduce using rule 82 (fact -> CTE_I .)
-
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
 state 87
 
-    (83) fact -> CTE_F .
+    (86) fact -> CTE_I .
 
-    MULT            reduce using rule 83 (fact -> CTE_F .)
-    DIV             reduce using rule 83 (fact -> CTE_F .)
-    ADD             reduce using rule 83 (fact -> CTE_F .)
-    SUB             reduce using rule 83 (fact -> CTE_F .)
-    LT              reduce using rule 83 (fact -> CTE_F .)
-    GT              reduce using rule 83 (fact -> CTE_F .)
-    NE              reduce using rule 83 (fact -> CTE_F .)
-    EQEQ            reduce using rule 83 (fact -> CTE_F .)
-    LE              reduce using rule 83 (fact -> CTE_F .)
-    GE              reduce using rule 83 (fact -> CTE_F .)
-    SC              reduce using rule 83 (fact -> CTE_F .)
-    COMMA           reduce using rule 83 (fact -> CTE_F .)
-    AND             reduce using rule 83 (fact -> CTE_F .)
-    OR              reduce using rule 83 (fact -> CTE_F .)
-    CSB             reduce using rule 83 (fact -> CTE_F .)
-    CP              reduce using rule 83 (fact -> CTE_F .)
+    MULT            reduce using rule 86 (fact -> CTE_I .)
+    DIV             reduce using rule 86 (fact -> CTE_I .)
+    ADD             reduce using rule 86 (fact -> CTE_I .)
+    SUB             reduce using rule 86 (fact -> CTE_I .)
+    LT              reduce using rule 86 (fact -> CTE_I .)
+    GT              reduce using rule 86 (fact -> CTE_I .)
+    NE              reduce using rule 86 (fact -> CTE_I .)
+    EQEQ            reduce using rule 86 (fact -> CTE_I .)
+    LE              reduce using rule 86 (fact -> CTE_I .)
+    GE              reduce using rule 86 (fact -> CTE_I .)
+    COMMA           reduce using rule 86 (fact -> CTE_I .)
+    CP              reduce using rule 86 (fact -> CTE_I .)
+    SC              reduce using rule 86 (fact -> CTE_I .)
+    AND             reduce using rule 86 (fact -> CTE_I .)
+    OR              reduce using rule 86 (fact -> CTE_I .)
+    CSB             reduce using rule 86 (fact -> CTE_I .)
 
 
 state 88
 
-    (84) fact -> CTE_CHAR .
+    (87) fact -> CTE_F .
 
-    MULT            reduce using rule 84 (fact -> CTE_CHAR .)
-    DIV             reduce using rule 84 (fact -> CTE_CHAR .)
-    ADD             reduce using rule 84 (fact -> CTE_CHAR .)
-    SUB             reduce using rule 84 (fact -> CTE_CHAR .)
-    LT              reduce using rule 84 (fact -> CTE_CHAR .)
-    GT              reduce using rule 84 (fact -> CTE_CHAR .)
-    NE              reduce using rule 84 (fact -> CTE_CHAR .)
-    EQEQ            reduce using rule 84 (fact -> CTE_CHAR .)
-    LE              reduce using rule 84 (fact -> CTE_CHAR .)
-    GE              reduce using rule 84 (fact -> CTE_CHAR .)
-    SC              reduce using rule 84 (fact -> CTE_CHAR .)
-    COMMA           reduce using rule 84 (fact -> CTE_CHAR .)
-    AND             reduce using rule 84 (fact -> CTE_CHAR .)
-    OR              reduce using rule 84 (fact -> CTE_CHAR .)
-    CSB             reduce using rule 84 (fact -> CTE_CHAR .)
-    CP              reduce using rule 84 (fact -> CTE_CHAR .)
+    MULT            reduce using rule 87 (fact -> CTE_F .)
+    DIV             reduce using rule 87 (fact -> CTE_F .)
+    ADD             reduce using rule 87 (fact -> CTE_F .)
+    SUB             reduce using rule 87 (fact -> CTE_F .)
+    LT              reduce using rule 87 (fact -> CTE_F .)
+    GT              reduce using rule 87 (fact -> CTE_F .)
+    NE              reduce using rule 87 (fact -> CTE_F .)
+    EQEQ            reduce using rule 87 (fact -> CTE_F .)
+    LE              reduce using rule 87 (fact -> CTE_F .)
+    GE              reduce using rule 87 (fact -> CTE_F .)
+    COMMA           reduce using rule 87 (fact -> CTE_F .)
+    CP              reduce using rule 87 (fact -> CTE_F .)
+    SC              reduce using rule 87 (fact -> CTE_F .)
+    AND             reduce using rule 87 (fact -> CTE_F .)
+    OR              reduce using rule 87 (fact -> CTE_F .)
+    CSB             reduce using rule 87 (fact -> CTE_F .)
 
 
 state 89
 
-    (85) fact -> ID .
-    (75) llamada -> ID . OP llamada_a CP SC
+    (88) fact -> CTE_CHAR .
 
-    MULT            reduce using rule 85 (fact -> ID .)
-    DIV             reduce using rule 85 (fact -> ID .)
-    ADD             reduce using rule 85 (fact -> ID .)
-    SUB             reduce using rule 85 (fact -> ID .)
-    LT              reduce using rule 85 (fact -> ID .)
-    GT              reduce using rule 85 (fact -> ID .)
-    NE              reduce using rule 85 (fact -> ID .)
-    EQEQ            reduce using rule 85 (fact -> ID .)
-    LE              reduce using rule 85 (fact -> ID .)
-    GE              reduce using rule 85 (fact -> ID .)
-    SC              reduce using rule 85 (fact -> ID .)
-    COMMA           reduce using rule 85 (fact -> ID .)
-    AND             reduce using rule 85 (fact -> ID .)
-    OR              reduce using rule 85 (fact -> ID .)
-    CSB             reduce using rule 85 (fact -> ID .)
-    CP              reduce using rule 85 (fact -> ID .)
-    OP              shift and go to state 65
+    MULT            reduce using rule 88 (fact -> CTE_CHAR .)
+    DIV             reduce using rule 88 (fact -> CTE_CHAR .)
+    ADD             reduce using rule 88 (fact -> CTE_CHAR .)
+    SUB             reduce using rule 88 (fact -> CTE_CHAR .)
+    LT              reduce using rule 88 (fact -> CTE_CHAR .)
+    GT              reduce using rule 88 (fact -> CTE_CHAR .)
+    NE              reduce using rule 88 (fact -> CTE_CHAR .)
+    EQEQ            reduce using rule 88 (fact -> CTE_CHAR .)
+    LE              reduce using rule 88 (fact -> CTE_CHAR .)
+    GE              reduce using rule 88 (fact -> CTE_CHAR .)
+    COMMA           reduce using rule 88 (fact -> CTE_CHAR .)
+    CP              reduce using rule 88 (fact -> CTE_CHAR .)
+    SC              reduce using rule 88 (fact -> CTE_CHAR .)
+    AND             reduce using rule 88 (fact -> CTE_CHAR .)
+    OR              reduce using rule 88 (fact -> CTE_CHAR .)
+    CSB             reduce using rule 88 (fact -> CTE_CHAR .)
 
 
 state 90
 
-    (86) fact -> llamada .
+    (89) fact -> ID .
+    (80) llamada_c -> ID .
 
-    MULT            reduce using rule 86 (fact -> llamada .)
-    DIV             reduce using rule 86 (fact -> llamada .)
-    ADD             reduce using rule 86 (fact -> llamada .)
-    SUB             reduce using rule 86 (fact -> llamada .)
-    LT              reduce using rule 86 (fact -> llamada .)
-    GT              reduce using rule 86 (fact -> llamada .)
-    NE              reduce using rule 86 (fact -> llamada .)
-    EQEQ            reduce using rule 86 (fact -> llamada .)
-    LE              reduce using rule 86 (fact -> llamada .)
-    GE              reduce using rule 86 (fact -> llamada .)
-    SC              reduce using rule 86 (fact -> llamada .)
-    COMMA           reduce using rule 86 (fact -> llamada .)
-    AND             reduce using rule 86 (fact -> llamada .)
-    OR              reduce using rule 86 (fact -> llamada .)
-    CSB             reduce using rule 86 (fact -> llamada .)
-    CP              reduce using rule 86 (fact -> llamada .)
+    MULT            reduce using rule 89 (fact -> ID .)
+    DIV             reduce using rule 89 (fact -> ID .)
+    ADD             reduce using rule 89 (fact -> ID .)
+    SUB             reduce using rule 89 (fact -> ID .)
+    LT              reduce using rule 89 (fact -> ID .)
+    GT              reduce using rule 89 (fact -> ID .)
+    NE              reduce using rule 89 (fact -> ID .)
+    EQEQ            reduce using rule 89 (fact -> ID .)
+    LE              reduce using rule 89 (fact -> ID .)
+    GE              reduce using rule 89 (fact -> ID .)
+    COMMA           reduce using rule 89 (fact -> ID .)
+    CP              reduce using rule 89 (fact -> ID .)
+    SC              reduce using rule 89 (fact -> ID .)
+    AND             reduce using rule 89 (fact -> ID .)
+    OR              reduce using rule 89 (fact -> ID .)
+    CSB             reduce using rule 89 (fact -> ID .)
+    OP              reduce using rule 80 (llamada_c -> ID .)
 
 
 state 91
 
-    (87) fact_a -> OP .
+    (90) fact -> llamada .
 
-    CTE_I           reduce using rule 87 (fact_a -> OP .)
-    CTE_F           reduce using rule 87 (fact_a -> OP .)
-    CTE_CHAR        reduce using rule 87 (fact_a -> OP .)
-    ID              reduce using rule 87 (fact_a -> OP .)
-    OP              reduce using rule 87 (fact_a -> OP .)
+    MULT            reduce using rule 90 (fact -> llamada .)
+    DIV             reduce using rule 90 (fact -> llamada .)
+    ADD             reduce using rule 90 (fact -> llamada .)
+    SUB             reduce using rule 90 (fact -> llamada .)
+    LT              reduce using rule 90 (fact -> llamada .)
+    GT              reduce using rule 90 (fact -> llamada .)
+    NE              reduce using rule 90 (fact -> llamada .)
+    EQEQ            reduce using rule 90 (fact -> llamada .)
+    LE              reduce using rule 90 (fact -> llamada .)
+    GE              reduce using rule 90 (fact -> llamada .)
+    COMMA           reduce using rule 90 (fact -> llamada .)
+    CP              reduce using rule 90 (fact -> llamada .)
+    SC              reduce using rule 90 (fact -> llamada .)
+    AND             reduce using rule 90 (fact -> llamada .)
+    OR              reduce using rule 90 (fact -> llamada .)
+    CSB             reduce using rule 90 (fact -> llamada .)
 
 
 state 92
 
-    (100) condicion_c -> IF OP . expresion CP
+    (91) fact_a -> OP .
+
+    CTE_I           reduce using rule 91 (fact_a -> OP .)
+    CTE_F           reduce using rule 91 (fact_a -> OP .)
+    CTE_CHAR        reduce using rule 91 (fact_a -> OP .)
+    ID              reduce using rule 91 (fact_a -> OP .)
+    OP              reduce using rule 91 (fact_a -> OP .)
+
+
+state 93
+
+    (60) while -> while_b bloque .
+
+    ID              reduce using rule 60 (while -> while_b bloque .)
+    CLASS           reduce using rule 60 (while -> while_b bloque .)
+    CLASS_ID        reduce using rule 60 (while -> while_b bloque .)
+    RETURN          reduce using rule 60 (while -> while_b bloque .)
+    IF              reduce using rule 60 (while -> while_b bloque .)
+    FOR             reduce using rule 60 (while -> while_b bloque .)
+    INT             reduce using rule 60 (while -> while_b bloque .)
+    FLOAT           reduce using rule 60 (while -> while_b bloque .)
+    CHAR            reduce using rule 60 (while -> while_b bloque .)
+    DATAFRAME       reduce using rule 60 (while -> while_b bloque .)
+    FILE            reduce using rule 60 (while -> while_b bloque .)
+    WHILE           reduce using rule 60 (while -> while_b bloque .)
+    VOID            reduce using rule 60 (while -> while_b bloque .)
+    CB              reduce using rule 60 (while -> while_b bloque .)
+
+
+state 94
+
+    (69) for -> for_a for_b . bloque
+    (33) bloque -> . OB bloque_a CB
+
+    OB              shift and go to state 19
+
+    bloque                         shift and go to state 138
+
+state 95
+
+    (71) for_b -> for_e . asignacionsencilla CP
+    (111) asignacionsencilla -> . ID EQ expresion
+
+    ID              shift and go to state 140
+
+    asignacionsencilla             shift and go to state 139
+
+state 96
+
+    (74) for_e -> for_d . SC
+
+    SC              shift and go to state 141
+
+
+state 97
+
+    (73) for_d -> for_c . expresion
     (49) expresion -> . m_exp
     (50) expresion -> . m_exp expresion_a m_exp
     (17) m_exp -> . m_exp_b
@@ -1808,31 +1946,138 @@ state 92
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    expresion                      shift and go to state 137
+    expresion                      shift and go to state 142
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
-state 93
+state 98
+
+    (72) for_c -> OP . asignacionsencilla SC
+    (111) asignacionsencilla -> . ID EQ expresion
+
+    ID              shift and go to state 140
+
+    asignacionsencilla             shift and go to state 143
+
+state 99
+
+    (92) classcreate -> CLASS CLASS_ID . OB classcreate_a function classcreate_c CB
+
+    OB              shift and go to state 144
+
+
+state 100
+
+    (106) classdeclare -> CLASS_ID ID . SC
+
+    SC              shift and go to state 145
+
+
+state 101
+
+    (112) function -> function_e bloque .
+
+    ID              reduce using rule 112 (function -> function_e bloque .)
+    CLASS           reduce using rule 112 (function -> function_e bloque .)
+    CLASS_ID        reduce using rule 112 (function -> function_e bloque .)
+    RETURN          reduce using rule 112 (function -> function_e bloque .)
+    IF              reduce using rule 112 (function -> function_e bloque .)
+    FOR             reduce using rule 112 (function -> function_e bloque .)
+    INT             reduce using rule 112 (function -> function_e bloque .)
+    FLOAT           reduce using rule 112 (function -> function_e bloque .)
+    CHAR            reduce using rule 112 (function -> function_e bloque .)
+    DATAFRAME       reduce using rule 112 (function -> function_e bloque .)
+    FILE            reduce using rule 112 (function -> function_e bloque .)
+    WHILE           reduce using rule 112 (function -> function_e bloque .)
+    VOID            reduce using rule 112 (function -> function_e bloque .)
+    CB              reduce using rule 112 (function -> function_e bloque .)
+
+
+state 102
+
+    (48) return -> RETURN expresion . SC
+
+    SC              shift and go to state 146
+
+
+state 103
+
+    (104) condicion_c -> IF OP . expresion CP
+    (49) expresion -> . m_exp
+    (50) expresion -> . m_exp expresion_a m_exp
+    (17) m_exp -> . m_exp_b
+    (18) m_exp -> . m_exp_b m_exp_a m_exp
+    (21) m_exp_b -> . term
+    (22) term -> . term_b
+    (23) term -> . term_b term_a term
+    (26) term_b -> . fact
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
+
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
+
+    expresion                      shift and go to state 147
+    m_exp                          shift and go to state 80
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
+
+state 104
+
+    (81) llamada_d -> llamada_c OP .
+
+    CTE_STRING      reduce using rule 81 (llamada_d -> llamada_c OP .)
+    COMMA           reduce using rule 81 (llamada_d -> llamada_c OP .)
+    CTE_I           reduce using rule 81 (llamada_d -> llamada_c OP .)
+    CTE_F           reduce using rule 81 (llamada_d -> llamada_c OP .)
+    CTE_CHAR        reduce using rule 81 (llamada_d -> llamada_c OP .)
+    ID              reduce using rule 81 (llamada_d -> llamada_c OP .)
+    OP              reduce using rule 81 (llamada_d -> llamada_c OP .)
+    CP              reduce using rule 81 (llamada_d -> llamada_c OP .)
+
+
+state 105
 
     (62) while_b -> while_a OP . expresion CP
     (49) expresion -> . m_exp
@@ -1843,38 +2088,72 @@ state 93
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    expresion                      shift and go to state 138
+    expresion                      shift and go to state 148
     m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
-state 94
+state 106
+
+    (120) function_e -> function_c OP . function_b CP vars
+    (121) function_e -> function_c OP . function_b CP empty
+    (115) function_b -> . function_d
+    (116) function_b -> . function_d COMMA function_b
+    (117) function_b -> . empty
+    (119) function_d -> . tiposimple ID
+    (122) empty -> .
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
+
+    CP              reduce using rule 122 (empty -> .)
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
+
+    function_b                     shift and go to state 149
+    empty                          shift and go to state 150
+    function_d                     shift and go to state 151
+    tiposimple                     shift and go to state 152
+
+state 107
+
+    (118) function_c -> function_a ID .
+
+    OP              reduce using rule 118 (function_c -> function_a ID .)
+
+
+state 108
 
     (15) vars_vect_mat -> tiposimple ID vars_vect_mat_a vars_vect_mat_a . SC
 
-    SC              shift and go to state 139
+    SC              shift and go to state 153
 
 
-state 95
+state 109
 
     (14) vars_vect_mat -> tiposimple ID vars_vect_mat_a SC .
 
@@ -1888,7 +2167,7 @@ state 95
     VOID            reduce using rule 14 (vars_vect_mat -> tiposimple ID vars_vect_mat_a SC .)
 
 
-state 96
+state 110
 
     (12) vars_b -> ID EQ expresion .
 
@@ -1896,224 +2175,371 @@ state 96
     SC              reduce using rule 12 (vars_b -> ID EQ expresion .)
 
 
-state 97
+state 111
 
     (16) vars_vect_mat_a -> OSB exp . CSB
 
-    CSB             shift and go to state 140
+    CSB             shift and go to state 154
 
 
-state 98
+state 112
 
     (63) exp -> and_exp . exp_a
     (64) exp_a -> . OR
     (65) exp_a -> . empty
-    (114) empty -> .
+    (122) empty -> .
 
-    OR              shift and go to state 142
-    CSB             reduce using rule 114 (empty -> .)
-    CP              reduce using rule 114 (empty -> .)
+    OR              shift and go to state 156
+    CSB             reduce using rule 122 (empty -> .)
+    CP              reduce using rule 122 (empty -> .)
 
-    exp_a                          shift and go to state 141
-    empty                          shift and go to state 143
+    exp_a                          shift and go to state 155
+    empty                          shift and go to state 157
 
-state 99
+state 113
 
     (66) and_exp -> expresion . and_exp_a
     (67) and_exp_a -> . AND
     (68) and_exp_a -> . empty
-    (114) empty -> .
+    (122) empty -> .
 
-    AND             shift and go to state 145
-    OR              reduce using rule 114 (empty -> .)
-    CSB             reduce using rule 114 (empty -> .)
-    CP              reduce using rule 114 (empty -> .)
+    AND             shift and go to state 159
+    OR              reduce using rule 122 (empty -> .)
+    CSB             reduce using rule 122 (empty -> .)
+    CP              reduce using rule 122 (empty -> .)
 
-    and_exp_a                      shift and go to state 144
-    empty                          shift and go to state 146
+    and_exp_a                      shift and go to state 158
+    empty                          shift and go to state 160
 
-state 100
+state 114
 
-    (104) asignacion -> ID asignacion_a asignacion_a . EQ expresion SC
+    (108) asignacion -> ID asignacion_a asignacion_a . EQ expresion SC
 
-    EQ              shift and go to state 147
-
-
-state 101
-
-    (75) llamada -> ID OP llamada_a . CP SC
-
-    CP              shift and go to state 148
+    EQ              shift and go to state 161
 
 
-state 102
+state 115
 
-    (76) llamada_a -> expresion . llamada_b
-    (79) llamada_b -> . COMMA llamada_a
-    (80) llamada_b -> . empty
-    (114) empty -> .
+    (80) llamada_c -> ID .
 
-    COMMA           shift and go to state 105
-    CP              reduce using rule 114 (empty -> .)
-
-    llamada_b                      shift and go to state 149
-    empty                          shift and go to state 106
-
-state 103
-
-    (78) llamada_a -> llamada_b .
-
-    CP              reduce using rule 78 (llamada_a -> llamada_b .)
+    OP              reduce using rule 80 (llamada_c -> ID .)
 
 
-state 104
+state 116
 
-    (77) llamada_a -> CTE_STRING . llamada_b
-    (79) llamada_b -> . COMMA llamada_a
-    (80) llamada_b -> . empty
-    (114) empty -> .
+    (107) llamadafuncionclase -> ID POINT llamada .
 
-    COMMA           shift and go to state 105
-    CP              reduce using rule 114 (empty -> .)
+    ID              reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    CLASS           reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    CLASS_ID        reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    RETURN          reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    IF              reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    FOR             reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    INT             reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    FLOAT           reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    CHAR            reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    DATAFRAME       reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    FILE            reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    WHILE           reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    VOID            reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
+    CB              reduce using rule 107 (llamadafuncionclase -> ID POINT llamada .)
 
-    llamada_b                      shift and go to state 150
-    empty                          shift and go to state 106
 
-state 105
+state 117
 
-    (79) llamada_b -> COMMA . llamada_a
-    (76) llamada_a -> . expresion llamada_b
-    (77) llamada_a -> . CTE_STRING llamada_b
-    (78) llamada_a -> . llamada_b
-    (49) expresion -> . m_exp
-    (50) expresion -> . m_exp expresion_a m_exp
-    (79) llamada_b -> . COMMA llamada_a
-    (80) llamada_b -> . empty
+    (109) asignacion_a -> OSB exp . CSB
+
+    CSB             shift and go to state 162
+
+
+state 118
+
+    (100) condicion -> condicion_c bloque condicion_a .
+
+    ID              reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    CLASS           reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    CLASS_ID        reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    RETURN          reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    IF              reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    FOR             reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    INT             reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    FLOAT           reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    CHAR            reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    DATAFRAME       reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    FILE            reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    WHILE           reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    VOID            reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    CB              reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+    OB              reduce using rule 100 (condicion -> condicion_c bloque condicion_a .)
+
+
+state 119
+
+    (101) condicion_a -> condicion_d . condicion_b bloque
+    (102) condicion_b -> . condicion
+    (103) condicion_b -> . empty
+    (100) condicion -> . condicion_c bloque condicion_a
+    (122) empty -> .
+    (104) condicion_c -> . IF OP expresion CP
+
+    OB              reduce using rule 122 (empty -> .)
+    IF              shift and go to state 51
+
+    condicion_b                    shift and go to state 163
+    condicion                      shift and go to state 164
+    empty                          shift and go to state 165
+    condicion_c                    shift and go to state 42
+
+state 120
+
+    (105) condicion_d -> ELSE .
+
+    IF              reduce using rule 105 (condicion_d -> ELSE .)
+    OB              reduce using rule 105 (condicion_d -> ELSE .)
+
+
+state 121
+
+    (75) llamada -> llamada_d llamada_a CP . SC
+
+    SC              shift and go to state 166
+
+
+state 122
+
+    (76) llamada_a -> llamada_e llamada_b .
+
+    CP              reduce using rule 76 (llamada_a -> llamada_e llamada_b .)
+
+
+state 123
+
+    (78) llamada_b -> llamada_f llamada_a .
+
+    CP              reduce using rule 78 (llamada_b -> llamada_f llamada_a .)
+
+
+state 124
+
+    (50) expresion -> m_exp expresion_a . m_exp
     (17) m_exp -> . m_exp_b
     (18) m_exp -> . m_exp_b m_exp_a m_exp
-    (114) empty -> .
     (21) m_exp_b -> . term
     (22) term -> . term_b
     (23) term -> . term_b term_a term
     (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-    CTE_STRING      shift and go to state 104
-    COMMA           shift and go to state 105
-    CP              reduce using rule 114 (empty -> .)
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-    llamada_a                      shift and go to state 151
-    expresion                      shift and go to state 102
-    llamada_b                      shift and go to state 103
-    m_exp                          shift and go to state 80
-    empty                          shift and go to state 106
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
+    m_exp                          shift and go to state 167
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
-state 106
+state 125
 
-    (80) llamada_b -> empty .
+    (51) expresion_a -> LT .
 
-    CP              reduce using rule 80 (llamada_b -> empty .)
-
-
-state 107
-
-    (75) llamada -> ID . OP llamada_a CP SC
-
-    OP              shift and go to state 65
+    CTE_I           reduce using rule 51 (expresion_a -> LT .)
+    CTE_F           reduce using rule 51 (expresion_a -> LT .)
+    CTE_CHAR        reduce using rule 51 (expresion_a -> LT .)
+    ID              reduce using rule 51 (expresion_a -> LT .)
+    OP              reduce using rule 51 (expresion_a -> LT .)
 
 
-state 108
+state 126
 
-    (103) llamadafuncionclase -> ID POINT llamada .
+    (52) expresion_a -> GT .
 
-    ID              reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    CLASS           reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    CLASS_ID        reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    RETURN          reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    IF              reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    FOR             reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    INT             reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    FLOAT           reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    CHAR            reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    DATAFRAME       reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    FILE            reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    VOID            reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    WHILE           reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
-    CB              reduce using rule 103 (llamadafuncionclase -> ID POINT llamada .)
+    CTE_I           reduce using rule 52 (expresion_a -> GT .)
+    CTE_F           reduce using rule 52 (expresion_a -> GT .)
+    CTE_CHAR        reduce using rule 52 (expresion_a -> GT .)
+    ID              reduce using rule 52 (expresion_a -> GT .)
+    OP              reduce using rule 52 (expresion_a -> GT .)
 
 
-state 109
+state 127
 
-    (105) asignacion_a -> OSB exp . CSB
+    (53) expresion_a -> NE .
 
-    CSB             shift and go to state 152
-
-
-state 110
-
-    (96) condicion -> condicion_c bloque condicion_a .
-
-    ID              reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    CLASS           reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    CLASS_ID        reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    RETURN          reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    IF              reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    FOR             reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    INT             reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    FLOAT           reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    CHAR            reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    DATAFRAME       reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    FILE            reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    VOID            reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    WHILE           reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    CB              reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
-    OB              reduce using rule 96 (condicion -> condicion_c bloque condicion_a .)
+    CTE_I           reduce using rule 53 (expresion_a -> NE .)
+    CTE_F           reduce using rule 53 (expresion_a -> NE .)
+    CTE_CHAR        reduce using rule 53 (expresion_a -> NE .)
+    ID              reduce using rule 53 (expresion_a -> NE .)
+    OP              reduce using rule 53 (expresion_a -> NE .)
 
 
-state 111
+state 128
 
-    (97) condicion_a -> condicion_d . condicion_b bloque
-    (98) condicion_b -> . condicion
-    (99) condicion_b -> . empty
-    (96) condicion -> . condicion_c bloque condicion_a
-    (114) empty -> .
-    (100) condicion_c -> . IF OP expresion CP
+    (54) expresion_a -> EQEQ .
 
-    OB              reduce using rule 114 (empty -> .)
-    IF              shift and go to state 50
-
-    condicion_b                    shift and go to state 153
-    condicion                      shift and go to state 154
-    empty                          shift and go to state 155
-    condicion_c                    shift and go to state 42
-
-state 112
-
-    (101) condicion_d -> ELSE .
-
-    IF              reduce using rule 101 (condicion_d -> ELSE .)
-    OB              reduce using rule 101 (condicion_d -> ELSE .)
+    CTE_I           reduce using rule 54 (expresion_a -> EQEQ .)
+    CTE_F           reduce using rule 54 (expresion_a -> EQEQ .)
+    CTE_CHAR        reduce using rule 54 (expresion_a -> EQEQ .)
+    ID              reduce using rule 54 (expresion_a -> EQEQ .)
+    OP              reduce using rule 54 (expresion_a -> EQEQ .)
 
 
-state 113
+state 129
+
+    (55) expresion_a -> LE .
+
+    CTE_I           reduce using rule 55 (expresion_a -> LE .)
+    CTE_F           reduce using rule 55 (expresion_a -> LE .)
+    CTE_CHAR        reduce using rule 55 (expresion_a -> LE .)
+    ID              reduce using rule 55 (expresion_a -> LE .)
+    OP              reduce using rule 55 (expresion_a -> LE .)
+
+
+state 130
+
+    (56) expresion_a -> GE .
+
+    CTE_I           reduce using rule 56 (expresion_a -> GE .)
+    CTE_F           reduce using rule 56 (expresion_a -> GE .)
+    CTE_CHAR        reduce using rule 56 (expresion_a -> GE .)
+    ID              reduce using rule 56 (expresion_a -> GE .)
+    OP              reduce using rule 56 (expresion_a -> GE .)
+
+
+state 131
+
+    (18) m_exp -> m_exp_b m_exp_a . m_exp
+    (17) m_exp -> . m_exp_b
+    (18) m_exp -> . m_exp_b m_exp_a m_exp
+    (21) m_exp_b -> . term
+    (22) term -> . term_b
+    (23) term -> . term_b term_a term
+    (26) term_b -> . fact
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
+
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
+
+    m_exp_b                        shift and go to state 82
+    m_exp                          shift and go to state 168
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
+
+state 132
+
+    (19) m_exp_a -> ADD .
+
+    CTE_I           reduce using rule 19 (m_exp_a -> ADD .)
+    CTE_F           reduce using rule 19 (m_exp_a -> ADD .)
+    CTE_CHAR        reduce using rule 19 (m_exp_a -> ADD .)
+    ID              reduce using rule 19 (m_exp_a -> ADD .)
+    OP              reduce using rule 19 (m_exp_a -> ADD .)
+
+
+state 133
+
+    (20) m_exp_a -> SUB .
+
+    CTE_I           reduce using rule 20 (m_exp_a -> SUB .)
+    CTE_F           reduce using rule 20 (m_exp_a -> SUB .)
+    CTE_CHAR        reduce using rule 20 (m_exp_a -> SUB .)
+    ID              reduce using rule 20 (m_exp_a -> SUB .)
+    OP              reduce using rule 20 (m_exp_a -> SUB .)
+
+
+state 134
+
+    (23) term -> term_b term_a . term
+    (22) term -> . term_b
+    (23) term -> . term_b term_a term
+    (26) term_b -> . fact
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
+
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
+
+    term_b                         shift and go to state 84
+    term                           shift and go to state 169
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
+
+state 135
+
+    (24) term_a -> MULT .
+
+    CTE_I           reduce using rule 24 (term_a -> MULT .)
+    CTE_F           reduce using rule 24 (term_a -> MULT .)
+    CTE_CHAR        reduce using rule 24 (term_a -> MULT .)
+    ID              reduce using rule 24 (term_a -> MULT .)
+    OP              reduce using rule 24 (term_a -> MULT .)
+
+
+state 136
+
+    (25) term_a -> DIV .
+
+    CTE_I           reduce using rule 25 (term_a -> DIV .)
+    CTE_F           reduce using rule 25 (term_a -> DIV .)
+    CTE_CHAR        reduce using rule 25 (term_a -> DIV .)
+    ID              reduce using rule 25 (term_a -> DIV .)
+    OP              reduce using rule 25 (term_a -> DIV .)
+
+
+state 137
+
+    (85) fact -> fact_a exp . CP
+
+    CP              shift and go to state 170
+
+
+state 138
 
     (69) for -> for_a for_b bloque .
 
@@ -2128,57 +2554,57 @@ state 113
     CHAR            reduce using rule 69 (for -> for_a for_b bloque .)
     DATAFRAME       reduce using rule 69 (for -> for_a for_b bloque .)
     FILE            reduce using rule 69 (for -> for_a for_b bloque .)
-    VOID            reduce using rule 69 (for -> for_a for_b bloque .)
     WHILE           reduce using rule 69 (for -> for_a for_b bloque .)
+    VOID            reduce using rule 69 (for -> for_a for_b bloque .)
     CB              reduce using rule 69 (for -> for_a for_b bloque .)
 
 
-state 114
+state 139
 
     (71) for_b -> for_e asignacionsencilla . CP
 
-    CP              shift and go to state 156
+    CP              shift and go to state 171
 
 
-state 115
+state 140
 
-    (107) asignacionsencilla -> ID . EQ expresion
+    (111) asignacionsencilla -> ID . EQ expresion
 
-    EQ              shift and go to state 157
+    EQ              shift and go to state 172
 
 
-state 116
+state 141
 
     (74) for_e -> for_d SC .
 
     ID              reduce using rule 74 (for_e -> for_d SC .)
 
 
-state 117
+state 142
 
     (73) for_d -> for_c expresion .
 
     SC              reduce using rule 73 (for_d -> for_c expresion .)
 
 
-state 118
+state 143
 
     (72) for_c -> OP asignacionsencilla . SC
 
-    SC              shift and go to state 158
+    SC              shift and go to state 173
 
 
-state 119
+state 144
 
-    (88) classcreate -> CLASS CLASS_ID OB . classcreate_a function classcreate_c CB
-    (89) classcreate_a -> . vars classcreate_a
-    (90) classcreate_a -> . vars_vect_mat classcreate_a
-    (91) classcreate_a -> . empty
+    (92) classcreate -> CLASS CLASS_ID OB . classcreate_a function classcreate_c CB
+    (93) classcreate_a -> . vars classcreate_a
+    (94) classcreate_a -> . vars_vect_mat classcreate_a
+    (95) classcreate_a -> . empty
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
     (15) vars_vect_mat -> . tiposimple ID vars_vect_mat_a vars_vect_mat_a SC
-    (114) empty -> .
+    (122) empty -> .
     (27) tiposimple -> . INT
     (28) tiposimple -> . FLOAT
     (29) tiposimple -> . CHAR
@@ -2189,7 +2615,7 @@ state 119
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for FLOAT resolved as shift
   ! shift/reduce conflict for CHAR resolved as shift
-    VOID            reduce using rule 114 (empty -> .)
+    VOID            reduce using rule 122 (empty -> .)
     INT             shift and go to state 13
     FLOAT           shift and go to state 14
     CHAR            shift and go to state 15
@@ -2197,58 +2623,38 @@ state 119
     ID              shift and go to state 5
     FILE            shift and go to state 17
 
-  ! INT             [ reduce using rule 114 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 114 (empty -> .) ]
-  ! CHAR            [ reduce using rule 114 (empty -> .) ]
+  ! INT             [ reduce using rule 122 (empty -> .) ]
+  ! FLOAT           [ reduce using rule 122 (empty -> .) ]
+  ! CHAR            [ reduce using rule 122 (empty -> .) ]
 
-    classcreate_a                  shift and go to state 159
-    vars                           shift and go to state 160
-    vars_vect_mat                  shift and go to state 161
-    empty                          shift and go to state 162
+    classcreate_a                  shift and go to state 174
+    vars                           shift and go to state 175
+    vars_vect_mat                  shift and go to state 176
+    empty                          shift and go to state 177
     tiposimple                     shift and go to state 11
     tipocompuesto                  shift and go to state 12
 
-state 120
+state 145
 
-    (102) classdeclare -> CLASS_ID ID SC .
+    (106) classdeclare -> CLASS_ID ID SC .
 
-    ID              reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    CLASS           reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    CLASS_ID        reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    RETURN          reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    IF              reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    FOR             reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    INT             reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    FLOAT           reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    CHAR            reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    DATAFRAME       reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    FILE            reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    VOID            reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    WHILE           reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
-    CB              reduce using rule 102 (classdeclare -> CLASS_ID ID SC .)
+    ID              reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    CLASS           reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    CLASS_ID        reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    RETURN          reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    IF              reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    FOR             reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    INT             reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    FLOAT           reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    CHAR            reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    DATAFRAME       reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    FILE            reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    WHILE           reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    VOID            reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
+    CB              reduce using rule 106 (classdeclare -> CLASS_ID ID SC .)
 
 
-state 121
-
-    (108) function -> function_a ID OP . function_b CP bloque
-    (111) function_b -> . tiposimple ID
-    (112) function_b -> . tiposimple ID COMMA function_b
-    (113) function_b -> . empty
-    (27) tiposimple -> . INT
-    (28) tiposimple -> . FLOAT
-    (29) tiposimple -> . CHAR
-    (114) empty -> .
-
-    INT             shift and go to state 13
-    FLOAT           shift and go to state 14
-    CHAR            shift and go to state 15
-    CP              reduce using rule 114 (empty -> .)
-
-    function_b                     shift and go to state 163
-    tiposimple                     shift and go to state 164
-    empty                          shift and go to state 165
-
-state 122
+state 146
 
     (48) return -> RETURN expresion SC .
 
@@ -2263,234 +2669,57 @@ state 122
     CHAR            reduce using rule 48 (return -> RETURN expresion SC .)
     DATAFRAME       reduce using rule 48 (return -> RETURN expresion SC .)
     FILE            reduce using rule 48 (return -> RETURN expresion SC .)
-    VOID            reduce using rule 48 (return -> RETURN expresion SC .)
     WHILE           reduce using rule 48 (return -> RETURN expresion SC .)
+    VOID            reduce using rule 48 (return -> RETURN expresion SC .)
     CB              reduce using rule 48 (return -> RETURN expresion SC .)
 
 
-state 123
+state 147
 
-    (50) expresion -> m_exp expresion_a . m_exp
-    (17) m_exp -> . m_exp_b
-    (18) m_exp -> . m_exp_b m_exp_a m_exp
-    (21) m_exp_b -> . term
-    (22) term -> . term_b
-    (23) term -> . term_b term_a term
-    (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
+    (104) condicion_c -> IF OP expresion . CP
 
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
-
-    m_exp                          shift and go to state 166
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 124
-
-    (51) expresion_a -> LT .
-
-    CTE_I           reduce using rule 51 (expresion_a -> LT .)
-    CTE_F           reduce using rule 51 (expresion_a -> LT .)
-    CTE_CHAR        reduce using rule 51 (expresion_a -> LT .)
-    ID              reduce using rule 51 (expresion_a -> LT .)
-    OP              reduce using rule 51 (expresion_a -> LT .)
+    CP              shift and go to state 178
 
 
-state 125
-
-    (52) expresion_a -> GT .
-
-    CTE_I           reduce using rule 52 (expresion_a -> GT .)
-    CTE_F           reduce using rule 52 (expresion_a -> GT .)
-    CTE_CHAR        reduce using rule 52 (expresion_a -> GT .)
-    ID              reduce using rule 52 (expresion_a -> GT .)
-    OP              reduce using rule 52 (expresion_a -> GT .)
-
-
-state 126
-
-    (53) expresion_a -> NE .
-
-    CTE_I           reduce using rule 53 (expresion_a -> NE .)
-    CTE_F           reduce using rule 53 (expresion_a -> NE .)
-    CTE_CHAR        reduce using rule 53 (expresion_a -> NE .)
-    ID              reduce using rule 53 (expresion_a -> NE .)
-    OP              reduce using rule 53 (expresion_a -> NE .)
-
-
-state 127
-
-    (54) expresion_a -> EQEQ .
-
-    CTE_I           reduce using rule 54 (expresion_a -> EQEQ .)
-    CTE_F           reduce using rule 54 (expresion_a -> EQEQ .)
-    CTE_CHAR        reduce using rule 54 (expresion_a -> EQEQ .)
-    ID              reduce using rule 54 (expresion_a -> EQEQ .)
-    OP              reduce using rule 54 (expresion_a -> EQEQ .)
-
-
-state 128
-
-    (55) expresion_a -> LE .
-
-    CTE_I           reduce using rule 55 (expresion_a -> LE .)
-    CTE_F           reduce using rule 55 (expresion_a -> LE .)
-    CTE_CHAR        reduce using rule 55 (expresion_a -> LE .)
-    ID              reduce using rule 55 (expresion_a -> LE .)
-    OP              reduce using rule 55 (expresion_a -> LE .)
-
-
-state 129
-
-    (56) expresion_a -> GE .
-
-    CTE_I           reduce using rule 56 (expresion_a -> GE .)
-    CTE_F           reduce using rule 56 (expresion_a -> GE .)
-    CTE_CHAR        reduce using rule 56 (expresion_a -> GE .)
-    ID              reduce using rule 56 (expresion_a -> GE .)
-    OP              reduce using rule 56 (expresion_a -> GE .)
-
-
-state 130
-
-    (18) m_exp -> m_exp_b m_exp_a . m_exp
-    (17) m_exp -> . m_exp_b
-    (18) m_exp -> . m_exp_b m_exp_a m_exp
-    (21) m_exp_b -> . term
-    (22) term -> . term_b
-    (23) term -> . term_b term_a term
-    (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
-
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
-
-    m_exp_b                        shift and go to state 81
-    m_exp                          shift and go to state 167
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 131
-
-    (19) m_exp_a -> ADD .
-
-    CTE_I           reduce using rule 19 (m_exp_a -> ADD .)
-    CTE_F           reduce using rule 19 (m_exp_a -> ADD .)
-    CTE_CHAR        reduce using rule 19 (m_exp_a -> ADD .)
-    ID              reduce using rule 19 (m_exp_a -> ADD .)
-    OP              reduce using rule 19 (m_exp_a -> ADD .)
-
-
-state 132
-
-    (20) m_exp_a -> SUB .
-
-    CTE_I           reduce using rule 20 (m_exp_a -> SUB .)
-    CTE_F           reduce using rule 20 (m_exp_a -> SUB .)
-    CTE_CHAR        reduce using rule 20 (m_exp_a -> SUB .)
-    ID              reduce using rule 20 (m_exp_a -> SUB .)
-    OP              reduce using rule 20 (m_exp_a -> SUB .)
-
-
-state 133
-
-    (23) term -> term_b term_a . term
-    (22) term -> . term_b
-    (23) term -> . term_b term_a term
-    (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
-
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
-
-    term_b                         shift and go to state 83
-    term                           shift and go to state 168
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 134
-
-    (24) term_a -> MULT .
-
-    CTE_I           reduce using rule 24 (term_a -> MULT .)
-    CTE_F           reduce using rule 24 (term_a -> MULT .)
-    CTE_CHAR        reduce using rule 24 (term_a -> MULT .)
-    ID              reduce using rule 24 (term_a -> MULT .)
-    OP              reduce using rule 24 (term_a -> MULT .)
-
-
-state 135
-
-    (25) term_a -> DIV .
-
-    CTE_I           reduce using rule 25 (term_a -> DIV .)
-    CTE_F           reduce using rule 25 (term_a -> DIV .)
-    CTE_CHAR        reduce using rule 25 (term_a -> DIV .)
-    ID              reduce using rule 25 (term_a -> DIV .)
-    OP              reduce using rule 25 (term_a -> DIV .)
-
-
-state 136
-
-    (81) fact -> fact_a exp . CP
-
-    CP              shift and go to state 169
-
-
-state 137
-
-    (100) condicion_c -> IF OP expresion . CP
-
-    CP              shift and go to state 170
-
-
-state 138
+state 148
 
     (62) while_b -> while_a OP expresion . CP
 
-    CP              shift and go to state 171
+    CP              shift and go to state 179
 
 
-state 139
+state 149
+
+    (120) function_e -> function_c OP function_b . CP vars
+    (121) function_e -> function_c OP function_b . CP empty
+
+    CP              shift and go to state 180
+
+
+state 150
+
+    (117) function_b -> empty .
+
+    CP              reduce using rule 117 (function_b -> empty .)
+
+
+state 151
+
+    (115) function_b -> function_d .
+    (116) function_b -> function_d . COMMA function_b
+
+    CP              reduce using rule 115 (function_b -> function_d .)
+    COMMA           shift and go to state 181
+
+
+state 152
+
+    (119) function_d -> tiposimple . ID
+
+    ID              shift and go to state 182
+
+
+state 153
 
     (15) vars_vect_mat -> tiposimple ID vars_vect_mat_a vars_vect_mat_a SC .
 
@@ -2504,7 +2733,7 @@ state 139
     VOID            reduce using rule 15 (vars_vect_mat -> tiposimple ID vars_vect_mat_a vars_vect_mat_a SC .)
 
 
-state 140
+state 154
 
     (16) vars_vect_mat_a -> OSB exp CSB .
 
@@ -2512,7 +2741,7 @@ state 140
     OSB             reduce using rule 16 (vars_vect_mat_a -> OSB exp CSB .)
 
 
-state 141
+state 155
 
     (63) exp -> and_exp exp_a .
 
@@ -2520,7 +2749,7 @@ state 141
     CP              reduce using rule 63 (exp -> and_exp exp_a .)
 
 
-state 142
+state 156
 
     (64) exp_a -> OR .
 
@@ -2528,7 +2757,7 @@ state 142
     CP              reduce using rule 64 (exp_a -> OR .)
 
 
-state 143
+state 157
 
     (65) exp_a -> empty .
 
@@ -2536,7 +2765,7 @@ state 143
     CP              reduce using rule 65 (exp_a -> empty .)
 
 
-state 144
+state 158
 
     (66) and_exp -> expresion and_exp_a .
 
@@ -2545,7 +2774,7 @@ state 144
     CP              reduce using rule 66 (and_exp -> expresion and_exp_a .)
 
 
-state 145
+state 159
 
     (67) and_exp_a -> AND .
 
@@ -2554,7 +2783,7 @@ state 145
     CP              reduce using rule 67 (and_exp_a -> AND .)
 
 
-state 146
+state 160
 
     (68) and_exp_a -> empty .
 
@@ -2563,297 +2792,125 @@ state 146
     CP              reduce using rule 68 (and_exp_a -> empty .)
 
 
-state 147
-
-    (104) asignacion -> ID asignacion_a asignacion_a EQ . expresion SC
-    (49) expresion -> . m_exp
-    (50) expresion -> . m_exp expresion_a m_exp
-    (17) m_exp -> . m_exp_b
-    (18) m_exp -> . m_exp_b m_exp_a m_exp
-    (21) m_exp_b -> . term
-    (22) term -> . term_b
-    (23) term -> . term_b term_a term
-    (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
-
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
-
-    expresion                      shift and go to state 172
-    m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 148
-
-    (75) llamada -> ID OP llamada_a CP . SC
-
-    SC              shift and go to state 173
-
-
-state 149
-
-    (76) llamada_a -> expresion llamada_b .
-
-    CP              reduce using rule 76 (llamada_a -> expresion llamada_b .)
-
-
-state 150
-
-    (77) llamada_a -> CTE_STRING llamada_b .
-
-    CP              reduce using rule 77 (llamada_a -> CTE_STRING llamada_b .)
-
-
-state 151
-
-    (79) llamada_b -> COMMA llamada_a .
-
-    CP              reduce using rule 79 (llamada_b -> COMMA llamada_a .)
-
-
-state 152
-
-    (105) asignacion_a -> OSB exp CSB .
-
-    OSB             reduce using rule 105 (asignacion_a -> OSB exp CSB .)
-    EQ              reduce using rule 105 (asignacion_a -> OSB exp CSB .)
-
-
-state 153
-
-    (97) condicion_a -> condicion_d condicion_b . bloque
-    (33) bloque -> . OB bloque_a CB
-
-    OB              shift and go to state 19
-
-    bloque                         shift and go to state 174
-
-state 154
-
-    (98) condicion_b -> condicion .
-
-    OB              reduce using rule 98 (condicion_b -> condicion .)
-
-
-state 155
-
-    (99) condicion_b -> empty .
-
-    OB              reduce using rule 99 (condicion_b -> empty .)
-
-
-state 156
-
-    (71) for_b -> for_e asignacionsencilla CP .
-
-    OB              reduce using rule 71 (for_b -> for_e asignacionsencilla CP .)
-
-
-state 157
-
-    (107) asignacionsencilla -> ID EQ . expresion
-    (49) expresion -> . m_exp
-    (50) expresion -> . m_exp expresion_a m_exp
-    (17) m_exp -> . m_exp_b
-    (18) m_exp -> . m_exp_b m_exp_a m_exp
-    (21) m_exp_b -> . term
-    (22) term -> . term_b
-    (23) term -> . term_b term_a term
-    (26) term_b -> . fact
-    (81) fact -> . fact_a exp CP
-    (82) fact -> . CTE_I
-    (83) fact -> . CTE_F
-    (84) fact -> . CTE_CHAR
-    (85) fact -> . ID
-    (86) fact -> . llamada
-    (87) fact_a -> . OP
-    (75) llamada -> . ID OP llamada_a CP SC
-
-    CTE_I           shift and go to state 86
-    CTE_F           shift and go to state 87
-    CTE_CHAR        shift and go to state 88
-    ID              shift and go to state 89
-    OP              shift and go to state 91
-
-    expresion                      shift and go to state 175
-    m_exp                          shift and go to state 80
-    m_exp_b                        shift and go to state 81
-    term                           shift and go to state 82
-    term_b                         shift and go to state 83
-    fact                           shift and go to state 84
-    fact_a                         shift and go to state 85
-    llamada                        shift and go to state 90
-
-state 158
-
-    (72) for_c -> OP asignacionsencilla SC .
-
-    CTE_I           reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
-    CTE_F           reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
-    CTE_CHAR        reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
-    ID              reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
-    OP              reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
-
-
-state 159
-
-    (88) classcreate -> CLASS CLASS_ID OB classcreate_a . function classcreate_c CB
-    (108) function -> . function_a ID OP function_b CP bloque
-    (109) function_a -> . VOID
-    (110) function_a -> . tiposimple
-    (27) tiposimple -> . INT
-    (28) tiposimple -> . FLOAT
-    (29) tiposimple -> . CHAR
-
-    VOID            shift and go to state 53
-    INT             shift and go to state 13
-    FLOAT           shift and go to state 14
-    CHAR            shift and go to state 15
-
-    function                       shift and go to state 176
-    function_a                     shift and go to state 48
-    tiposimple                     shift and go to state 177
-
-state 160
-
-    (89) classcreate_a -> vars . classcreate_a
-    (89) classcreate_a -> . vars classcreate_a
-    (90) classcreate_a -> . vars_vect_mat classcreate_a
-    (91) classcreate_a -> . empty
-    (7) vars -> . tiposimple vars_a SC
-    (8) vars -> . tipocompuesto vars_a SC
-    (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
-    (15) vars_vect_mat -> . tiposimple ID vars_vect_mat_a vars_vect_mat_a SC
-    (114) empty -> .
-    (27) tiposimple -> . INT
-    (28) tiposimple -> . FLOAT
-    (29) tiposimple -> . CHAR
-    (30) tipocompuesto -> . DATAFRAME
-    (31) tipocompuesto -> . ID
-    (32) tipocompuesto -> . FILE
-
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for CHAR resolved as shift
-    VOID            reduce using rule 114 (empty -> .)
-    INT             shift and go to state 13
-    FLOAT           shift and go to state 14
-    CHAR            shift and go to state 15
-    DATAFRAME       shift and go to state 16
-    ID              shift and go to state 5
-    FILE            shift and go to state 17
-
-  ! INT             [ reduce using rule 114 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 114 (empty -> .) ]
-  ! CHAR            [ reduce using rule 114 (empty -> .) ]
-
-    vars                           shift and go to state 160
-    classcreate_a                  shift and go to state 178
-    vars_vect_mat                  shift and go to state 161
-    empty                          shift and go to state 162
-    tiposimple                     shift and go to state 11
-    tipocompuesto                  shift and go to state 12
-
 state 161
 
-    (90) classcreate_a -> vars_vect_mat . classcreate_a
-    (89) classcreate_a -> . vars classcreate_a
-    (90) classcreate_a -> . vars_vect_mat classcreate_a
-    (91) classcreate_a -> . empty
-    (7) vars -> . tiposimple vars_a SC
-    (8) vars -> . tipocompuesto vars_a SC
-    (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
-    (15) vars_vect_mat -> . tiposimple ID vars_vect_mat_a vars_vect_mat_a SC
-    (114) empty -> .
-    (27) tiposimple -> . INT
-    (28) tiposimple -> . FLOAT
-    (29) tiposimple -> . CHAR
-    (30) tipocompuesto -> . DATAFRAME
-    (31) tipocompuesto -> . ID
-    (32) tipocompuesto -> . FILE
+    (108) asignacion -> ID asignacion_a asignacion_a EQ . expresion SC
+    (49) expresion -> . m_exp
+    (50) expresion -> . m_exp expresion_a m_exp
+    (17) m_exp -> . m_exp_b
+    (18) m_exp -> . m_exp_b m_exp_a m_exp
+    (21) m_exp_b -> . term
+    (22) term -> . term_b
+    (23) term -> . term_b term_a term
+    (26) term_b -> . fact
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
 
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for CHAR resolved as shift
-    VOID            reduce using rule 114 (empty -> .)
-    INT             shift and go to state 13
-    FLOAT           shift and go to state 14
-    CHAR            shift and go to state 15
-    DATAFRAME       shift and go to state 16
-    ID              shift and go to state 5
-    FILE            shift and go to state 17
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
 
-  ! INT             [ reduce using rule 114 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 114 (empty -> .) ]
-  ! CHAR            [ reduce using rule 114 (empty -> .) ]
-
-    vars_vect_mat                  shift and go to state 161
-    classcreate_a                  shift and go to state 179
-    vars                           shift and go to state 160
-    empty                          shift and go to state 162
-    tiposimple                     shift and go to state 11
-    tipocompuesto                  shift and go to state 12
+    expresion                      shift and go to state 183
+    m_exp                          shift and go to state 80
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
 
 state 162
 
-    (91) classcreate_a -> empty .
+    (109) asignacion_a -> OSB exp CSB .
 
-    VOID            reduce using rule 91 (classcreate_a -> empty .)
-    INT             reduce using rule 91 (classcreate_a -> empty .)
-    FLOAT           reduce using rule 91 (classcreate_a -> empty .)
-    CHAR            reduce using rule 91 (classcreate_a -> empty .)
+    OSB             reduce using rule 109 (asignacion_a -> OSB exp CSB .)
+    EQ              reduce using rule 109 (asignacion_a -> OSB exp CSB .)
 
 
 state 163
 
-    (108) function -> function_a ID OP function_b . CP bloque
+    (101) condicion_a -> condicion_d condicion_b . bloque
+    (33) bloque -> . OB bloque_a CB
 
-    CP              shift and go to state 180
+    OB              shift and go to state 19
 
+    bloque                         shift and go to state 184
 
 state 164
 
-    (111) function_b -> tiposimple . ID
-    (112) function_b -> tiposimple . ID COMMA function_b
+    (102) condicion_b -> condicion .
 
-    ID              shift and go to state 181
+    OB              reduce using rule 102 (condicion_b -> condicion .)
 
 
 state 165
 
-    (113) function_b -> empty .
+    (103) condicion_b -> empty .
 
-    CP              reduce using rule 113 (function_b -> empty .)
+    OB              reduce using rule 103 (condicion_b -> empty .)
 
 
 state 166
 
-    (50) expresion -> m_exp expresion_a m_exp .
+    (75) llamada -> llamada_d llamada_a CP SC .
 
-    SC              reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
-    COMMA           reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
-    AND             reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
-    OR              reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
-    CSB             reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
-    CP              reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+    ID              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    CLASS           reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    CLASS_ID        reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    RETURN          reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    IF              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    FOR             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    INT             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    FLOAT           reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    CHAR            reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    DATAFRAME       reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    FILE            reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    WHILE           reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    VOID            reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    CB              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    MULT            reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    DIV             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    ADD             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    SUB             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    LT              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    GT              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    NE              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    EQEQ            reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    LE              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    GE              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    COMMA           reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    CP              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    SC              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    AND             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    OR              reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
+    CSB             reduce using rule 75 (llamada -> llamada_d llamada_a CP SC .)
 
 
 state 167
+
+    (50) expresion -> m_exp expresion_a m_exp .
+
+    COMMA           reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+    CP              reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+    SC              reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+    AND             reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+    OR              reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+    CSB             reduce using rule 50 (expresion -> m_exp expresion_a m_exp .)
+
+
+state 168
 
     (18) m_exp -> m_exp_b m_exp_a m_exp .
 
@@ -2863,15 +2920,15 @@ state 167
     EQEQ            reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
     LE              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
     GE              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
-    SC              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
     COMMA           reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
+    CP              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
+    SC              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
     AND             reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
     OR              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
     CSB             reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
-    CP              reduce using rule 18 (m_exp -> m_exp_b m_exp_a m_exp .)
 
 
-state 168
+state 169
 
     (23) term -> term_b term_a term .
 
@@ -2883,370 +2940,543 @@ state 168
     EQEQ            reduce using rule 23 (term -> term_b term_a term .)
     LE              reduce using rule 23 (term -> term_b term_a term .)
     GE              reduce using rule 23 (term -> term_b term_a term .)
-    SC              reduce using rule 23 (term -> term_b term_a term .)
     COMMA           reduce using rule 23 (term -> term_b term_a term .)
+    CP              reduce using rule 23 (term -> term_b term_a term .)
+    SC              reduce using rule 23 (term -> term_b term_a term .)
     AND             reduce using rule 23 (term -> term_b term_a term .)
     OR              reduce using rule 23 (term -> term_b term_a term .)
     CSB             reduce using rule 23 (term -> term_b term_a term .)
-    CP              reduce using rule 23 (term -> term_b term_a term .)
-
-
-state 169
-
-    (81) fact -> fact_a exp CP .
-
-    MULT            reduce using rule 81 (fact -> fact_a exp CP .)
-    DIV             reduce using rule 81 (fact -> fact_a exp CP .)
-    ADD             reduce using rule 81 (fact -> fact_a exp CP .)
-    SUB             reduce using rule 81 (fact -> fact_a exp CP .)
-    LT              reduce using rule 81 (fact -> fact_a exp CP .)
-    GT              reduce using rule 81 (fact -> fact_a exp CP .)
-    NE              reduce using rule 81 (fact -> fact_a exp CP .)
-    EQEQ            reduce using rule 81 (fact -> fact_a exp CP .)
-    LE              reduce using rule 81 (fact -> fact_a exp CP .)
-    GE              reduce using rule 81 (fact -> fact_a exp CP .)
-    SC              reduce using rule 81 (fact -> fact_a exp CP .)
-    COMMA           reduce using rule 81 (fact -> fact_a exp CP .)
-    AND             reduce using rule 81 (fact -> fact_a exp CP .)
-    OR              reduce using rule 81 (fact -> fact_a exp CP .)
-    CSB             reduce using rule 81 (fact -> fact_a exp CP .)
-    CP              reduce using rule 81 (fact -> fact_a exp CP .)
 
 
 state 170
 
-    (100) condicion_c -> IF OP expresion CP .
+    (85) fact -> fact_a exp CP .
 
-    OB              reduce using rule 100 (condicion_c -> IF OP expresion CP .)
+    MULT            reduce using rule 85 (fact -> fact_a exp CP .)
+    DIV             reduce using rule 85 (fact -> fact_a exp CP .)
+    ADD             reduce using rule 85 (fact -> fact_a exp CP .)
+    SUB             reduce using rule 85 (fact -> fact_a exp CP .)
+    LT              reduce using rule 85 (fact -> fact_a exp CP .)
+    GT              reduce using rule 85 (fact -> fact_a exp CP .)
+    NE              reduce using rule 85 (fact -> fact_a exp CP .)
+    EQEQ            reduce using rule 85 (fact -> fact_a exp CP .)
+    LE              reduce using rule 85 (fact -> fact_a exp CP .)
+    GE              reduce using rule 85 (fact -> fact_a exp CP .)
+    COMMA           reduce using rule 85 (fact -> fact_a exp CP .)
+    CP              reduce using rule 85 (fact -> fact_a exp CP .)
+    SC              reduce using rule 85 (fact -> fact_a exp CP .)
+    AND             reduce using rule 85 (fact -> fact_a exp CP .)
+    OR              reduce using rule 85 (fact -> fact_a exp CP .)
+    CSB             reduce using rule 85 (fact -> fact_a exp CP .)
 
 
 state 171
+
+    (71) for_b -> for_e asignacionsencilla CP .
+
+    OB              reduce using rule 71 (for_b -> for_e asignacionsencilla CP .)
+
+
+state 172
+
+    (111) asignacionsencilla -> ID EQ . expresion
+    (49) expresion -> . m_exp
+    (50) expresion -> . m_exp expresion_a m_exp
+    (17) m_exp -> . m_exp_b
+    (18) m_exp -> . m_exp_b m_exp_a m_exp
+    (21) m_exp_b -> . term
+    (22) term -> . term_b
+    (23) term -> . term_b term_a term
+    (26) term_b -> . fact
+    (85) fact -> . fact_a exp CP
+    (86) fact -> . CTE_I
+    (87) fact -> . CTE_F
+    (88) fact -> . CTE_CHAR
+    (89) fact -> . ID
+    (90) fact -> . llamada
+    (91) fact_a -> . OP
+    (75) llamada -> . llamada_d llamada_a CP SC
+    (81) llamada_d -> . llamada_c OP
+    (80) llamada_c -> . ID
+
+    CTE_I           shift and go to state 87
+    CTE_F           shift and go to state 88
+    CTE_CHAR        shift and go to state 89
+    ID              shift and go to state 90
+    OP              shift and go to state 92
+
+    expresion                      shift and go to state 185
+    m_exp                          shift and go to state 80
+    m_exp_b                        shift and go to state 82
+    term                           shift and go to state 83
+    term_b                         shift and go to state 84
+    fact                           shift and go to state 85
+    fact_a                         shift and go to state 86
+    llamada                        shift and go to state 91
+    llamada_d                      shift and go to state 43
+    llamada_c                      shift and go to state 52
+
+state 173
+
+    (72) for_c -> OP asignacionsencilla SC .
+
+    CTE_I           reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
+    CTE_F           reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
+    CTE_CHAR        reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
+    ID              reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
+    OP              reduce using rule 72 (for_c -> OP asignacionsencilla SC .)
+
+
+state 174
+
+    (92) classcreate -> CLASS CLASS_ID OB classcreate_a . function classcreate_c CB
+    (112) function -> . function_e bloque
+    (120) function_e -> . function_c OP function_b CP vars
+    (121) function_e -> . function_c OP function_b CP empty
+    (118) function_c -> . function_a ID
+    (113) function_a -> . VOID
+    (114) function_a -> . tiposimple
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
+
+    VOID            shift and go to state 58
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
+
+    function                       shift and go to state 186
+    function_e                     shift and go to state 49
+    function_c                     shift and go to state 55
+    function_a                     shift and go to state 57
+    tiposimple                     shift and go to state 187
+
+state 175
+
+    (93) classcreate_a -> vars . classcreate_a
+    (93) classcreate_a -> . vars classcreate_a
+    (94) classcreate_a -> . vars_vect_mat classcreate_a
+    (95) classcreate_a -> . empty
+    (7) vars -> . tiposimple vars_a SC
+    (8) vars -> . tipocompuesto vars_a SC
+    (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
+    (15) vars_vect_mat -> . tiposimple ID vars_vect_mat_a vars_vect_mat_a SC
+    (122) empty -> .
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
+    (30) tipocompuesto -> . DATAFRAME
+    (31) tipocompuesto -> . ID
+    (32) tipocompuesto -> . FILE
+
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+    VOID            reduce using rule 122 (empty -> .)
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
+    DATAFRAME       shift and go to state 16
+    ID              shift and go to state 5
+    FILE            shift and go to state 17
+
+  ! INT             [ reduce using rule 122 (empty -> .) ]
+  ! FLOAT           [ reduce using rule 122 (empty -> .) ]
+  ! CHAR            [ reduce using rule 122 (empty -> .) ]
+
+    vars                           shift and go to state 175
+    classcreate_a                  shift and go to state 188
+    vars_vect_mat                  shift and go to state 176
+    empty                          shift and go to state 177
+    tiposimple                     shift and go to state 11
+    tipocompuesto                  shift and go to state 12
+
+state 176
+
+    (94) classcreate_a -> vars_vect_mat . classcreate_a
+    (93) classcreate_a -> . vars classcreate_a
+    (94) classcreate_a -> . vars_vect_mat classcreate_a
+    (95) classcreate_a -> . empty
+    (7) vars -> . tiposimple vars_a SC
+    (8) vars -> . tipocompuesto vars_a SC
+    (14) vars_vect_mat -> . tiposimple ID vars_vect_mat_a SC
+    (15) vars_vect_mat -> . tiposimple ID vars_vect_mat_a vars_vect_mat_a SC
+    (122) empty -> .
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
+    (30) tipocompuesto -> . DATAFRAME
+    (31) tipocompuesto -> . ID
+    (32) tipocompuesto -> . FILE
+
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+    VOID            reduce using rule 122 (empty -> .)
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
+    DATAFRAME       shift and go to state 16
+    ID              shift and go to state 5
+    FILE            shift and go to state 17
+
+  ! INT             [ reduce using rule 122 (empty -> .) ]
+  ! FLOAT           [ reduce using rule 122 (empty -> .) ]
+  ! CHAR            [ reduce using rule 122 (empty -> .) ]
+
+    vars_vect_mat                  shift and go to state 176
+    classcreate_a                  shift and go to state 189
+    vars                           shift and go to state 175
+    empty                          shift and go to state 177
+    tiposimple                     shift and go to state 11
+    tipocompuesto                  shift and go to state 12
+
+state 177
+
+    (95) classcreate_a -> empty .
+
+    VOID            reduce using rule 95 (classcreate_a -> empty .)
+    INT             reduce using rule 95 (classcreate_a -> empty .)
+    FLOAT           reduce using rule 95 (classcreate_a -> empty .)
+    CHAR            reduce using rule 95 (classcreate_a -> empty .)
+
+
+state 178
+
+    (104) condicion_c -> IF OP expresion CP .
+
+    OB              reduce using rule 104 (condicion_c -> IF OP expresion CP .)
+
+
+state 179
 
     (62) while_b -> while_a OP expresion CP .
 
     OB              reduce using rule 62 (while_b -> while_a OP expresion CP .)
 
 
-state 172
+state 180
 
-    (104) asignacion -> ID asignacion_a asignacion_a EQ expresion . SC
+    (120) function_e -> function_c OP function_b CP . vars
+    (121) function_e -> function_c OP function_b CP . empty
+    (7) vars -> . tiposimple vars_a SC
+    (8) vars -> . tipocompuesto vars_a SC
+    (122) empty -> .
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
+    (30) tipocompuesto -> . DATAFRAME
+    (31) tipocompuesto -> . ID
+    (32) tipocompuesto -> . FILE
 
-    SC              shift and go to state 182
+    OB              reduce using rule 122 (empty -> .)
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
+    DATAFRAME       shift and go to state 16
+    ID              shift and go to state 5
+    FILE            shift and go to state 17
 
+    vars                           shift and go to state 190
+    empty                          shift and go to state 191
+    tiposimple                     shift and go to state 192
+    tipocompuesto                  shift and go to state 12
 
-state 173
+state 181
 
-    (75) llamada -> ID OP llamada_a CP SC .
-
-    ID              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    CLASS           reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    CLASS_ID        reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    RETURN          reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    IF              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    FOR             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    INT             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    FLOAT           reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    CHAR            reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    DATAFRAME       reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    FILE            reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    VOID            reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    WHILE           reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    CB              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    MULT            reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    DIV             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    ADD             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    SUB             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    LT              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    GT              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    NE              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    EQEQ            reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    LE              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    GE              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    SC              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    COMMA           reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    AND             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    OR              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    CSB             reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-    CP              reduce using rule 75 (llamada -> ID OP llamada_a CP SC .)
-
-
-state 174
-
-    (97) condicion_a -> condicion_d condicion_b bloque .
-
-    ID              reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    CLASS           reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    CLASS_ID        reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    RETURN          reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    IF              reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    FOR             reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    INT             reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    FLOAT           reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    CHAR            reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    DATAFRAME       reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    FILE            reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    VOID            reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    WHILE           reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    CB              reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-    OB              reduce using rule 97 (condicion_a -> condicion_d condicion_b bloque .)
-
-
-state 175
-
-    (107) asignacionsencilla -> ID EQ expresion .
-
-    CP              reduce using rule 107 (asignacionsencilla -> ID EQ expresion .)
-    SC              reduce using rule 107 (asignacionsencilla -> ID EQ expresion .)
-
-
-state 176
-
-    (88) classcreate -> CLASS CLASS_ID OB classcreate_a function . classcreate_c CB
-    (92) classcreate_c -> . function classcreate_d
-    (93) classcreate_c -> . classcreate_d
-    (108) function -> . function_a ID OP function_b CP bloque
-    (94) classcreate_d -> . classcreate_c
-    (95) classcreate_d -> . empty
-    (109) function_a -> . VOID
-    (110) function_a -> . tiposimple
-    (114) empty -> .
+    (116) function_b -> function_d COMMA . function_b
+    (115) function_b -> . function_d
+    (116) function_b -> . function_d COMMA function_b
+    (117) function_b -> . empty
+    (119) function_d -> . tiposimple ID
+    (122) empty -> .
     (27) tiposimple -> . INT
     (28) tiposimple -> . FLOAT
     (29) tiposimple -> . CHAR
 
-    VOID            shift and go to state 53
-    CB              reduce using rule 114 (empty -> .)
+    CP              reduce using rule 122 (empty -> .)
     INT             shift and go to state 13
     FLOAT           shift and go to state 14
     CHAR            shift and go to state 15
 
-    function                       shift and go to state 183
-    classcreate_c                  shift and go to state 184
-    classcreate_d                  shift and go to state 185
-    function_a                     shift and go to state 48
-    empty                          shift and go to state 186
-    tiposimple                     shift and go to state 177
-
-state 177
-
-    (110) function_a -> tiposimple .
-
-    ID              reduce using rule 110 (function_a -> tiposimple .)
-
-
-state 178
-
-    (89) classcreate_a -> vars classcreate_a .
-
-    VOID            reduce using rule 89 (classcreate_a -> vars classcreate_a .)
-    INT             reduce using rule 89 (classcreate_a -> vars classcreate_a .)
-    FLOAT           reduce using rule 89 (classcreate_a -> vars classcreate_a .)
-    CHAR            reduce using rule 89 (classcreate_a -> vars classcreate_a .)
-
-
-state 179
-
-    (90) classcreate_a -> vars_vect_mat classcreate_a .
-
-    VOID            reduce using rule 90 (classcreate_a -> vars_vect_mat classcreate_a .)
-    INT             reduce using rule 90 (classcreate_a -> vars_vect_mat classcreate_a .)
-    FLOAT           reduce using rule 90 (classcreate_a -> vars_vect_mat classcreate_a .)
-    CHAR            reduce using rule 90 (classcreate_a -> vars_vect_mat classcreate_a .)
-
-
-state 180
-
-    (108) function -> function_a ID OP function_b CP . bloque
-    (33) bloque -> . OB bloque_a CB
-
-    OB              shift and go to state 19
-
-    bloque                         shift and go to state 187
-
-state 181
-
-    (111) function_b -> tiposimple ID .
-    (112) function_b -> tiposimple ID . COMMA function_b
-
-    CP              reduce using rule 111 (function_b -> tiposimple ID .)
-    COMMA           shift and go to state 188
-
+    function_d                     shift and go to state 151
+    function_b                     shift and go to state 193
+    empty                          shift and go to state 150
+    tiposimple                     shift and go to state 152
 
 state 182
 
-    (104) asignacion -> ID asignacion_a asignacion_a EQ expresion SC .
+    (119) function_d -> tiposimple ID .
 
-    ID              reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CLASS           reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CLASS_ID        reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    RETURN          reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    IF              reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    FOR             reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    INT             reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    FLOAT           reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CHAR            reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    DATAFRAME       reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    FILE            reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    VOID            reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    WHILE           reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CB              reduce using rule 104 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    COMMA           reduce using rule 119 (function_d -> tiposimple ID .)
+    CP              reduce using rule 119 (function_d -> tiposimple ID .)
 
 
 state 183
 
-    (92) classcreate_c -> function . classcreate_d
-    (94) classcreate_d -> . classcreate_c
-    (95) classcreate_d -> . empty
-    (92) classcreate_c -> . function classcreate_d
-    (93) classcreate_c -> . classcreate_d
-    (114) empty -> .
-    (108) function -> . function_a ID OP function_b CP bloque
-    (109) function_a -> . VOID
-    (110) function_a -> . tiposimple
-    (27) tiposimple -> . INT
-    (28) tiposimple -> . FLOAT
-    (29) tiposimple -> . CHAR
+    (108) asignacion -> ID asignacion_a asignacion_a EQ expresion . SC
 
-    CB              reduce using rule 114 (empty -> .)
-    VOID            shift and go to state 53
-    INT             shift and go to state 13
-    FLOAT           shift and go to state 14
-    CHAR            shift and go to state 15
+    SC              shift and go to state 194
 
-    function                       shift and go to state 183
-    classcreate_d                  shift and go to state 189
-    classcreate_c                  shift and go to state 190
-    empty                          shift and go to state 186
-    function_a                     shift and go to state 48
-    tiposimple                     shift and go to state 177
 
 state 184
 
-    (88) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c . CB
-    (94) classcreate_d -> classcreate_c .
+    (101) condicion_a -> condicion_d condicion_b bloque .
 
-  ! shift/reduce conflict for CB resolved as shift
-    CB              shift and go to state 191
-
-  ! CB              [ reduce using rule 94 (classcreate_d -> classcreate_c .) ]
+    ID              reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    CLASS           reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    CLASS_ID        reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    RETURN          reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    IF              reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    FOR             reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    INT             reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    FLOAT           reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    CHAR            reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    DATAFRAME       reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    FILE            reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    WHILE           reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    VOID            reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    CB              reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
+    OB              reduce using rule 101 (condicion_a -> condicion_d condicion_b bloque .)
 
 
 state 185
 
-    (93) classcreate_c -> classcreate_d .
+    (111) asignacionsencilla -> ID EQ expresion .
 
-    CB              reduce using rule 93 (classcreate_c -> classcreate_d .)
+    CP              reduce using rule 111 (asignacionsencilla -> ID EQ expresion .)
+    SC              reduce using rule 111 (asignacionsencilla -> ID EQ expresion .)
 
 
 state 186
 
-    (95) classcreate_d -> empty .
+    (92) classcreate -> CLASS CLASS_ID OB classcreate_a function . classcreate_c CB
+    (96) classcreate_c -> . function classcreate_d
+    (97) classcreate_c -> . classcreate_d
+    (112) function -> . function_e bloque
+    (98) classcreate_d -> . classcreate_c
+    (99) classcreate_d -> . empty
+    (120) function_e -> . function_c OP function_b CP vars
+    (121) function_e -> . function_c OP function_b CP empty
+    (122) empty -> .
+    (118) function_c -> . function_a ID
+    (113) function_a -> . VOID
+    (114) function_a -> . tiposimple
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
 
-    CB              reduce using rule 95 (classcreate_d -> empty .)
+    CB              reduce using rule 122 (empty -> .)
+    VOID            shift and go to state 58
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
 
+    function                       shift and go to state 195
+    classcreate_c                  shift and go to state 196
+    classcreate_d                  shift and go to state 197
+    function_e                     shift and go to state 49
+    empty                          shift and go to state 198
+    function_c                     shift and go to state 55
+    function_a                     shift and go to state 57
+    tiposimple                     shift and go to state 187
 
 state 187
 
-    (108) function -> function_a ID OP function_b CP bloque .
+    (114) function_a -> tiposimple .
 
-    ID              reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    CLASS           reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    CLASS_ID        reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    RETURN          reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    IF              reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    FOR             reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    INT             reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    FLOAT           reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    CHAR            reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    DATAFRAME       reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    FILE            reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    VOID            reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    WHILE           reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
-    CB              reduce using rule 108 (function -> function_a ID OP function_b CP bloque .)
+    ID              reduce using rule 114 (function_a -> tiposimple .)
 
 
 state 188
 
-    (112) function_b -> tiposimple ID COMMA . function_b
-    (111) function_b -> . tiposimple ID
-    (112) function_b -> . tiposimple ID COMMA function_b
-    (113) function_b -> . empty
-    (27) tiposimple -> . INT
-    (28) tiposimple -> . FLOAT
-    (29) tiposimple -> . CHAR
-    (114) empty -> .
+    (93) classcreate_a -> vars classcreate_a .
 
-    INT             shift and go to state 13
-    FLOAT           shift and go to state 14
-    CHAR            shift and go to state 15
-    CP              reduce using rule 114 (empty -> .)
+    VOID            reduce using rule 93 (classcreate_a -> vars classcreate_a .)
+    INT             reduce using rule 93 (classcreate_a -> vars classcreate_a .)
+    FLOAT           reduce using rule 93 (classcreate_a -> vars classcreate_a .)
+    CHAR            reduce using rule 93 (classcreate_a -> vars classcreate_a .)
 
-    tiposimple                     shift and go to state 164
-    function_b                     shift and go to state 192
-    empty                          shift and go to state 165
 
 state 189
 
-    (92) classcreate_c -> function classcreate_d .
-    (93) classcreate_c -> classcreate_d .
+    (94) classcreate_a -> vars_vect_mat classcreate_a .
 
-  ! reduce/reduce conflict for CB resolved using rule 92 (classcreate_c -> function classcreate_d .)
-    CB              reduce using rule 92 (classcreate_c -> function classcreate_d .)
-
-  ! CB              [ reduce using rule 93 (classcreate_c -> classcreate_d .) ]
+    VOID            reduce using rule 94 (classcreate_a -> vars_vect_mat classcreate_a .)
+    INT             reduce using rule 94 (classcreate_a -> vars_vect_mat classcreate_a .)
+    FLOAT           reduce using rule 94 (classcreate_a -> vars_vect_mat classcreate_a .)
+    CHAR            reduce using rule 94 (classcreate_a -> vars_vect_mat classcreate_a .)
 
 
 state 190
 
-    (94) classcreate_d -> classcreate_c .
+    (120) function_e -> function_c OP function_b CP vars .
 
-    CB              reduce using rule 94 (classcreate_d -> classcreate_c .)
+    OB              reduce using rule 120 (function_e -> function_c OP function_b CP vars .)
 
 
 state 191
 
-    (88) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .
+    (121) function_e -> function_c OP function_b CP empty .
 
-    ID              reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    CLASS           reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    CLASS_ID        reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    RETURN          reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    IF              reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    FOR             reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    INT             reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    FLOAT           reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    CHAR            reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    DATAFRAME       reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    FILE            reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    VOID            reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    WHILE           reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
-    CB              reduce using rule 88 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    OB              reduce using rule 121 (function_e -> function_c OP function_b CP empty .)
 
 
 state 192
 
-    (112) function_b -> tiposimple ID COMMA function_b .
+    (7) vars -> tiposimple . vars_a SC
+    (9) vars_a -> . vars_b
+    (10) vars_a -> . vars_c vars_a
+    (11) vars_b -> . ID
+    (12) vars_b -> . ID EQ expresion
+    (13) vars_c -> . vars_b COMMA
 
-    CP              reduce using rule 112 (function_b -> tiposimple ID COMMA function_b .)
+    ID              shift and go to state 26
+
+    vars_a                         shift and go to state 21
+    vars_b                         shift and go to state 23
+    vars_c                         shift and go to state 24
+
+state 193
+
+    (116) function_b -> function_d COMMA function_b .
+
+    CP              reduce using rule 116 (function_b -> function_d COMMA function_b .)
+
+
+state 194
+
+    (108) asignacion -> ID asignacion_a asignacion_a EQ expresion SC .
+
+    ID              reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    CLASS           reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    CLASS_ID        reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    RETURN          reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    IF              reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    FOR             reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    INT             reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    FLOAT           reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    CHAR            reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    DATAFRAME       reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    FILE            reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    WHILE           reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    VOID            reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+    CB              reduce using rule 108 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
+
+
+state 195
+
+    (96) classcreate_c -> function . classcreate_d
+    (98) classcreate_d -> . classcreate_c
+    (99) classcreate_d -> . empty
+    (96) classcreate_c -> . function classcreate_d
+    (97) classcreate_c -> . classcreate_d
+    (122) empty -> .
+    (112) function -> . function_e bloque
+    (120) function_e -> . function_c OP function_b CP vars
+    (121) function_e -> . function_c OP function_b CP empty
+    (118) function_c -> . function_a ID
+    (113) function_a -> . VOID
+    (114) function_a -> . tiposimple
+    (27) tiposimple -> . INT
+    (28) tiposimple -> . FLOAT
+    (29) tiposimple -> . CHAR
+
+    CB              reduce using rule 122 (empty -> .)
+    VOID            shift and go to state 58
+    INT             shift and go to state 13
+    FLOAT           shift and go to state 14
+    CHAR            shift and go to state 15
+
+    function                       shift and go to state 195
+    classcreate_d                  shift and go to state 199
+    classcreate_c                  shift and go to state 200
+    empty                          shift and go to state 198
+    function_e                     shift and go to state 49
+    function_c                     shift and go to state 55
+    function_a                     shift and go to state 57
+    tiposimple                     shift and go to state 187
+
+state 196
+
+    (92) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c . CB
+    (98) classcreate_d -> classcreate_c .
+
+  ! shift/reduce conflict for CB resolved as shift
+    CB              shift and go to state 201
+
+  ! CB              [ reduce using rule 98 (classcreate_d -> classcreate_c .) ]
+
+
+state 197
+
+    (97) classcreate_c -> classcreate_d .
+
+    CB              reduce using rule 97 (classcreate_c -> classcreate_d .)
+
+
+state 198
+
+    (99) classcreate_d -> empty .
+
+    CB              reduce using rule 99 (classcreate_d -> empty .)
+
+
+state 199
+
+    (96) classcreate_c -> function classcreate_d .
+    (97) classcreate_c -> classcreate_d .
+
+  ! reduce/reduce conflict for CB resolved using rule 96 (classcreate_c -> function classcreate_d .)
+    CB              reduce using rule 96 (classcreate_c -> function classcreate_d .)
+
+  ! CB              [ reduce using rule 97 (classcreate_c -> classcreate_d .) ]
+
+
+state 200
+
+    (98) classcreate_d -> classcreate_c .
+
+    CB              reduce using rule 98 (classcreate_d -> classcreate_c .)
+
+
+state 201
+
+    (92) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .
+
+    ID              reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    CLASS           reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    CLASS_ID        reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    RETURN          reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    IF              reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    FOR             reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    INT             reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    FLOAT           reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    CHAR            reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    DATAFRAME       reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    FILE            reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    WHILE           reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    VOID            reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
+    CB              reduce using rule 92 (classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for OSB in state 41 resolved as shift
-WARNING: shift/reduce conflict for ID in state 47 resolved as shift
-WARNING: shift/reduce conflict for INT in state 119 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 119 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 119 resolved as shift
-WARNING: shift/reduce conflict for INT in state 160 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 160 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 160 resolved as shift
-WARNING: shift/reduce conflict for INT in state 161 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 161 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 161 resolved as shift
-WARNING: shift/reduce conflict for CB in state 184 resolved as shift
+WARNING: shift/reduce conflict for ID in state 48 resolved as shift
+WARNING: shift/reduce conflict for INT in state 144 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 144 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 144 resolved as shift
+WARNING: shift/reduce conflict for INT in state 175 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 175 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 175 resolved as shift
+WARNING: shift/reduce conflict for INT in state 176 resolved as shift
+WARNING: shift/reduce conflict for FLOAT in state 176 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 176 resolved as shift
+WARNING: shift/reduce conflict for CB in state 196 resolved as shift
 WARNING: reduce/reduce conflict in state 7 resolved using rule (programa_a -> programa_b)
 WARNING: rejected rule (empty -> <empty>) in state 7
 WARNING: reduce/reduce conflict in state 28 resolved using rule (bloque_a -> estatuto)
 WARNING: rejected rule (empty -> <empty>) in state 28
-WARNING: reduce/reduce conflict in state 189 resolved using rule (classcreate_c -> function classcreate_d)
-WARNING: rejected rule (classcreate_c -> classcreate_d) in state 189
+WARNING: reduce/reduce conflict in state 199 resolved using rule (classcreate_c -> function classcreate_d)
+WARNING: rejected rule (classcreate_c -> classcreate_d) in state 199

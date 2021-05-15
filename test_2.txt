@@ -1,8 +1,9 @@
 program pelos;
 {
-    int a, b, c, d;
-    while(a > b * c){
-        a = a - d;
+    int a, b, c, d, i;
+    while(i > 0) {
+            a=a+b*i+b;
+            i = i - 1;
     }
     b = c + a;
 }

@@ -29,6 +29,7 @@ class State(Enum):
 
 
 curr_state = 0
+function_bool = False
 rel_op = ""
 
 avail = MemoryRegister()
@@ -37,6 +38,7 @@ pending_operands = []
 corresponding_types = []
 quad = []
 pila_fors = []
+function_vars = {}
 
 psaltos = []
 
@@ -278,6 +280,8 @@ t_CTE_STRING = r'\".*\"'
 
 
 def module_def_1(proc_name):
+    global function_bool
+    function_bool = True
     funciones_dic["id"] = proc_name
     table["funciones"][funciones_dic['id']] = {
         "tipo": funciones_dic['tipo'],
@@ -307,12 +311,16 @@ def module_def_5():
 
 def module_def_6():
     table["funciones"][funciones_dic['id']]["linea"] = len(quad)
+    table["funciones"][funciones_dic['id']]["variables"] = function_vars
 
 
 def module_def_7():
+    global function_bool
     table["funciones"][funciones_dic['id']]["variables"] = {}
+    function_vars.clear()
     quad.append(["ENDFUNC", "_", "_", "_"])
     funciones_dic_clear()
+    function_bool = False
     # TODO: NOS FALTO EL ULTIMO PASO
 
 
@@ -345,8 +353,9 @@ def module_call_4():
 
 
 def module_call_5():
-    if k != table["funciones"][func_call_id]["param_cont"]:
+    if k != len(table["funciones"][func_call_id]["parametros"]):
         print("ERROR: se paso el limite de argumentos en la llamada.")
+        exit(-1)
 
 
 def module_call_6():
@@ -420,6 +429,7 @@ def while_2():
     t_cond = corresponding_types.pop()
 
     if t_cond != "int":
+        print(t_cond)
         print("Tcond ")
         print("ERROR")
     else:
@@ -434,20 +444,27 @@ def while_3():
     quad[falso][3] = len(quad)
 
 
+def infer_type(id):
+    try:  # TODO Detectar cuando es float
+        int(id)
+        corresponding_types.append('int')
+    except ValueError:
+        corresponding_types.append('char')
+
+
 def math_expression_1(id):
     type_converter = {
         "<class 'str'>": "char"
     }
 
     pending_operands.append(id)
-    if id in table['variables']:
+
+    if id in function_vars:
+        corresponding_types.append(function_vars[id]['tipo'])
+    elif id in table['variables']:
         corresponding_types.append(table['variables'][id]['tipo'])
     else:
-        try:  #TODO Detectar cuando es float
-            int(id)
-            corresponding_types.append('int')
-        except ValueError:
-            corresponding_types.append('char')
+        infer_type(id)
 
 
 def math_expression_2(operand):
@@ -475,7 +492,7 @@ def math_expression_4(symbols):
             operator = pending_operators.pop()
 
             result_type = semantics[left_type][right_type][operator]
-            if result_type != 'ERROR':
+            if result_type != 'error' and result_type != 'ERROR':
                 result = avail.next()  # Avail continene registros temporales, direcciones disponibles
                 _quad = [operator, left_operand, right_operand, result]
                 quad.append(_quad)
@@ -489,6 +506,7 @@ def math_expression_4(symbols):
                     avail.clear_space(right_operand[1])
             else:
                 print("ERROR: Type mismatch")
+                exit(-1)
 
 
 def math_expression_5():
@@ -580,16 +598,24 @@ def p_programa_a(p):
 def p_programa_b(p):
     '''programa_b : vars
                 | vars_vect_mat'''
-#
-#
+
+
 def p_vars(p):
     '''vars : tiposimple vars_a SC
             | tipocompuesto vars_a SC'''
 
-    table['variables'][token_dic['id']] = {
-        "tipo": token_dic['tipo'],
-        "valor": token_dic['valor']
-    }
+    global function_vars
+
+    if not function_bool:
+        table['variables'][token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor']
+        }
+    else:
+        function_vars[token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor'],
+        }
 
     token_dic_clear()
 
@@ -943,9 +969,7 @@ def p_asignacionsencilla(p):
 
 # falta guardar los parametros de las funciones en la tabla
 def p_function(p):
-    '''function : function_c OP function_b CP bloque'''
-    module_def_5()
-    module_def_6()
+    '''function : function_e bloque'''
     module_def_7()
 
 
@@ -956,7 +980,6 @@ def p_function_a(p):
         funciones_dic["tipo"] = "void"
     else:
         funciones_dic["tipo"] = token_dic["tipo"]
-
 
 
 def p_function_b(p):
@@ -980,6 +1003,13 @@ def p_function_d(p):
     module_def_3(_dic)
 
 
+def p_function_e(p):
+    '''function_e : function_c OP function_b CP vars
+                | function_c OP function_b CP empty'''
+    module_def_5()
+    module_def_6()
+
+
 def p_empty(p):
     'empty :'
     pass
@@ -993,7 +1023,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_4.txt", "r")
+    f = open("test_5.txt", "r")
     s = f.read()
 
 except EOFError:
