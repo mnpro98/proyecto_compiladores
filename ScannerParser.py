@@ -23,6 +23,10 @@ class MemoryRegister:
         space_num = int(space_num)
         self.array[space_num] = None
 
+    def clear_avail(self):
+        self.array.clear()
+        self.index = 0
+
 
 class State(Enum):
     CLASS_CREATE = 1
@@ -30,13 +34,19 @@ class State(Enum):
 
 curr_state = 0
 function_bool = False
+function_temp = {
+    "total": 0,
+    "int": 0,
+    "float": 0,
+    "char": 0
+}
 rel_op = ""
 
 avail = MemoryRegister()
 pending_operators = []
 pending_operands = []
 corresponding_types = []
-quad = []
+quad = [['goto', '_', '_', 'main']]
 pila_fors = []
 function_vars = {}
 
@@ -316,12 +326,24 @@ def module_def_6():
 
 def module_def_7():
     global function_bool
+    global function_temp
+    global quad
     table["funciones"][funciones_dic['id']]["variables"] = {}
     function_vars.clear()
     quad.append(["ENDFUNC", "_", "_", "_"])
+    if funciones_dic['id'] == 'main':
+        quad[0] = [['goto', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]]
+    table["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
     funciones_dic_clear()
     function_bool = False
     # TODO: NOS FALTO EL ULTIMO PASO
+    function_temp = {
+        "total": 0,
+        "int": 0,
+        "float": 0,
+        "char": 0
+    }
+    avail.clear_avail()
 
 
 def module_call_1(_id):
@@ -483,6 +505,7 @@ def math_expression_3(operand):
 
 def math_expression_4(symbols):
     global avail
+    global function_temp
     if len(pending_operators) != 0:
         if pending_operators[-1] in symbols:
             right_operand = pending_operands.pop()
@@ -493,17 +516,25 @@ def math_expression_4(symbols):
 
             result_type = semantics[left_type][right_type][operator]
             if result_type != 'error' and result_type != 'ERROR':
+                if function_bool:
+                    function_temp["total"] = function_temp["total"] + 1
+                    if result_type == 'int':
+                        function_temp["int"] = function_temp["int"] + 1
+                    elif result_type == 'float':
+                        function_temp["float"] = function_temp["float"] + 1
+                    elif result_type == 'char':
+                        function_temp["char"] = function_temp["char"] + 1
                 result = avail.next()  # Avail continene registros temporales, direcciones disponibles
                 _quad = [operator, left_operand, right_operand, result]
                 quad.append(_quad)
                 pending_operands.append(result)
                 corresponding_types.append(result_type)
-
+                #TODO: revisar esto (da out of bounds cuando reseteas el avail)
                 # If any operand were a temporal space, return it to AVAIL
-                if left_operand[0] == "t":
-                    avail.clear_space(left_operand[1])
-                if right_operand[0] == "t":
-                    avail.clear_space(right_operand[1])
+                # if left_operand[0] == "t":
+                #     avail.clear_space(left_operand[1])
+                # if right_operand[0] == "t":
+                #     avail.clear_space(right_operand[1])
             else:
                 print("ERROR: Type mismatch")
                 exit(-1)
@@ -1033,3 +1064,4 @@ yacc.parse(s)
 
 pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
+pp.pprint(table)
