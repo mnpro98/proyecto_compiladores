@@ -224,7 +224,8 @@ reserved = {
     'while': 'WHILE',
     'dataframe': 'DATAFRAME',
     'file': 'FILE',
-    'return': 'RETURN'
+    'return': 'RETURN',
+    'def': 'DEF',
 }
 
 
@@ -255,6 +256,7 @@ t_CLASS = r'class'
 t_RETURN = r'return'
 t_VOID = r'void'
 t_FOR = r'for'
+t_DEF = r'def'
 t_WHILE = r'while'
 t_DATAFRAME = r'dataframe'
 t_FILE = r'file'
@@ -1006,7 +1008,7 @@ def p_asignacionsencilla(p):
 
 # falta guardar los parametros de las funciones en la tabla
 def p_function(p):
-    '''function : function_e bloque'''
+    '''function : DEF function_e bloque'''
     module_def_7()
 
 

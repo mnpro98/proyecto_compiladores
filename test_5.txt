@@ -2,14 +2,14 @@ program patito;
 int a, b;
 float f;
 {
-    int uno (int a)
+    def int uno (int a)
     int localuno;
     {
         a = a + b * a;
-        return a;
+        return a + 1;
     }
 
-    void dos(int a, int b, float g)
+    def void dos(int a, int b, float g)
     int i;
     {
         i=b;
@@ -20,7 +20,7 @@ float f;
         }
     }
 
-    void main(){
+    def void main(){
         a=3;
         b=a+1;
         f=3.14;
