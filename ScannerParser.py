@@ -356,7 +356,7 @@ def module_def_7():
     function_vars.clear()
     quad.append(["ENDFUNC", "_", "_", "_"])
     if funciones_dic['id'] == 'main':
-        quad[0] = [['goto', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]]
+        quad[0] = ['goto', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]
     table["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
     funciones_dic_clear()
     function_bool = False

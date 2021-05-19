@@ -1,3 +1,7 @@
+def exec_goto():
+    print("Goto action")
+
+
 class Memory:
     virtual_memory = {
         "global": [],
@@ -8,14 +12,12 @@ class Memory:
 
     def __init__(self, quad, functions):
         self.virtual_memory['quad'] = quad
+        print(self.virtual_memory['quad'])
         self.exec_quad()
 
     def exec_quad(self):
         for _quad in self.virtual_memory['quad']:
             func = self.switch.get(_quad[0], lambda: "Invalid action")
-
-    def exec_goto(self):
-        print("Goto action")
 
     switch = {
         'goto': exec_goto
@@ -23,4 +25,5 @@ class Memory:
 
 
 def start_vm(quad, functions):
+    print("VM")
     mem = Memory(quad, functions)
