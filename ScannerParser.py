@@ -2,6 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 from pprint import PrettyPrinter
 from enum import Enum
+from VM.VirtualMachine import start
 
 
 class MemoryRegister:
@@ -1091,3 +1092,5 @@ yacc.parse(s)
 pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
 pp.pprint(table)
+
+start(quad, table["funciones"])
