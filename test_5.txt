@@ -2,10 +2,11 @@ program patito;
 int a, b;
 float f;
 {
-    void uno(int a)
+    int uno (int a)
     int localuno;
     {
         a = a + b * a;
+        return a;
     }
 
     void dos(int a, int b, float g)

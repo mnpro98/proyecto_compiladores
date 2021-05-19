@@ -289,6 +289,10 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def return_1():
+    quad.append(["Ret", "_", "_", pending_operands.pop()])
+
+
 def module_def_1(proc_name):
     global function_bool
     function_bool = True
@@ -316,12 +320,13 @@ def module_def_4():
 
 
 def module_def_5():
+    table["funciones"][funciones_dic['id']]["variables"] = function_vars
     table["funciones"][funciones_dic['id']]["var_cont"] = len(table["funciones"][funciones_dic['id']]["variables"])
+    print(str(table["funciones"][funciones_dic['id']]["variables"]))
 
 
 def module_def_6():
     table["funciones"][funciones_dic['id']]["linea"] = len(quad)
-    table["funciones"][funciones_dic['id']]["variables"] = function_vars
 
 
 def module_def_7():
@@ -759,6 +764,7 @@ def p_estatuto(p):
 
 def p_return(p):
     '''return : RETURN expresion SC'''
+    return_1()
 
 
 def p_expresion(p):
