@@ -226,6 +226,7 @@ reserved = {
     'file': 'FILE',
     'return': 'RETURN',
     'def': 'DEF',
+    'print': 'PRINT'
 }
 
 
@@ -257,6 +258,7 @@ t_RETURN = r'return'
 t_VOID = r'void'
 t_FOR = r'for'
 t_DEF = r'def'
+t_PRINT = r'print'
 t_WHILE = r'while'
 t_DATAFRAME = r'dataframe'
 t_FILE = r'file'
@@ -388,7 +390,10 @@ def module_call_5():
 
 
 def module_call_6():
+    result = avail.next()
     quad.append(["GOSUB", func_call_id, "_", table["funciones"][func_call_id]["linea"]])
+    quad.append(["=", func_call_id, "_", result])
+    pending_operands.append(result)
 
 
 def for_1():
@@ -486,12 +491,15 @@ def math_expression_1(id):
         "<class 'str'>": "char"
     }
 
-    pending_operands.append(id)
+    if id not in table['funciones']:
+        pending_operands.append(id)
 
     if id in function_vars:
         corresponding_types.append(function_vars[id]['tipo'])
     elif id in table['variables']:
         corresponding_types.append(table['variables'][id]['tipo'])
+    elif id in table['funciones']:
+        corresponding_types.append(table['funciones'][id]['tipo'])
     else:
         infer_type(id)
 
@@ -722,6 +730,7 @@ def p_term_a(p):
 #    global expresion_helper
 #    expresion_helper = expresion_helper + p[1]
 
+
 def p_term_b(p):
     '''term_b : fact'''
     math_expression_5()
@@ -753,7 +762,7 @@ def p_bloque_a(p):
 def p_estatuto(p):
     '''estatuto : asignacion
                 | condicion
-                | llamada
+                | llamada SC
                 | while
                 | for
                 | classcreate
@@ -761,7 +770,8 @@ def p_estatuto(p):
                 | classdeclare
                 | llamadafuncionclase
                 | function
-                | return'''
+                | return
+                | print'''
 
 
 def p_return(p):
@@ -868,7 +878,7 @@ def p_for_e(p):
 
 
 def p_llamada(p):
-    '''llamada : llamada_d llamada_a CP SC'''
+    '''llamada : llamada_d llamada_a CP'''
     module_call_5()
     module_call_6()
 
@@ -904,22 +914,30 @@ def p_llamada_f(p):
     module_call_4()
 
 
+def p_print(p):
+    '''print : PRINT OP expresion CP SC'''
+    quad.append(["PRINT", "_", "_", pending_operands.pop()])
+
+
 def p_fact(p):
-    '''fact : fact_a exp CP
+    '''fact : OP fact_a exp CP
             | CTE_I
             | CTE_F
             | CTE_CHAR
             | ID
             | llamada'''
 
-    if p[1] != 'None':  # 1
-        math_expression_1(p[1])
-    else:  # 7
+    if p[1] == "(":
         math_expression_7()
+    elif p[1] is None:  # 1
+        # Llamar funcion en caso de que sea una llamada
+        math_expression_1(func_call_id)
+    else:
+        math_expression_1(p[1])
 
 
 def p_fact_a(p):
-    '''fact_a : OP'''
+    '''fact_a : empty'''
     math_expression_6()
 
 

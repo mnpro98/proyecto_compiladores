@@ -5,7 +5,7 @@ float f;
     def int uno (int a)
     int localuno;
     {
-        a = a + b * a;
+        a = (a + b) * a;
         return a + 1;
     }
 
@@ -15,8 +15,7 @@ float f;
         i=b;
         while(i > 0) {
             a=a+b*i+b;
-            uno(i*2);
-            i= i - 1;
+            print(uno(i*2));
         }
     }
 
