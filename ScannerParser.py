@@ -1,8 +1,22 @@
+# Global:   1 - 3000
+#   int:        1 - 1000
+#   float:      1001 - 2000
+#   char:       2001 - 3000
+# Local:    3001 - 6000
+#   int:        3001 - 4000
+#   float:      4001 - 5000
+#   char:       5001 - 6000
+# Temp:     6001 - 9000
+#   int:        6001 - 7000
+#   float:      7001 - 8000
+#   char:       8001 - 9000
+
+
 import ply.lex as lex
 import ply.yacc as yacc
 from pprint import PrettyPrinter
 from enum import Enum
-from VM.VirtualMachine import start
+from VM.VirtualMachine import start_vm
 
 
 class MemoryRegister:
@@ -1093,4 +1107,4 @@ pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
 pp.pprint(table)
 
-start(quad, table["funciones"])
+start_vm(quad, table["funciones"])
