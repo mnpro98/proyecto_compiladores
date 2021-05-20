@@ -348,7 +348,6 @@ def add_localvaddr():
         localChar += 1
     
 
-
 def add_globalvaddr():
     global globalChar
     global globalInt
@@ -566,6 +565,8 @@ def math_expression_1(id):
         "<class 'str'>": "char"
     }
 
+    print(function_vars)
+
     if id not in table['funciones']:
         if id.isnumeric() or check_float(id):
             pending_operands.append(id)
@@ -676,10 +677,11 @@ def funciones_dic_clear():
     funciones_dic["id"] = ""
     funciones_dic["tipo"] = ""
 
+
 def token_dic_clear():
     token_dic["tipo"] = ""
     token_dic["id"] = ""
-    token_dic["valor"] = "null"
+    token_dic["valor"] = ""
 
 
 def t_ID(t):
@@ -745,7 +747,6 @@ def p_vars(p):
             "valor": token_dic['valor'],
         }
         add_localvaddr()
-
     token_dic_clear()
 
 
@@ -753,15 +754,22 @@ def p_vars_a(p):
     '''vars_a : vars_b
             | vars_c vars_a'''
 
+
 def p_vars_b(p):
     '''vars_b : ID
             | ID EQ expresion'''
+
+    print(table['variables'])
+    print(function_vars)
     token_dic['id'] = p[1]
     if len(p) > 2:
         operator = p[2]
         left_operand = '_'
         right_operand = pending_operands.pop()
-        result = p[1]
+        try:
+            result = table['variables'][p[1]]['vaddr']
+        except KeyError:
+            result = function_vars[p[1]]['vaddr']
         _quad = [operator, left_operand, right_operand, result]
         quad.append(_quad)
 
@@ -803,6 +811,7 @@ def p_m_exp_a(p):
     math_expression_2(p[1])
 #    global expresion_helper
 #    expresion_helper = expresion_helper + p[1]
+
 
 def p_m_exp_b(p):
     '''m_exp_b : term '''
@@ -1114,7 +1123,10 @@ def p_asignacionsencilla(p):
     operator = p[2]
     left_operand = '_'
     right_operand = pending_operands.pop()
-    result = p[1]
+    try:
+        result = table['variables'][p[1]]['vaddr']
+    except KeyError:
+        result = function_vars[p[1]]['vaddr']
     _quad = [operator, left_operand, right_operand, result]
     quad.append(_quad)
 
@@ -1175,7 +1187,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_5.txt", "r")
+    f = open("test_6.txt", "r")
     s = f.read()
 
 except EOFError:
@@ -1186,3 +1198,5 @@ yacc.parse(s)
 pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
 pp.pprint(table)
+
+start_vm(quad, table['funciones'])

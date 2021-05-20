@@ -1,11 +1,10 @@
-import numpy as np
-
 virtual_memory = {
     "mem_stack": [],
     "quad": [],
 }
 
 curr_quad = []
+curr_quad_num = 0
 
 
 # Differentiates between a constant and an id.
@@ -20,8 +19,8 @@ def operand(arg):
 
 
 def exec_goto():
-    new_quad = np.array(virtual_memory['quad'])
-    exec_quad(new_quad[curr_quad[3]:])
+    global curr_quad_num
+    curr_quad_num = curr_quad[3]
 
 
 def exec_gotof():
@@ -40,12 +39,12 @@ def exec_print():
 
 # TODO
 def exec_era():
-    print("era")
+    pass
 
 
 # TODO
 def exec_param():
-    print("param")
+    pass
 
 
 # TODO
@@ -54,7 +53,7 @@ def exec_ret():
 
 
 def exec_endfunc():
-    print("endfunc")
+    pass
 
 
 def exec_endprog():
@@ -170,12 +169,13 @@ def exec_eq():
 
 def exec_quad(quads):
     global curr_quad
-    for _quad in quads:
-        func = switch.get(_quad[0], lambda: "Invalid action")
-        curr_quad = _quad
+    global curr_quad_num
+    while quads[curr_quad_num][0] != 'ENDPROG':
+        print(quads[curr_quad_num])
+        func = switch.get(quads[curr_quad_num][0], lambda: "Invalid action")
+        curr_quad = quads[curr_quad_num]
         func()
-        if _quad[0] == "GOTO":
-            break
+        curr_quad_num += 1
 
 
 switch = {

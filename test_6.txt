@@ -1,0 +1,13 @@
+program patito;
+int a, b;
+float f;
+{
+    def void main()
+    int i = 0 * 2;
+    {
+        while(i < 10) {
+            print(i * 2);
+            i = i + 1;
+        }
+    }
+}
