@@ -1,16 +1,16 @@
 program h;
 {
-    return t;
-    int a, b, c, d;
-    int i, j;
-    for(i = 0; i < 30; i = i + 1) {
-        b = b + 1;
-        a = b + 1;
-        for(j = 0; j < 30; j = j + 1) {
-            c = b + 1;
-            d = b + 1;
+    int k;
+    def void main(){
+        int a, b, c, d;
+        int i, j;
+        a = 2;
+        k = 10;
+        for(i = 0; i < 2; i = i + 1) {
+            print(i);
+            for(j = 0; j < 4; j = j + 1) {
+                print(j);
+            }
         }
-        b = 4;
     }
-    b = a - 1;
 }

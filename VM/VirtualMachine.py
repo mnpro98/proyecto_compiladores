@@ -20,7 +20,7 @@ def operand(arg):
 
 def exec_goto():
     global curr_quad_num
-    curr_quad_num = curr_quad[3]
+    curr_quad_num = curr_quad[3] - 1
 
 
 def exec_gotof():
@@ -37,21 +37,21 @@ def exec_print():
     print(virtual_memory['mem_stack'][curr_quad[3]])
 
 
-# TODO
+# TODO reserva espacio para variables locales
 def exec_era():
     pass
 
 
-# TODO
+# TODO pasas los parametros y validas mismo numero
 def exec_param():
     pass
 
 
-# TODO
+# TODO libera el espacio que se saco con el era y regresa valor si es que tiene return
 def exec_ret():
     pass
 
-
+# libera la memoria
 def exec_endfunc():
     pass
 
@@ -77,7 +77,6 @@ def exec_subtract():
 def exec_multiply():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
-
     virtual_memory['mem_stack'][curr_quad[3]] = left_operand * right_operand
 
 
@@ -171,7 +170,7 @@ def exec_quad(quads):
     global curr_quad
     global curr_quad_num
     while quads[curr_quad_num][0] != 'ENDPROG':
-        print(quads[curr_quad_num])
+        #print(quads[curr_quad_num])
         func = switch.get(quads[curr_quad_num][0], lambda: "Invalid action")
         curr_quad = quads[curr_quad_num]
         func()

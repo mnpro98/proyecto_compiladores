@@ -565,7 +565,6 @@ def math_expression_1(id):
         "<class 'str'>": "char"
     }
 
-    print(function_vars)
 
     if id not in table['funciones']:
         if id.isnumeric() or check_float(id):
@@ -736,17 +735,19 @@ def p_vars(p):
     global function_vars
 
     if not function_bool:
-        table['variables'][token_dic['id']] = {
-            "tipo": token_dic['tipo'],
-            "valor": token_dic['valor']
-        }
-        add_globalvaddr()
+        table['variables'][token_dic['id']]['tipo'] = token_dic['tipo']
+        table['variables'][token_dic['id']]['valor'] = token_dic['valor']
+        try:
+            table['variables'][token_dic['id']]['vaddr']
+        except KeyError:
+            add_globalvaddr()
     else:
-        function_vars[token_dic['id']] = {
-            "tipo": token_dic['tipo'],
-            "valor": token_dic['valor'],
-        }
-        add_localvaddr()
+        function_vars[token_dic['id']]['tipo'] = token_dic['tipo']
+        function_vars[token_dic['id']]['valor'] = token_dic['valor']
+        try:
+            function_vars[token_dic['id']]['vaddr']
+        except KeyError:
+            add_localvaddr()
     token_dic_clear()
 
 
@@ -758,10 +759,25 @@ def p_vars_a(p):
 def p_vars_b(p):
     '''vars_b : ID
             | ID EQ expresion'''
-
-    print(table['variables'])
-    print(function_vars)
     token_dic['id'] = p[1]
+    if not function_bool:
+        table['variables'][token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor']
+        }
+        try:
+            table['variables'][token_dic['id']]['vaddr']
+        except KeyError:
+            add_globalvaddr()
+    else:
+        function_vars[token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor'],
+        }
+        try:
+            function_vars[token_dic['id']]['vaddr']
+        except KeyError:
+            add_localvaddr()
     if len(p) > 2:
         operator = p[2]
         left_operand = '_'
@@ -776,20 +792,6 @@ def p_vars_b(p):
 
 def p_vars_c(p):
     '''vars_c : vars_b COMMA'''
-
-    if not function_bool:
-        table['variables'][token_dic['id']] = {
-            "tipo": token_dic['tipo'],
-            "valor": token_dic['valor']
-        }
-        add_globalvaddr()
-    else:
-        function_vars[token_dic['id']] = {
-            "tipo": token_dic['tipo'],
-            "valor": token_dic['valor'],
-        }
-        add_localvaddr()
-
 
 def p_vars_vect_mat(p):
     '''vars_vect_mat : tiposimple ID vars_vect_mat_a SC
@@ -1071,7 +1073,8 @@ def p_condicion(p):
 
 
 def p_condicion_a(p):
-    '''condicion_a : condicion_d condicion_b bloque'''
+    '''condicion_a : condicion_d condicion_b bloque
+                | empty'''
 
 
 def p_condicion_b(p):

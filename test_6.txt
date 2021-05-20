@@ -1,12 +1,19 @@
 program patito;
-int a, b;
+int a, b = 2;
 float f;
 {
     def void main()
-    int i = 0 * 2;
+    int i;
     {
+        i = 0;
+        print(f);
         while(i < 10) {
-            print(i * 2);
+            if(i < 5){
+                print(i);
+            }else{
+                print(i + 100);
+            }
+            print(i);
             i = i + 1;
         }
     }
