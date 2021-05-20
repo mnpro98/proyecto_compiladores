@@ -11,7 +11,6 @@
 #   float:      21001 - 24000
 #   char:       24001 - 27000
 
-
 import ply.lex as lex
 import ply.yacc as yacc
 from pprint import PrettyPrinter
@@ -1187,5 +1186,3 @@ yacc.parse(s)
 pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
 pp.pprint(table)
-
-start_vm(quad, table["funciones"])
