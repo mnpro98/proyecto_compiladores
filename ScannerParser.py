@@ -1,15 +1,15 @@
-# Global:   1 - 3000
-#   int:        1 - 1000
-#   float:      1001 - 2000
-#   char:       2001 - 3000
-# Local:    3001 - 6000
-#   int:        3001 - 4000
-#   float:      4001 - 5000
-#   char:       5001 - 6000
-# Temp:     6001 - 9000
-#   int:        6001 - 7000
-#   float:      7001 - 8000
-#   char:       8001 - 9000
+# Global:   1 - 9000
+#   int:        1 - 3000
+#   float:      3001 - 6000
+#   char:       6001 - 9000
+# Local:    9001 - 18000
+#   int:        9001 - 12000
+#   float:      12001 - 15000
+#   char:       15001 - 18000
+# Temp:     18001 - 27000
+#   int:        18001 - 21000
+#   float:      21001 - 24000
+#   char:       24001 - 27000
 
 
 import ply.lex as lex
@@ -18,6 +18,18 @@ from pprint import PrettyPrinter
 from enum import Enum
 from VM.VirtualMachine import start_vm
 
+#Contadores para address de variables
+globalInt = 1
+globalFloat = 3001
+globalChar = 6001
+
+localInt = 9001
+localFloat = 12001
+localChar = 15001
+
+tempInt = 18001
+tempFloat = 21001
+tempChar = 24001
 
 class MemoryRegister:
     array: list
@@ -27,12 +39,20 @@ class MemoryRegister:
         self.array = [None]*1000
         self.index = 0
 
-    def next(self):
-        self.index += 1
-        return "t" + str(self.index)
-
-    def get_curr_value(self):
-        return "t" + str(self.index)
+    def next(self, type):
+        global tempInt, tempChar, tempFloat
+        if type == "int":
+            temp = tempInt
+            tempInt += 1
+            return temp
+        elif type == "float":
+            temp = tempFloat
+            tempFloat += 1
+            return temp
+        elif type == "char":
+            temp = tempChar
+            tempChar += 1
+            return temp
 
     def clear_space(self, space_num):
         space_num = int(space_num)
@@ -61,11 +81,19 @@ avail = MemoryRegister()
 pending_operators = []
 pending_operands = []
 corresponding_types = []
-quad = [['goto', '_', '_', 'main']]
+quad = [['GOTO', '_', '_', 'main']]
 pila_fors = []
 function_vars = {}
 
 psaltos = []
+
+def check_float(potential_float):
+    try:
+        float(potential_float)
+
+        return True
+    except ValueError:
+        return False
 
 semantics = {
     'int': {
@@ -308,8 +336,38 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def add_localvaddr():
+    global localChar, localFloat, localInt
+    if function_vars[token_dic['id']]['tipo'] == "int":
+        function_vars[token_dic['id']]['vaddr'] = localInt
+        localInt += 1
+    elif function_vars[token_dic['id']]['tipo'] == "float":
+        function_vars[token_dic['id']]['vaddr'] = localFloat
+        localFloat += 1
+    elif function_vars[token_dic['id']]['tipo'] == "char":
+        function_vars[token_dic['id']]['vaddr'] = localChar
+        localChar += 1
+    
+
+
+def add_globalvaddr():
+    global globalChar
+    global globalInt
+    global globalFloat
+
+    if table['variables'][token_dic['id']]['tipo'] == "int":
+        table['variables'][token_dic['id']]['vaddr'] = globalInt
+        globalInt += 1
+    elif table['variables'][token_dic['id']]['tipo'] == "float":
+        table['variables'][token_dic['id']]['vaddr'] = globalFloat
+        globalFloat += 1
+    elif table['variables'][token_dic['id']]['tipo'] == "char":
+        table['variables'][token_dic['id']]['vaddr'] = globalChar
+        globalChar += 1
+
+
 def return_1():
-    quad.append(["Ret", "_", "_", pending_operands.pop()])
+    quad.append(["RET", "_", "_", pending_operands.pop()])
 
 
 def module_def_1(proc_name):
@@ -354,9 +412,11 @@ def module_def_7():
     global quad
     table["funciones"][funciones_dic['id']]["variables"] = {}
     function_vars.clear()
-    quad.append(["ENDFUNC", "_", "_", "_"])
+    if funciones_dic['id'] != 'main':
+        quad.append(["ENDFUNC", "_", "_", "_"])
     if funciones_dic['id'] == 'main':
-        quad[0] = ['goto', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]
+        quad[0] = ['GOTO', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]
+        quad.append(["ENDPROG", "_", "_", "_"])
     table["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
     funciones_dic_clear()
     function_bool = False
@@ -390,7 +450,7 @@ def module_call_3():
     if table["funciones"][func_call_id]["parametros"][k - 1] != arg_type:
         print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
         exit(-1)
-    quad.append(["param", argument, "_", "param" + str(k)])
+    quad.append(["PARAM", argument, "_", "PARAM" + str(k)])
 
 
 def module_call_4():
@@ -405,9 +465,10 @@ def module_call_5():
 
 
 def module_call_6():
-    result = avail.next()
+    result = avail.next(table["funciones"][func_call_id]["tipo"])
     quad.append(["GOSUB", func_call_id, "_", table["funciones"][func_call_id]["linea"]])
-    quad.append(["=", func_call_id, "_", result])
+    if table["funciones"][func_call_id]["tipo"] != 'void':
+        quad.append(["=", func_call_id, "_", result])
     pending_operands.append(result)
 
 
@@ -426,24 +487,24 @@ def for_3():
     if t_cond_for != "int":
         print("Tcond ERROR")
     else:
-        quad.append(["gotoF", "_", cond, "_"])
-        pila_fors[-1]["gotoF"] = len(quad) - 1
-        quad.append(["goto", "_", "_", "_"])
-        pila_fors[-1]["goto1"] = len(quad) - 1
+        quad.append(["GOTOF", "_", cond, "_"])
+        pila_fors[-1]["GOTOF"] = len(quad) - 1
+        quad.append(["GOTO", "_", "_", "_"])
+        pila_fors[-1]["GOTO1"] = len(quad) - 1
 
 
 def for_4():
-    pila_fors[-1]["goto2"] = len(quad)
+    pila_fors[-1]["GOTO2"] = len(quad)
 
 
 def for_5():
-    quad.append(["goto", "_", "_", pila_fors[-1]["condicion"]])
-    quad[pila_fors[-1]["goto1"]][3] = len(quad)
+    quad.append(["GOTO", "_", "_", pila_fors[-1]["condicion"]])
+    quad[pila_fors[-1]["GOTO1"]][3] = len(quad)
 
 
 def for_6():
-    quad.append(["goto", "_", "_", pila_fors[-1]["goto2"]])
-    quad[pila_fors[-1]["gotoF"]][3] = len(quad)
+    quad.append(["GOTO", "_", "_", pila_fors[-1]["GOTO2"]])
+    quad[pila_fors[-1]["GOTOF"]][3] = len(quad)
     pila_fors.pop()
 
 
@@ -453,7 +514,7 @@ def if_1():
     if t_cond_if != 'int':
         print("ERROR: Cond is not int")
     else:
-        quad.append(["gotoF", "_", cond, "_"])
+        quad.append(["GOTOF", "_", cond, "_"])
         psaltos.append(len(quad) - 1)
 
 
@@ -464,7 +525,7 @@ def if_2():
 
 def if_3():
     falso = psaltos.pop()
-    quad.append(["goto", "_", "_", "_"])
+    quad.append(["GOTO", "_", "_", "_"])
     psaltos.append(len(quad) - 1)
     quad[falso][3] = len(quad)
 
@@ -482,14 +543,14 @@ def while_2():
         print("Tcond ")
         print("ERROR")
     else:
-        quad.append(["gotoF", "_", cond, "_"])
+        quad.append(["GOTOF", "_", cond, "_"])
         psaltos.append(len(quad) - 1)
 
 
 def while_3():
     falso = psaltos.pop()
     ret = psaltos.pop()
-    quad.append(["goto", "_", "_", ret])
+    quad.append(["GOTO", "_", "_", ret])
     quad[falso][3] = len(quad)
 
 
@@ -507,7 +568,13 @@ def math_expression_1(id):
     }
 
     if id not in table['funciones']:
-        pending_operands.append(id)
+        if id.isnumeric() or check_float(id):
+            pending_operands.append(id)
+        else:
+            try:
+                pending_operands.append(table['variables'][id]['vaddr'])
+            except KeyError:
+                pending_operands.append(function_vars[id]['vaddr'])
 
     if id in function_vars:
         corresponding_types.append(function_vars[id]['tipo'])
@@ -554,7 +621,7 @@ def math_expression_4(symbols):
                         function_temp["float"] = function_temp["float"] + 1
                     elif result_type == 'char':
                         function_temp["char"] = function_temp["char"] + 1
-                result = avail.next()  # Avail continene registros temporales, direcciones disponibles
+                result = avail.next(result_type)  # Avail continene registros temporales, direcciones disponibles
                 _quad = [operator, left_operand, right_operand, result]
                 quad.append(_quad)
                 pending_operands.append(result)
@@ -672,11 +739,13 @@ def p_vars(p):
             "tipo": token_dic['tipo'],
             "valor": token_dic['valor']
         }
+        add_globalvaddr()
     else:
         function_vars[token_dic['id']] = {
             "tipo": token_dic['tipo'],
             "valor": token_dic['valor'],
         }
+        add_localvaddr()
 
     token_dic_clear()
 
@@ -701,10 +770,18 @@ def p_vars_b(p):
 def p_vars_c(p):
     '''vars_c : vars_b COMMA'''
 
-    table['variables'][token_dic['id']] = {
-        "tipo": token_dic['tipo'],
-        "valor": token_dic['valor']
-    }
+    if not function_bool:
+        table['variables'][token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor']
+        }
+        add_globalvaddr()
+    else:
+        function_vars[token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor'],
+        }
+        add_localvaddr()
 
 
 def p_vars_vect_mat(p):
@@ -1018,7 +1095,11 @@ def p_asignacion(p):
     operator = p[4]
     left_operand = '_'
     right_operand = pending_operands.pop()
-    result = p[1]
+    try:
+        result = table['variables'][p[1]]['vaddr']
+    except KeyError:
+        result = function_vars[p[1]]['vaddr']
+
     _quad = [operator, left_operand, right_operand, result]
     quad.append(_quad)
 
@@ -1039,7 +1120,7 @@ def p_asignacionsencilla(p):
     quad.append(_quad)
 
 
-# falta guardar los parametros de las funciones en la tabla
+#TODO falta guardar los parametros de las funciones en la tabla
 def p_function(p):
     '''function : DEF function_e bloque'''
     module_def_7()

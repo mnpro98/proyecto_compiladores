@@ -10,7 +10,7 @@ float f;
     }
 
     def void dos(int a, int b, float g)
-    int i;
+    int i, j;
     {
         i=b;
         while(i > 0) {
@@ -23,6 +23,7 @@ float f;
         a=3;
         b=a+1;
         f=3.14;
+        print(a);
         dos(a+b*2, b, f*3);
     }
 }
