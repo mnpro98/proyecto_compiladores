@@ -5,7 +5,8 @@ program h;
         int a, b, c, d;
         int i, j;
         a = 2;
-        k = 10;
+        k = 'c';
+        print(k);
         for(i = 0; i < 2; i = i + 1) {
             print(i);
             for(j = 0; j < 4; j = j + 1) {

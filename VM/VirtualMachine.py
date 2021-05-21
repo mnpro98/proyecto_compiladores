@@ -1,10 +1,200 @@
-virtual_memory = {
-    "mem_stack": [],
-    "quad": [],
-}
+quad = []
+memories = []
 
 curr_quad = []
 curr_quad_num = 0
+
+GLOBAL_INT = 1
+GLOBAL_FLOAT = 3001
+GLOBAL_CHAR = 6001
+
+LOCAL_INT = 9001
+LOCAL_FLOAT = 12001
+LOCAL_CHAR = 15001
+
+TEMP_INT = 18001
+TEMP_FLOAT = 21001
+TEMP_CHAR = 24001
+
+
+class Memory:
+    integers: list
+    floats: list
+    chars: list
+
+    t_integers: list
+    t_floats: list
+    t_chars: list
+
+    def __init__(self):
+        self.integers = []
+        self.floats = []
+        self.chars = []
+        self.t_integers = []
+        self.t_floats = []
+        self.t_chars = []
+
+    def push_int(self, value):
+        self.integers.append(value)
+
+    def push_float(self, value):
+        self.floats.append(value)
+
+    def push_char(self, value):
+        self.chars.append(value)
+
+    def push_t_int(self, value):
+        self.t_integers.append(value)
+
+    def push_t_float(self, value):
+        self.t_floats.append(value)
+
+    def push_t_char(self, value):
+        self.t_chars.append(value)
+
+    def change_int(self, index, value):
+        self.integers[index] = value
+
+    def change_float(self, index, value):
+        self.floats[index] = value
+
+    def change_char(self, index, value):
+        self.chars[index] = value
+
+    def change_t_int(self, index, value):
+        self.t_integers[index] = value
+
+    def change_t_float(self, index, value):
+        self.t_floats[index] = value
+
+    def change_t_char(self, index, value):
+        self.t_chars[index] = value
+
+    def get_int(self, index):
+        return self.integers[index]
+
+    def get_float(self, index):
+        return self.floats[index]
+
+    def get_char(self, index):
+        return self.chars[index]
+
+    def get_t_int(self, index):
+        return self.t_integers[index]
+
+    def get_t_float(self, index):
+        return self.t_floats[index]
+
+    def get_t_char(self, index):
+        return self.t_chars[index]
+
+
+def insert(dir, value):
+    global_max = LOCAL_INT - 1
+    local_max = TEMP_INT - 1
+
+    if dir <= global_max:  # Global
+        if dir < GLOBAL_FLOAT:  # int
+            index = dir - 1
+            if len(memories[0].integers) <= index:
+                while len(memories[0].integers) < index:
+                    memories[0].push_int(None)
+                memories[0].push_int(value)
+            else:
+                memories[0].change_int(index, value)
+        elif GLOBAL_FLOAT <= dir < GLOBAL_CHAR:  # float
+            index = dir - GLOBAL_FLOAT
+            if len(memories[0].floats) <= index:
+                while len(memories[0].floats) < index:
+                    memories[0].push_float(None)
+                memories[0].push_float(value)
+            else:
+                memories[0].change_float(index, value)
+        else:  # char
+            index = dir - GLOBAL_CHAR
+            if len(memories[0].chars) <= index:
+                while len(memories[0].chars) < index:
+                    memories[0].push_char(None)
+                memories[0].push_char(value)
+            else:
+                memories[0].change_char(index, value)
+    elif global_max < dir <= local_max:  # Local
+        if dir < LOCAL_FLOAT:  # int
+            index = dir - LOCAL_INT
+            if len(memories[-1].integers) <= index:
+                while len(memories[-1].integers) < index:
+                    memories[-1].push_int(None)
+                memories[-1].push_int(value)
+            else:
+                memories[-1].change_int(index, value)
+        elif LOCAL_FLOAT <= dir < LOCAL_CHAR:  # float
+            index = dir - LOCAL_FLOAT
+            if len(memories[-1].floats) <= index:
+                while len(memories[-1].floats) < index:
+                    memories[-1].push_float(None)
+                memories[-1].push_float(value)
+            else:
+                memories[-1].change_float(index, value)
+        else:  # char
+            index = dir - LOCAL_CHAR
+            if len(memories[-1].chars) <= index:
+                while len(memories[-1].chars) < index:
+                    memories[-1].push_char(None)
+                memories[-1].push_char(value)
+            else:
+                memories[-1].change_char(index, value)
+    else:  # Temp
+        if dir < TEMP_FLOAT:  # int
+            index = dir - TEMP_INT
+            if len(memories[-1].t_integers) <= index:
+                while len(memories[-1].t_integers) < index:
+                    memories[-1].push_t_int(None)
+                memories[-1].push_t_int(value)
+            else:
+                memories[-1].change_t_int(index, value)
+        elif TEMP_FLOAT <= dir < TEMP_CHAR:  # float
+            index = dir - TEMP_FLOAT
+            if len(memories[-1].t_floats) <= index:
+                while len(memories[-1].t_floats) < index:
+                    memories[-1].push_t_float(None)
+                memories[-1].push_t_float(value)
+            else:
+                memories[-1].change_t_float(index, value)
+        else:  # char
+            index = dir - TEMP_CHAR
+            if len(memories[-1].t_chars) <= index:
+                while len(memories[-1].chars) < index:
+                    memories[-1].push_t_char(None)
+                memories[-1].push_t_char(value)
+            else:
+                memories[-1].change_t_char(index, value)
+
+
+def get(dir):
+    global_max = LOCAL_INT - 1
+    local_max = TEMP_INT - 1
+
+    if dir <= global_max:  # Global
+        if dir < GLOBAL_FLOAT:  # int
+            return memories[0].get_int(dir - 1)
+        elif GLOBAL_FLOAT <= dir < GLOBAL_CHAR:  # float
+            return memories[0].get_float(dir - GLOBAL_FLOAT)
+        else:  # char
+            return memories[0].get_char(dir - GLOBAL_CHAR)
+    elif global_max < dir <= local_max:  # Local
+        if dir < LOCAL_FLOAT:  # int
+            return memories[-1].get_int(dir - LOCAL_INT)
+        elif LOCAL_FLOAT <= dir < LOCAL_CHAR:  # float
+            return memories[-1].get_float(dir - LOCAL_FLOAT)
+        else:  # char
+            return memories[-1].get_char(dir - LOCAL_CHAR)
+    else:  # Temp
+        if dir < TEMP_FLOAT:  # int
+            return memories[-1].get_t_int(dir - TEMP_INT)
+        elif TEMP_FLOAT <= dir < TEMP_CHAR:  # float
+            return memories[-1].get_t_float(dir - TEMP_FLOAT)
+        else:  # char
+            return memories[-1].get_t_char(dir - TEMP_CHAR)
 
 
 # Differentiates between a constant and an id.
@@ -13,9 +203,12 @@ def operand(arg):
         try:
             return int(arg)
         except ValueError:
-            return float(arg)
+            try:
+                return float(arg)
+            except ValueError:
+                return arg
     else:
-        return virtual_memory['mem_stack'][arg]
+        return get(arg)
 
 
 def exec_goto():
@@ -24,7 +217,7 @@ def exec_goto():
 
 
 def exec_gotof():
-    if virtual_memory['mem_stack'][curr_quad[2]] == 0:
+    if get(curr_quad[2]) == 0:
         exec_goto()
 
 
@@ -34,7 +227,10 @@ def exec_gosub():
 
 
 def exec_print():
-    print(virtual_memory['mem_stack'][curr_quad[3]])
+    try:
+        print(get(curr_quad[3]))
+    except TypeError:
+        print(curr_quad[3])
 
 
 # TODO reserva espacio para variables locales
@@ -51,6 +247,7 @@ def exec_param():
 def exec_ret():
     pass
 
+
 # libera la memoria
 def exec_endfunc():
     pass
@@ -64,34 +261,34 @@ def exec_add():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
-    virtual_memory['mem_stack'][curr_quad[3]] = left_operand + right_operand
+    insert(curr_quad[3], left_operand + right_operand)
 
 
 def exec_subtract():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
-    virtual_memory['mem_stack'][curr_quad[3]] = left_operand - right_operand
+    insert(curr_quad[3], left_operand - right_operand)
 
 
 def exec_multiply():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
-    virtual_memory['mem_stack'][curr_quad[3]] = left_operand * right_operand
+    insert(curr_quad[3], left_operand * right_operand)
 
 
 def exec_divide():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
-    virtual_memory['mem_stack'][curr_quad[3]] = left_operand / right_operand
+    insert(curr_quad[3], left_operand / right_operand)
 
 
 def exec_assign():
     if curr_quad[1] != '_':  # if it is a function
-        virtual_memory['mem_stack'][curr_quad[3]] = operand(curr_quad[1])
+        insert(curr_quad[3], operand(curr_quad[1]))
     else:
-        virtual_memory['mem_stack'][curr_quad[3]] = operand(curr_quad[2])
+        insert(curr_quad[3], operand(curr_quad[2]))
 
 
 def exec_gt():
@@ -103,7 +300,7 @@ def exec_gt():
     else:
         result = 0
 
-    virtual_memory['mem_stack'][curr_quad[3]] = result
+    insert(curr_quad[3], result)
 
 
 def exec_lt():
@@ -115,7 +312,7 @@ def exec_lt():
     else:
         result = 0
 
-    virtual_memory['mem_stack'][curr_quad[3]] = result
+    insert(curr_quad[3], result)
 
 
 def exec_ge():
@@ -127,7 +324,7 @@ def exec_ge():
     else:
         result = 0
 
-    virtual_memory['mem_stack'][curr_quad[3]] = result
+    insert(curr_quad[3], result)
 
 
 def exec_le():
@@ -139,7 +336,7 @@ def exec_le():
     else:
         result = 0
 
-    virtual_memory['mem_stack'][curr_quad[3]] = result
+    insert(curr_quad[3], result)
 
 
 def exec_ne():
@@ -151,7 +348,7 @@ def exec_ne():
     else:
         result = 0
 
-    virtual_memory['mem_stack'][curr_quad[3]] = result
+    insert(curr_quad[3], result)
 
 
 def exec_eq():
@@ -163,14 +360,13 @@ def exec_eq():
     else:
         result = 0
 
-    virtual_memory['mem_stack'][curr_quad[3]] = result
+    insert(curr_quad[3], result)
 
 
 def exec_quad(quads):
     global curr_quad
     global curr_quad_num
     while quads[curr_quad_num][0] != 'ENDPROG':
-        #print(quads[curr_quad_num])
         func = switch.get(quads[curr_quad_num][0], lambda: "Invalid action")
         curr_quad = quads[curr_quad_num]
         func()
@@ -201,8 +397,14 @@ switch = {
 }
 
 
-def start_vm(quad, functions):
+def start_vm(_quad, functions):
     print("VM")
-    virtual_memory['mem_stack'] = [None]*27000
-    virtual_memory['quad'] = quad
+    global quad
+    quad = _quad
+    global_mem = Memory()
+    local_mem = Memory()
+
+    memories.append(global_mem)
+    memories.append(local_mem)
+
     exec_quad(quad)

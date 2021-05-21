@@ -30,6 +30,7 @@ tempInt = 18001
 tempFloat = 21001
 tempChar = 24001
 
+
 class MemoryRegister:
     array: list
     index: int
@@ -1190,7 +1191,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_6.txt", "r")
+    f = open("test_4.txt", "r")
     s = f.read()
 
 except EOFError:

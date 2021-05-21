@@ -6,7 +6,7 @@ float f;
     int i;
     {
         i = 0;
-        print(f);
+        print(i);
         while(i < 10) {
             if(i < 5){
                 print(i);
