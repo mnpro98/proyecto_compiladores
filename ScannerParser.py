@@ -66,6 +66,7 @@ class MemoryRegister:
 class State(Enum):
     CLASS_CREATE = 1
 
+tabla_constantes = {}
 
 curr_state = 0
 function_bool = False
@@ -566,9 +567,8 @@ def math_expression_1(id):
         "<class 'str'>": "char"
     }
 
-
     if id not in table['funciones']:
-        if id.isnumeric() or check_float(id):
+        if id.isnumeric() or check_float(id) or id[0] == '\'':
             pending_operands.append(id)
         else:
             try:
