@@ -16,6 +16,8 @@ TEMP_INT = 18001
 TEMP_FLOAT = 21001
 TEMP_CHAR = 24001
 
+funciones = {}
+
 
 class Memory:
     integers: list
@@ -235,6 +237,9 @@ def exec_print():
 
 # TODO reserva espacio para variables locales
 def exec_era():
+    local_mem = Memory()
+    memories.append(local_mem)
+    print(funciones[curr_quad[1]])
     pass
 
 
@@ -243,13 +248,14 @@ def exec_param():
     pass
 
 
-# TODO libera el espacio que se saco con el era y regresa valor si es que tiene return
+# TODO regresa valor si es que tiene return
 def exec_ret():
     pass
 
 
 # libera la memoria
 def exec_endfunc():
+    memories.pop()
     pass
 
 
@@ -398,6 +404,8 @@ switch = {
 
 
 def start_vm(_quad, functions):
+    global funciones
+    funciones = functions
     print("VM")
     global quad
     quad = _quad
