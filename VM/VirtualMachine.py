@@ -271,17 +271,16 @@ def exec_param():
         insert(param_checker.pop(0), get(curr_quad[1]))
 
 
-
+retornos = []
 # TODO regresa valor si es que tiene return
 def exec_ret():
-    pass
-
+    retornos.append(get(curr_quad[3]))
 
 # libera la memoria
 def exec_endfunc():
     global curr_quad_num
     memories.pop()
-    curr_quad_num = last_quad.pop(0)
+    curr_quad_num = last_quad.pop()
 
 
 def exec_endprog():
@@ -317,7 +316,7 @@ def exec_divide():
 
 def exec_assign():
     if curr_quad[1] != '_':  # if it is a function
-        insert(curr_quad[3], operand(curr_quad[1]))
+        insert(curr_quad[3], retornos.pop(0))
     else:
         insert(curr_quad[3], operand(curr_quad[2]))
 
@@ -402,6 +401,8 @@ def exec_quad(quads):
         curr_quad = quads[curr_quad_num]
         func()
         curr_quad_num += 1
+        print(curr_quad)
+        memories[-1].print_mem()
 
 
 switch = {
