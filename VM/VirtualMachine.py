@@ -227,7 +227,10 @@ def operand(arg):
             except ValueError:
                 return arg
     else:
-        return get(arg)
+        if not getting_param:
+            return get(arg)
+        else:
+            return get_param(arg)
 
 
 def exec_goto():
@@ -254,23 +257,30 @@ def exec_print():
         print(curr_quad[3])
 
 funcion_actual = ""
+getting_param = False
 # TODO reserva espacio para variables locales
 def exec_era():
-    global funcion_actual
+    global funcion_actual, getting_param
     local_mem = Memory()
     memories.append(local_mem)
     funcion_actual = curr_quad[1]
+    global param_checker
+    if param_checker == []:
+        try:
+            param_checker = [] + funciones[funcion_actual]['parametros_vaddr']
+            getting_param = True
+        except KeyError:
+            pass
 
 param_checker = []
 # TODO pasas los parametros y validas mismo numero
 def exec_param():
-    global param_checker
-    if param_checker == []:
-        param_checker = funciones[funcion_actual]['parametros_vaddr']
+    global param_checker, getting_param
     if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
         insert(param_checker.pop(0), get_param(curr_quad[1]))
     else:
         insert(param_checker.pop(0), get(curr_quad[1]))
+    getting_param = False
 
 
 retornos = []
@@ -405,10 +415,6 @@ def exec_quad(quads):
         curr_quad = quads[curr_quad_num]
         func()
         curr_quad_num += 1
-        print(curr_quad)
-        memories[0].print_mem()
-        print("local")
-        memories[-1].print_mem()
 
 switch = {
     'GOTO': exec_goto,
