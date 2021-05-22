@@ -464,7 +464,8 @@ def module_call_1(_id):
 
 
 def module_call_2():
-    global k
+    global k, pending_operators
+    pending_operators.append("(")
     quad.append(["ERA", func_call_id, "_", "_"])
     k = 1
 
@@ -477,16 +478,16 @@ def module_call_3():
         exit(-1)
     quad.append(["PARAM", argument, "_", "PARAM" + str(k)])
 
-
 def module_call_4():
     global k
     k = k + 1
 
 
 def module_call_5():
-    if k != len(table["funciones"][func_call_id]["parametros"]):
+    if k != len(table["funciones"][func_call_id]["parametros"]) and len(table["funciones"][func_call_id]["parametros"]) != 0:
         print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
         exit(-1)
+    pending_operators.pop()
 
 
 def module_call_6():
@@ -1041,7 +1042,6 @@ def p_llamada_f(p):
     '''llamada_f : COMMA'''
     module_call_4()
 
-
 def p_print(p):
     '''print : PRINT OP expresion CP SC'''
     quad.append(["PRINT", "_", "_", pending_operands.pop()])
@@ -1216,7 +1216,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_10.txt", "r")
+    f = open("test_7.txt", "r")
     s = f.read()
 
 except EOFError:

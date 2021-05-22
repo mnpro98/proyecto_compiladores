@@ -406,8 +406,9 @@ def exec_quad(quads):
         func()
         curr_quad_num += 1
         print(curr_quad)
+        memories[0].print_mem()
+        print("local")
         memories[-1].print_mem()
-
 
 switch = {
     'GOTO': exec_goto,
