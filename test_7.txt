@@ -13,7 +13,7 @@ float g;
 
     def void main()
     {
-        b = 5;
+        b = 10;
         print(fact(b));
     }
 }
