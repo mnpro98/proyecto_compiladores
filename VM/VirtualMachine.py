@@ -206,6 +206,7 @@ def get(dir):
         else:  # char
             return memories[-1].get_t_char(dir - TEMP_CHAR)
 
+
 def get_param(dir):
     if dir < LOCAL_FLOAT:  # int
         return memories[-2].get_int(dir - LOCAL_INT)
@@ -213,6 +214,7 @@ def get_param(dir):
         return memories[-2].get_float(dir - LOCAL_FLOAT)
     else:  # char
         return memories[-2].get_char(dir - LOCAL_CHAR)
+
 
 # Differentiates between a constant and an id.
 def operand(arg):
@@ -269,7 +271,6 @@ def exec_param():
         insert(param_checker.pop(0), get_param(curr_quad[1]))
     else:
         insert(param_checker.pop(0), get(curr_quad[1]))
-
 
 
 # TODO regresa valor si es que tiene return

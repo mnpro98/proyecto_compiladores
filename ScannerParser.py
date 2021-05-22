@@ -17,7 +17,7 @@ from pprint import PrettyPrinter
 from enum import Enum
 from VM.VirtualMachine import start_vm
 
-#Contadores para address de variables
+# Contadores para address de variables
 globalInt = 1
 globalFloat = 3001
 globalChar = 6001
@@ -365,7 +365,9 @@ def add_globalvaddr():
         table['variables'][token_dic['id']]['vaddr'] = globalChar
         globalChar += 1
 
+
 temporal_dic = {}
+
 
 def add_paramvaddr():
     global localChar, localFloat, localInt
@@ -378,6 +380,7 @@ def add_paramvaddr():
     elif temporal_dic['tipo'] == "char":
         temporal_dic['vaddr'] = localChar
         localChar += 1
+
 
 def return_1():
     quad.append(["RET", "_", "_", pending_operands.pop()])
