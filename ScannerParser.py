@@ -1214,7 +1214,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_7.txt", "r")
+    f = open("test_10.txt", "r")
     s = f.read()
 
 except EOFError:

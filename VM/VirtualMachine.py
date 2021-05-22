@@ -264,8 +264,11 @@ def exec_era():
     funcion_actual = curr_quad[1]
     global param_checker
     if param_checker == []:
-        param_checker = [] + funciones[funcion_actual]['parametros_vaddr']
-    getting_param = True
+        try:
+            param_checker = [] + funciones[funcion_actual]['parametros_vaddr']
+            getting_param = True
+        except KeyError:
+            pass
 
 param_checker = []
 # TODO pasas los parametros y validas mismo numero

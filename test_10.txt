@@ -1,19 +1,22 @@
 program patito;
 int b, a;
 {
-    def void uno()
+    def int uno()
     {
-        print(1);
+        a = 1;
+        return a;
     }
 
-    def int fact(int n)
+    def int dos()
     {
-        return n * 5;
+        a = 2;
+        return a;
     }
 
     def void main()
     {
         b = 5;
-        uno();
+        b = uno() + dos();
+        print(b);
     }
 }
