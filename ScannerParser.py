@@ -1216,7 +1216,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_8.txt", "r")
+    f = open("test_10.txt", "r")
     s = f.read()
 
 except EOFError:
@@ -1226,6 +1226,6 @@ yacc.parse(s)
 
 pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
-pp.pprint(table)
+#pp.pprint(table)
 
 start_vm(quad, table['funciones'])

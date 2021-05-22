@@ -2,18 +2,22 @@ program patito;
 int b;
 float g;
 {
-    def int fact(int n, int m)
+    def int uno(int n)
+    {
+        return n - 1;
+    }
+    def int fact(int n)
     {
         if(n == 1){
             return n;
         }else{
-            return n * fact(n - 1, n);
+            return 1 * uno(n * 2);
         }
     }
 
     def void main()
     {
         b = 5;
-        print(fact(b, b));
+        print(1 + fact(b - 1));
     }
 }
