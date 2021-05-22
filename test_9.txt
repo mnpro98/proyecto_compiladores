@@ -1,0 +1,14 @@
+program patito;
+int b;
+{
+    def void fact(int n)
+    {
+        return n * 5;
+    }
+
+    def void main()
+    {
+        b = 5;
+        print(fact(b));
+    }
+}

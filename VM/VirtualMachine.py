@@ -16,6 +16,8 @@ TEMP_INT = 18001
 TEMP_FLOAT = 21001
 TEMP_CHAR = 24001
 
+funciones = {}
+
 
 class Memory:
     integers: list
@@ -87,6 +89,14 @@ class Memory:
 
     def get_t_char(self, index):
         return self.t_chars[index]
+    
+    def print_mem(self):
+        print("int", self.integers)
+        print("float", self.floats)
+        print("char", self.chars)
+        print("tint", self.t_integers)
+        print("tfloat", self.t_floats)
+        print("tchar", self.t_chars)
 
 
 def insert(dir, value):
@@ -196,6 +206,13 @@ def get(dir):
         else:  # char
             return memories[-1].get_t_char(dir - TEMP_CHAR)
 
+def get_param(dir):
+    if dir < LOCAL_FLOAT:  # int
+        return memories[-2].get_int(dir - LOCAL_INT)
+    elif LOCAL_FLOAT <= dir < LOCAL_CHAR:  # float
+        return memories[-2].get_float(dir - LOCAL_FLOAT)
+    else:  # char
+        return memories[-2].get_char(dir - LOCAL_CHAR)
 
 # Differentiates between a constant and an id.
 def operand(arg):
@@ -220,9 +237,11 @@ def exec_gotof():
     if get(curr_quad[2]) == 0:
         exec_goto()
 
-
+last_quad = []
 # TODO
 def exec_gosub():
+    global last_quad
+    last_quad.append(curr_quad_num)
     exec_goto()
 
 
@@ -232,25 +251,37 @@ def exec_print():
     except TypeError:
         print(curr_quad[3])
 
-
+funcion_actual = ""
 # TODO reserva espacio para variables locales
 def exec_era():
-    pass
+    global funcion_actual
+    local_mem = Memory()
+    memories.append(local_mem)
+    funcion_actual = curr_quad[1]
 
-
+param_checker = []
 # TODO pasas los parametros y validas mismo numero
 def exec_param():
-    pass
+    global param_checker
+    if param_checker == []:
+        param_checker = funciones[funcion_actual]['parametros_vaddr']
+    if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
+        insert(param_checker.pop(0), get_param(curr_quad[1]))
+    else:
+        insert(param_checker.pop(0), get(curr_quad[1]))
 
 
-# TODO libera el espacio que se saco con el era y regresa valor si es que tiene return
+
+# TODO regresa valor si es que tiene return
 def exec_ret():
     pass
 
 
 # libera la memoria
 def exec_endfunc():
-    pass
+    global curr_quad_num
+    memories.pop()
+    curr_quad_num = last_quad.pop(0)
 
 
 def exec_endprog():
@@ -398,6 +429,8 @@ switch = {
 
 
 def start_vm(_quad, functions):
+    global funciones
+    funciones = functions
     print("VM")
     global quad
     quad = _quad

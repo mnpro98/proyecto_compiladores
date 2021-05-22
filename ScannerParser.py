@@ -365,6 +365,19 @@ def add_globalvaddr():
         table['variables'][token_dic['id']]['vaddr'] = globalChar
         globalChar += 1
 
+temporal_dic = {}
+
+def add_paramvaddr():
+    global localChar, localFloat, localInt
+    if temporal_dic['tipo'] == "int":
+        temporal_dic['vaddr'] = localInt
+        localInt += 1
+    elif temporal_dic['tipo'] == "float":
+        temporal_dic['vaddr'] = localFloat
+        localFloat += 1
+    elif temporal_dic['tipo'] == "char":
+        temporal_dic['vaddr'] = localChar
+        localChar += 1
 
 def return_1():
     quad.append(["RET", "_", "_", pending_operands.pop()])
@@ -382,13 +395,21 @@ def module_def_1(proc_name):
 
 
 def module_def_2(param):
-    table["funciones"][funciones_dic['id']]["variables"][param["id"]] = {
-        "tipo": param["tipo"]
-    }
+    global temporal_dic
+    temporal_dic = {
+            "tipo": param["tipo"],
+            "vaddr": ""
+        }
+    add_paramvaddr()
+    table["funciones"][funciones_dic['id']]["variables"][param["id"]] = temporal_dic
 
 
 def module_def_3(param):
-    table["funciones"][funciones_dic['id']]["parametros"].append(param["tipo"])
+    table["funciones"][funciones_dic['id']]["parametros"].append(param['tipo'])
+    try:
+        table["funciones"][funciones_dic['id']]["parametros_vaddr"].append(temporal_dic['vaddr'])
+    except KeyError:
+        table["funciones"][funciones_dic['id']]["parametros_vaddr"] = [temporal_dic['vaddr']]
 
 
 # Insert the number of parameters.
@@ -397,9 +418,10 @@ def module_def_4():
 
 
 def module_def_5():
+    function_vars.update(table["funciones"][funciones_dic['id']]["variables"])
     table["funciones"][funciones_dic['id']]["variables"] = function_vars
     table["funciones"][funciones_dic['id']]["var_cont"] = len(table["funciones"][funciones_dic['id']]["variables"])
-    print(str(table["funciones"][funciones_dic['id']]["variables"]))
+    #print(str(table["funciones"][funciones_dic['id']]["variables"]))
 
 
 def module_def_6():
@@ -460,7 +482,7 @@ def module_call_4():
 
 def module_call_5():
     if k != len(table["funciones"][func_call_id]["parametros"]):
-        print("ERROR: se paso el limite de argumentos en la llamada.")
+        print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
         exit(-1)
 
 
@@ -1165,7 +1187,8 @@ def p_function_d(p):
     '''function_d : tiposimple ID'''
     _dic = {
         "tipo": token_dic['tipo'],
-        "id": p[2]
+        "id": p[2],
+        "vaddr": ""
     }
     module_def_2(_dic)
     module_def_3(_dic)
@@ -1190,7 +1213,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_4.txt", "r")
+    f = open("test_8.txt", "r")
     s = f.read()
 
 except EOFError:

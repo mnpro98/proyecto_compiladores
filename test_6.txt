@@ -1,10 +1,18 @@
 program patito;
-int a, b = 2;
+int a, b;
 float f;
 {
+    def int uno (int c, int l)
+    int localuno;
+    {
+            localuno = c + 1;
+            return localuno;
+    }
+
     def void main()
     int i;
     {
+        b = 2;
         i = 0;
         print(i);
         while(i < 10) {
@@ -16,5 +24,6 @@ float f;
             print(i);
             i = i + 1;
         }
+        print(uno(b, i));
     }
 }

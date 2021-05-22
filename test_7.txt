@@ -1,0 +1,19 @@
+program patito;
+int b;
+float g;
+{
+    def int fact(int n, int m)
+    {
+        if(n == 1){
+            return n;
+        }else{
+            return n * fact(n - 1, n);
+        }
+    }
+
+    def void main()
+    {
+        b = 5;
+        print(fact(b, b));
+    }
+}

@@ -1,0 +1,25 @@
+program patito;
+int b;
+float g;
+{
+    def void uno(int n, float m)
+    {
+        print(n * 2);
+        print(m * 2);
+    }
+
+    def void fact(int n, float m)
+    {
+        n = 5 * n;
+        print(n);
+        print(m);
+        uno(n, m);
+    }
+
+    def void main()
+    {
+        b = 5;
+        g = 3.14;
+        fact(b, g);
+    }
+}
