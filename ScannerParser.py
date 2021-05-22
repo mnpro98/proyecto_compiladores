@@ -1189,7 +1189,6 @@ def p_error(p):
 
 yacc.yacc()
 
-
 try:
     f = open("test_4.txt", "r")
     s = f.read()
