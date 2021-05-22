@@ -482,7 +482,7 @@ def module_call_4():
 
 def module_call_5():
     if k != len(table["funciones"][func_call_id]["parametros"]):
-        print("ERROR: se paso el limite de argumentos en la llamada.")
+        print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
         exit(-1)
 
 
@@ -1214,7 +1214,7 @@ yacc.yacc()
 
 
 try:
-    f = open("test_7.txt", "r")
+    f = open("test_8.txt", "r")
     s = f.read()
 
 except EOFError:
