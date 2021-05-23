@@ -385,6 +385,7 @@ def add_paramvaddr():
 
 def return_1():
     quad.append(["RET", "_", "_", pending_operands.pop()])
+    quad.append(["ENDFUNC", '_', '_', '_'])
 
 
 def module_def_1(proc_name):
@@ -1238,7 +1239,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_and_or.txt", "r")
+    f = open("test_11.txt", "r")
     s = f.read()
 
 except EOFError:

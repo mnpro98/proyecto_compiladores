@@ -13,9 +13,10 @@ int b;
     int i;
     {
         i = 0;
-        int b = 4;
+        int b = 10;
         while(i < b){
             print(fib(i));
+            i = i + 1;
         }
     }
 }

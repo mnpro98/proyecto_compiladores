@@ -429,6 +429,8 @@ def exec_quad(quads):
         curr_quad = quads[curr_quad_num]
         func()
         curr_quad_num += 1
+        #print(curr_quad)
+
 
 switch = {
     'GOTO': exec_goto,
