@@ -1,0 +1,22 @@
+program patito;
+int b, a;
+{
+    def int uno()
+    {
+        a = 1;
+        return a;
+    }
+
+    def int dos()
+    {
+        a = 2;
+        return a;
+    }
+
+    def void main()
+    {
+        b = 5;
+        b = uno() + dos();
+        print(b);
+    }
+}

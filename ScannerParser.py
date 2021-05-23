@@ -96,6 +96,7 @@ def check_float(potential_float):
     except ValueError:
         return False
 
+
 semantics = {
     'int': {
         'int': {
@@ -109,8 +110,8 @@ semantics = {
             '<=': 'int',
             '==': 'int',
             '!=': 'int',
-            'or': 'error',
-            'and': 'error'
+            'or': 'int',
+            'and': 'int'
         },
         'float': {
             '+': 'float',
@@ -623,12 +624,13 @@ def math_expression_3(operand):
     if operand == '*' or operand == '/':
         pending_operators.append(operand)
     else:
-        print("ERROR: operands should be either + or -")
+        print("ERROR: operands should be either * or /")
 
 
 def math_expression_4(symbols):
     global avail
     global function_temp
+
     if len(pending_operators) != 0:
         if pending_operators[-1] in symbols:
             right_operand = pending_operands.pop()
@@ -685,6 +687,23 @@ def math_expression_8(rel_op):
 def math_expression_9(rel_op):
     if pending_operators[-1] == rel_op:
         math_expression_4(['>', '<', '>=', '<=', '==', '!='])
+
+
+def math_expression_10(operand):
+    if operand == "and" or operand == "or":
+        pending_operators.append(operand)
+    else:
+        print("ERROR: operands should be either 'and' or 'or'")
+
+
+def math_expression_11(rel_op):
+    if pending_operators[-1] == rel_op:
+        math_expression_4(["and"])
+
+
+def math_expression_12(rel_op):
+    if pending_operators[-1] == rel_op:
+        math_expression_4(["or"])
 
 
 def create_class_variable():
@@ -838,8 +857,6 @@ def p_m_exp_a(p):
     '''m_exp_a : ADD
             | SUB'''
     math_expression_2(p[1])
-#    global expresion_helper
-#    expresion_helper = expresion_helper + p[1]
 
 
 def p_m_exp_b(p):
@@ -958,22 +975,27 @@ def p_while_b(p):
 
 
 def p_exp(p):
-    '''exp : and_exp exp_a'''
-    math_expression_6()
+    '''exp : and_exp
+            | exp_b exp'''
+    if len(p) == 3:
+        math_expression_12("or")
 
 
-def p_exp_a(p):
-    '''exp_a : OR
-            | empty'''
+def p_exp_b(p):
+    '''exp_b : and_exp OR'''
+    math_expression_10("or")
 
 
 def p_and_exp(p):
-    '''and_exp : expresion and_exp_a'''
+    '''and_exp : expresion
+            | and_exp_b and_exp'''
+    if len(p) == 3:
+        math_expression_12("and")
 
 
-def p_and_exp_a(p):
-    '''and_exp_a : AND
-                | empty'''
+def p_and_exp_b(p):
+    '''and_exp_b : expresion AND'''
+    math_expression_10("and")
 
 
 def p_for(p):
@@ -1109,7 +1131,7 @@ def p_condicion_b(p):
 
 
 def p_condicion_c(p):
-    '''condicion_c : IF OP expresion CP'''
+    '''condicion_c : IF OP exp CP'''
     if_1()
 
 
@@ -1216,7 +1238,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_10.txt", "r")
+    f = open("test_and_or.txt", "r")
     s = f.read()
 
 except EOFError:

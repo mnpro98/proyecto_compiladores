@@ -1,0 +1,15 @@
+program patito;
+int b;
+{
+    def void main()
+    int i;
+    {
+        i = 0;
+        int b = 4;
+        if((b > i) and (i == 1)){
+            print(b);
+        } else {
+            print(i);
+        }
+    }
+}

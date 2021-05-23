@@ -301,6 +301,20 @@ def exec_endprog():
     exit(0)
 
 
+def exec_or():
+    left_operand = operand(curr_quad[1])
+    right_operand = operand(curr_quad[2])
+
+    insert(curr_quad[3], left_operand or right_operand)
+
+
+def exec_and():
+    left_operand = operand(curr_quad[1])
+    right_operand = operand(curr_quad[2])
+
+    insert(curr_quad[3], left_operand and right_operand)
+
+
 def exec_add():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -426,6 +440,8 @@ switch = {
     'RET': exec_ret,
     'ENDFUNC': exec_endfunc,
     'ENDPROG': exec_endprog,
+    'or': exec_or,
+    'and': exec_and,
     '+': exec_add,
     '-': exec_subtract,
     '*': exec_multiply,
