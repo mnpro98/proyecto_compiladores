@@ -230,7 +230,11 @@ def operand(arg):
         if not getting_param:
             return get(arg)
         else:
-            return get_param(arg)
+            if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
+                return get_param(arg)
+            else:
+                return get(arg)
+
 
 
 def exec_goto():
@@ -272,14 +276,31 @@ def exec_era():
         except KeyError:
             pass
 
+def check_float(potential_float):
+    try:
+        float(potential_float)
+
+        return True
+    except ValueError:
+        return False
+
+
 param_checker = []
 # TODO pasas los parametros y validas mismo numero
 def exec_param():
     global param_checker, getting_param
-    if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
-        insert(param_checker.pop(0), get_param(curr_quad[1]))
+    if isinstance(curr_quad[1], str):
+        if curr_quad[1].isnumeric():
+            insert(param_checker.pop(0), int(curr_quad[1]))
+        elif check_float(curr_quad[1]):
+            insert(param_checker.pop(0), float(curr_quad[1]))
+        else:
+            insert(param_checker.pop(0), curr_quad[1])    
     else:
-        insert(param_checker.pop(0), get(curr_quad[1]))
+        if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
+            insert(param_checker.pop(0), get_param(curr_quad[1]))
+        else:
+            insert(param_checker.pop(0), get(curr_quad[1]))
     getting_param = False
 
 

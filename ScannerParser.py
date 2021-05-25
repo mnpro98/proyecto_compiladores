@@ -424,6 +424,18 @@ def add_paramvaddr():
         temporal_dic['vaddr'] = localChar
         localChar += 1
 
+def reset_local():
+    global localChar, localFloat, localInt
+    localInt = 9001
+    localFloat = 12001
+    localChar = 15001
+
+
+def reset_temp():
+    global tempChar, tempInt, tempFloat
+    tempInt = 18001
+    tempFloat = 21001
+    tempChar = 24001
 
 def array_declaration_1(id, tipo):
     global curr_arr_id
@@ -579,6 +591,8 @@ def module_def_1(proc_name):
         "parametros": [],
         "variables": {},
     }
+    reset_local()
+    reset_temp()
 
 
 def module_def_2(param):
@@ -621,7 +635,7 @@ def module_def_7():
     global quad
     table["funciones"][funciones_dic['id']]["variables"] = {}
     function_vars.clear()
-    if funciones_dic['id'] != 'main':
+    if funciones_dic['id'] != 'main' and quad[-1] != ["ENDFUNC", "_", "_", "_"]:
         quad.append(["ENDFUNC", "_", "_", "_"])
     if funciones_dic['id'] == 'main':
         quad[0] = ['GOTO', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]
