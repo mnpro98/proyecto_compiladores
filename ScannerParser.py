@@ -77,6 +77,14 @@ function_temp = {
     "char": 0
 }
 rel_op = ""
+curr_arr_id = ""
+access_id = ""
+arr_type = ""
+dim = 0
+r_array = 0
+offset_arr = 0
+size_arr = 0
+arr_pointer = 0
 
 avail = MemoryRegister()
 pending_operators = []
@@ -85,8 +93,10 @@ corresponding_types = []
 quad = [['GOTO', '_', '_', 'main']]
 pila_fors = []
 function_vars = {}
-
 psaltos = []
+pila_dim = []
+pila_nodos = []
+
 
 def check_float(potential_float):
     try:
@@ -338,6 +348,38 @@ t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
 
+def next_pointer(dimensions):
+    if dim > dimensions:
+        return False
+    return True
+
+
+def add_globalarrvaddr():
+    global globalChar, globalInt, globalFloat
+    if table['variables'][curr_arr_id]['tipo'] == "int":
+        table['variables'][curr_arr_id]['vaddr'] = globalInt
+        globalInt += size_arr
+    elif table['variables'][curr_arr_id]['tipo'] == "float":
+        table['variables'][curr_arr_id]['vaddr'] = globalFloat
+        globalFloat += size_arr
+    elif table['variables'][curr_arr_id]['tipo'] == "char":
+        table['variables'][curr_arr_id]['vaddr'] = globalChar
+        globalChar += size_arr
+
+
+def add_localarrvaddr():
+    global localChar, localFloat, localInt
+    if function_vars[curr_arr_id]['tipo'] == "int":
+        function_vars[curr_arr_id]['vaddr'] = localInt
+        localInt += size_arr
+    elif function_vars[curr_arr_id]['tipo'] == "float":
+        function_vars[curr_arr_id]['vaddr'] = localFloat
+        localFloat += size_arr
+    elif function_vars[curr_arr_id]['tipo'] == "char":
+        function_vars[curr_arr_id]['vaddr'] = localChar
+        localChar += size_arr
+
+
 def add_localvaddr():
     global localChar, localFloat, localInt
     if function_vars[token_dic['id']]['tipo'] == "int":
@@ -381,6 +423,146 @@ def add_paramvaddr():
     elif temporal_dic['tipo'] == "char":
         temporal_dic['vaddr'] = localChar
         localChar += 1
+
+
+def array_declaration_1(id, tipo):
+    global curr_arr_id
+    if function_bool:
+        function_vars[id] = {"tipo": tipo}
+    else:
+        table['variables'][id] = {"tipo": tipo}
+    curr_arr_id = id
+
+
+def array_declaration_2():
+    if function_bool:
+        function_vars[curr_arr_id]['isArray'] = True
+    else:
+        table['variables'][curr_arr_id]['isArray'] = True
+
+
+def array_declaration_3():
+    global dim
+    global r_array
+
+    dim = 1
+    r_array = 1
+    if function_bool:
+        function_vars[curr_arr_id]['dimensions'] = []
+    else:
+        table['variables'][curr_arr_id]['dimensions'] = []
+
+
+def array_declaration_5(ls):
+    global r_array
+    if function_bool:
+        function_vars[curr_arr_id]['dimensions'].append({"ls": ls})
+    else:
+        table['variables'][curr_arr_id]['dimensions'].append({"ls": ls})
+    r_array = (int(ls) + 1) * r_array
+
+
+def array_declaration_6(ls):
+    global dim
+    dim += 1
+    if function_bool:
+        function_vars[curr_arr_id]['dimensions'].append({"ls": ls})
+    else:
+        table['variables'][curr_arr_id]['dimensions'].append({"ls": ls})
+
+
+def array_declaration_7():
+    global dim, offset_arr, size_arr, r_array
+    dim = 1
+    offset_arr = 0
+    size_arr = r_array
+
+    if function_bool:
+        nodes = function_vars[curr_arr_id]['dimensions']
+    else:
+        nodes = table['variables'][curr_arr_id]['dimensions']
+
+    for node in nodes:
+        node['m_dim'] = r_array / (node['ls'] + 1)
+        r_array = node['m_dim']
+        dim += 1
+
+    k = offset_arr
+    nodes[-1]['k'] = -k
+
+
+def array_declaration_8():
+    if function_bool:
+        add_localarrvaddr()
+    else:
+        add_globalarrvaddr()
+
+
+def array_access_1(id):
+    global access_id
+
+    pending_operands.append(id)
+    if id in function_vars:
+        corresponding_types.append(function_vars[id]['tipo'])
+        access_id = function_vars[id]
+    elif id in table['variables']:
+        corresponding_types.append(table['variables'][id]['tipo'])
+        access_id = table['variables'][id]
+
+
+def array_access_2():
+    global arr_type, dim
+    id = pending_operands.pop()
+    arr_type = corresponding_types.pop()
+    if id in function_vars:  # Local
+        if 'dimensions' in function_vars[id]:
+            dim = 1
+            pila_dim.append([id, dim])
+            pila_nodos.append(function_vars[id]['dimensions'])
+            pending_operators.append('(')
+        else:
+            print("ERROR: 'dimensions' no existe en el id.")
+    elif id in table['variables']:
+        if 'dimensions' in table['variables']:
+            dim = 1
+            pila_dim.append([id, dim])
+            pila_nodos.append(table['variables'][id]['dimensions'])
+            pending_operators.append('(')
+        else:
+            print("ERROR: 'dimensions' no existe en el id.")
+
+
+def array_access_3():
+    dimensions = pila_nodos.pop()
+    quad.append(["VER", pending_operands[-1], 0, dimensions[dim - 1]['ls']])
+    if next_pointer(len(dimensions)):
+        tj = avail.next(arr_type)
+        aux = pending_operands.pop()
+        quad.append(['*', aux, dimensions[dim - 1]['m_dim'], tj])
+        pending_operands.append(tj)
+    if dim > 1:
+        tk = avail.next(arr_type)
+        aux2 = pending_operands.pop()
+        aux1 = pending_operands.pop()
+        quad.append(['+', aux1, aux2, tk])
+        pending_operands.append(tk)
+
+
+def array_access_4():
+    global dim
+    dim += 1
+    pila_dim[-1][1] = dim
+
+
+def array_access_5():
+    global access_id
+    aux1 = pending_operands.pop()
+    ti = avail.next(arr_type)
+    tn = avail.next(arr_type)
+    quad.append(['+', aux1, 0, ti])
+    quad.append(['+', ti, access_id['vaddr'], tn])
+    pending_operands.append('(' + str(tn) + ')')
+    pending_operators.pop()
 
 
 def return_1():
@@ -841,12 +1023,32 @@ def p_vars_c(p):
     '''vars_c : vars_b COMMA'''
 
 def p_vars_vect_mat(p):
-    '''vars_vect_mat : tiposimple ID vars_vect_mat_a SC
-                    | tiposimple ID vars_vect_mat_a vars_vect_mat_a SC'''
+    '''vars_vect_mat : vars_vect_mat_b vars_vect_mat_a SC
+                    | vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d SC'''
+    array_declaration_7()
+    array_declaration_8()
 
 
 def p_vars_vect_mat_a(p):
-    '''vars_vect_mat_a : OSB exp CSB'''
+    '''vars_vect_mat_a : vars_vect_mat_c exp CSB'''
+    array_declaration_5(int(pending_operands[-1]))
+
+
+def p_vars_vect_mat_b(p):
+    '''vars_vect_mat_b : tiposimple ID'''
+    array_declaration_1(p[2], token_dic['tipo'])
+    array_declaration_2()
+
+
+def p_vars_vect_mat_c(p):
+    '''vars_vect_mat_c : OSB'''
+    array_declaration_3()
+
+
+def p_vars_vect_mat_d(p):
+    '''vars_vect_mat_d : OSB exp CSB'''
+    array_declaration_6(int(pending_operands[-1]))
+    array_declaration_5(int(pending_operands[-1]))
 
 
 def p_m_exp(p):
@@ -1227,6 +1429,28 @@ def p_function_e(p):
     module_def_6()
 
 
+def p_array_access(p):
+    '''array_access : array_access_c OSB exp CSB
+                    | array_access_c'''
+    array_access_5()
+
+
+def p_array_access_a(p):
+    '''array_access_a : ID'''
+    array_access_1(p[1])
+
+
+def p_array_access_b(p):
+    '''array_access_b : array_access_a OSB'''
+    array_access_2()
+
+
+def p_array_access_c(p):
+    '''array_access_c : array_access_b exp CSB'''
+    array_access_3()
+    array_access_4()
+
+
 def p_empty(p):
     'empty :'
     pass
@@ -1239,7 +1463,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_11.txt", "r")
+    f = open("test_array.txt", "r")
     s = f.read()
 
 except EOFError:

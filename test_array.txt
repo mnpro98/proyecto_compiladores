@@ -1,0 +1,10 @@
+program patito;
+int b;
+int a[3][3];
+{
+    def void main()
+    int i, f;
+    {
+        f = a[1][1];
+    }
+}
