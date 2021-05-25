@@ -5,6 +5,7 @@ int a[3][3];
     def void main()
     int i, f;
     {
+        i = 0;
         f = a[1][1];
     }
 }

@@ -535,7 +535,7 @@ def array_access_2():
         else:
             print("ERROR: 'dimensions' no existe en el id.")
     elif id in table['variables']:
-        if 'dimensions' in table['variables']:
+        if 'dimensions' in table['variables'][id]:
             dim = 1
             pila_dim.append([id, dim])
             pila_nodos.append(table['variables'][id]['dimensions'])
@@ -1292,13 +1292,15 @@ def p_fact(p):
             | CTE_F
             | CTE_CHAR
             | ID
-            | llamada'''
+            | llamada
+            | array_access'''
 
     if p[1] == "(":
         math_expression_7()
     elif p[1] is None:  # 1
         # Llamar funcion en caso de que sea una llamada
-        math_expression_1(func_call_id)
+        if func_call_id != "":
+            math_expression_1(func_call_id)
     else:
         math_expression_1(p[1])
 
