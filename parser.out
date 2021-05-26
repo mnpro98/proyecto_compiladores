@@ -125,25 +125,25 @@ Rule 111   condicion_c -> IF OP exp CP
 Rule 112   condicion_d -> ELSE
 Rule 113   classdeclare -> CLASS_ID ID SC
 Rule 114   llamadafuncionclase -> ID POINT llamada
-Rule 115   asignacion -> ID asignacion_a asignacion_a EQ expresion SC
-Rule 116   asignacion_a -> OSB exp CSB
-Rule 117   asignacion_a -> empty
-Rule 118   asignacionsencilla -> ID EQ expresion
-Rule 119   function -> DEF function_e bloque
-Rule 120   function_a -> VOID
-Rule 121   function_a -> tiposimple
-Rule 122   function_b -> function_d
-Rule 123   function_b -> function_d COMMA function_b
-Rule 124   function_b -> empty
-Rule 125   function_c -> function_a ID
-Rule 126   function_d -> tiposimple ID
-Rule 127   function_e -> function_c OP function_b CP vars
-Rule 128   function_e -> function_c OP function_b CP empty
-Rule 129   array_access -> array_access_c OSB exp CSB
-Rule 130   array_access -> array_access_c
-Rule 131   array_access_a -> ID
-Rule 132   array_access_b -> array_access_a OSB
-Rule 133   array_access_c -> array_access_b exp CSB
+Rule 115   asignacion -> ID EQ expresion SC
+Rule 116   asignacion -> array_access EQ expresion SC
+Rule 117   asignacionsencilla -> ID EQ expresion
+Rule 118   function -> DEF function_e bloque
+Rule 119   function_a -> VOID
+Rule 120   function_a -> tiposimple
+Rule 121   function_b -> function_d
+Rule 122   function_b -> function_d COMMA function_b
+Rule 123   function_b -> empty
+Rule 124   function_c -> function_a ID
+Rule 125   function_d -> tiposimple ID
+Rule 126   function_e -> function_c OP function_b CP vars
+Rule 127   function_e -> function_c OP function_b CP empty
+Rule 128   array_access -> array_access_c array_access_d exp CSB
+Rule 129   array_access -> array_access_c
+Rule 130   array_access_a -> ID
+Rule 131   array_access_b -> array_access_a OSB
+Rule 132   array_access_c -> array_access_b exp CSB
+Rule 133   array_access_d -> OSB
 Rule 134   empty -> <empty>
 
 Terminals, with rules where they appear
@@ -156,27 +156,27 @@ CHAR                 : 32
 CLASS                : 98
 CLASS_ID             : 98 113
 COL                  : 
-COMMA                : 13 88 123
-CP                   : 66 75 79 89 90 111 127 128
-CSB                  : 16 19 116 129 133
+COMMA                : 13 88 122
+CP                   : 66 75 79 89 90 111 126 127
+CSB                  : 16 19 128 132
 CTE_CHAR             : 93
 CTE_F                : 63 92
 CTE_I                : 62 91
 CTE_STRING           : 87
 DATAFRAME            : 33
-DEF                  : 119
+DEF                  : 118
 DIGIT                : 
 DIGITS               : 
 DIV                  : 28
 ELSE                 : 112
-EQ                   : 12 115 118
+EQ                   : 12 115 116 117
 EQEQ                 : 58
 FILE                 : 35
 FLOAT                : 31
 FOR                  : 74
 GE                   : 60
 GT                   : 56
-ID                   : 1 11 12 17 34 61 84 94 113 114 115 118 125 126 131
+ID                   : 1 11 12 17 34 61 84 94 113 114 115 117 124 125 130
 IF                   : 111
 INT                  : 30
 LE                   : 59
@@ -185,16 +185,16 @@ LT                   : 55
 MULT                 : 27
 NE                   : 57
 OB                   : 36 98
-OP                   : 66 76 85 89 90 111 127 128
+OP                   : 66 76 85 89 90 111 126 127
 OR                   : 69
-OSB                  : 18 19 116 129 132
+OSB                  : 18 19 131 133
 POINT                : 114
 PRINT                : 89
 PROGRAM              : 1
 RETURN               : 52
-SC                   : 1 7 8 14 15 42 52 76 78 89 113 115
+SC                   : 1 7 8 14 15 42 52 76 78 89 113 115 116
 SUB                  : 23
-VOID                 : 120
+VOID                 : 119
 WHILE                : 65
 error                : 
 
@@ -202,14 +202,14 @@ Nonterminals, with rules where they appear
 
 and_exp              : 67 69 71
 and_exp_b            : 71
-array_access         : 96
-array_access_a       : 132
-array_access_b       : 133
-array_access_c       : 129 130
+array_access         : 96 116
+array_access_a       : 131
+array_access_b       : 132
+array_access_c       : 128 129
+array_access_d       : 128
 asignacion           : 40
-asignacion_a         : 115 115
 asignacionsencilla   : 75 76
-bloque               : 1 64 73 106 107 119
+bloque               : 1 64 73 106 107 118
 bloque_a             : 36 37
 classcreate          : 45
 classcreate_a        : 98 99 100
@@ -221,11 +221,11 @@ condicion_a          : 106
 condicion_b          : 107
 condicion_c          : 106
 condicion_d          : 107
-empty                : 4 39 83 97 101 105 108 110 117 124 128
+empty                : 4 39 83 97 101 105 108 110 123 127
 estatuto             : 37 38
-exp                  : 16 19 68 90 111 116 129 133
+exp                  : 16 19 68 90 111 128 132
 exp_b                : 68
-expresion            : 12 52 66 70 72 77 86 89 115 118
+expresion            : 12 52 66 70 72 77 86 89 115 116 117
 expresion_a          : 54
 fact                 : 29
 fact_a               : 90
@@ -236,11 +236,11 @@ for_c                : 77
 for_d                : 78
 for_e                : 75
 function             : 49 98 102
-function_a           : 125
-function_b           : 123 127 128
-function_c           : 127 128
-function_d           : 122 123
-function_e           : 119
+function_a           : 124
+function_b           : 122 126 127
+function_c           : 126 127
+function_d           : 121 122
+function_e           : 118
 llamada              : 42 95 114
 llamada_a            : 79 82
 llamada_b            : 80 81
@@ -261,9 +261,9 @@ term                 : 24 26
 term_a               : 26
 term_b               : 25 26
 tipocompuesto        : 8
-tiposimple           : 7 17 121 126
+tiposimple           : 7 17 120 125
 varcte               : 
-vars                 : 5 46 99 127
+vars                 : 5 46 99 126
 vars_a               : 7 8 10
 vars_b               : 9 13
 vars_c               : 10
@@ -540,7 +540,8 @@ state 20
     (50) estatuto -> . return
     (51) estatuto -> . print
     (134) empty -> .
-    (115) asignacion -> . ID asignacion_a asignacion_a EQ expresion SC
+    (115) asignacion -> . ID EQ expresion SC
+    (116) asignacion -> . array_access EQ expresion SC
     (106) condicion -> . condicion_c bloque condicion_a
     (79) llamada -> . llamada_d llamada_a CP
     (64) while -> . while_b bloque
@@ -550,9 +551,11 @@ state 20
     (8) vars -> . tipocompuesto vars_a SC
     (113) classdeclare -> . CLASS_ID ID SC
     (114) llamadafuncionclase -> . ID POINT llamada
-    (119) function -> . DEF function_e bloque
+    (118) function -> . DEF function_e bloque
     (52) return -> . RETURN expresion SC
     (89) print -> . PRINT OP expresion CP SC
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (111) condicion_c -> . IF OP exp CP
     (85) llamada_d -> . llamada_c OP
     (66) while_b -> . while_a OP expresion CP
@@ -563,24 +566,27 @@ state 20
     (33) tipocompuesto -> . DATAFRAME
     (34) tipocompuesto -> . ID
     (35) tipocompuesto -> . FILE
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
     (65) while_a -> . WHILE
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
     CB              reduce using rule 134 (empty -> .)
     ID              shift and go to state 46
-    CLASS           shift and go to state 51
-    CLASS_ID        shift and go to state 52
-    DEF             shift and go to state 54
-    RETURN          shift and go to state 55
-    PRINT           shift and go to state 56
-    IF              shift and go to state 57
-    FOR             shift and go to state 60
+    CLASS           shift and go to state 52
+    CLASS_ID        shift and go to state 53
+    DEF             shift and go to state 55
+    RETURN          shift and go to state 56
+    PRINT           shift and go to state 57
+    IF              shift and go to state 59
+    FOR             shift and go to state 62
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
     DATAFRAME       shift and go to state 17
     FILE            shift and go to state 18
-    WHILE           shift and go to state 61
+    WHILE           shift and go to state 64
 
     bloque_a                       shift and go to state 31
     estatuto                       shift and go to state 32
@@ -597,14 +603,18 @@ state 20
     function                       shift and go to state 43
     return                         shift and go to state 44
     print                          shift and go to state 45
-    condicion_c                    shift and go to state 47
-    llamada_d                      shift and go to state 48
-    while_b                        shift and go to state 49
-    for_a                          shift and go to state 50
-    tiposimple                     shift and go to state 53
+    array_access                   shift and go to state 47
+    condicion_c                    shift and go to state 48
+    llamada_d                      shift and go to state 49
+    while_b                        shift and go to state 50
+    for_a                          shift and go to state 51
+    tiposimple                     shift and go to state 54
     tipocompuesto                  shift and go to state 12
-    llamada_c                      shift and go to state 58
-    while_a                        shift and go to state 59
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    while_a                        shift and go to state 61
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 21
 
@@ -617,7 +627,7 @@ state 22
 
     (7) vars -> tiposimple vars_a . SC
 
-    SC              shift and go to state 62
+    SC              shift and go to state 66
 
 
 state 23
@@ -629,7 +639,7 @@ state 23
     OSB             reduce using rule 17 (vars_vect_mat_b -> tiposimple ID .)
     COMMA           reduce using rule 11 (vars_b -> ID .)
     SC              reduce using rule 11 (vars_b -> ID .)
-    EQ              shift and go to state 63
+    EQ              shift and go to state 67
 
 
 state 24
@@ -638,7 +648,7 @@ state 24
     (13) vars_c -> vars_b . COMMA
 
     SC              reduce using rule 9 (vars_a -> vars_b .)
-    COMMA           shift and go to state 64
+    COMMA           shift and go to state 68
 
 
 state 25
@@ -653,14 +663,14 @@ state 25
     ID              shift and go to state 27
 
     vars_c                         shift and go to state 25
-    vars_a                         shift and go to state 65
+    vars_a                         shift and go to state 69
     vars_b                         shift and go to state 24
 
 state 26
 
     (8) vars -> tipocompuesto vars_a . SC
 
-    SC              shift and go to state 66
+    SC              shift and go to state 70
 
 
 state 27
@@ -670,7 +680,7 @@ state 27
 
     COMMA           reduce using rule 11 (vars_b -> ID .)
     SC              reduce using rule 11 (vars_b -> ID .)
-    EQ              shift and go to state 63
+    EQ              shift and go to state 67
 
 
 state 28
@@ -679,10 +689,10 @@ state 28
     (15) vars_vect_mat -> vars_vect_mat_b vars_vect_mat_a . vars_vect_mat_d SC
     (19) vars_vect_mat_d -> . OSB exp CSB
 
-    SC              shift and go to state 67
-    OSB             shift and go to state 69
+    SC              shift and go to state 71
+    OSB             shift and go to state 73
 
-    vars_vect_mat_d                shift and go to state 68
+    vars_vect_mat_d                shift and go to state 72
 
 state 29
 
@@ -709,37 +719,37 @@ state 29
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    exp                            shift and go to state 70
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    exp                            shift and go to state 74
+    and_exp                        shift and go to state 75
+    exp_b                          shift and go to state 76
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 30
 
@@ -756,7 +766,7 @@ state 31
 
     (36) bloque -> OB bloque_a . CB
 
-    CB              shift and go to state 90
+    CB              shift and go to state 91
 
 
 state 32
@@ -779,7 +789,8 @@ state 32
     (50) estatuto -> . return
     (51) estatuto -> . print
     (134) empty -> .
-    (115) asignacion -> . ID asignacion_a asignacion_a EQ expresion SC
+    (115) asignacion -> . ID EQ expresion SC
+    (116) asignacion -> . array_access EQ expresion SC
     (106) condicion -> . condicion_c bloque condicion_a
     (79) llamada -> . llamada_d llamada_a CP
     (64) while -> . while_b bloque
@@ -789,9 +800,11 @@ state 32
     (8) vars -> . tipocompuesto vars_a SC
     (113) classdeclare -> . CLASS_ID ID SC
     (114) llamadafuncionclase -> . ID POINT llamada
-    (119) function -> . DEF function_e bloque
+    (118) function -> . DEF function_e bloque
     (52) return -> . RETURN expresion SC
     (89) print -> . PRINT OP expresion CP SC
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (111) condicion_c -> . IF OP exp CP
     (85) llamada_d -> . llamada_c OP
     (66) while_b -> . while_a OP expresion CP
@@ -802,30 +815,33 @@ state 32
     (33) tipocompuesto -> . DATAFRAME
     (34) tipocompuesto -> . ID
     (35) tipocompuesto -> . FILE
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
     (65) while_a -> . WHILE
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
   ! reduce/reduce conflict for CB resolved using rule 38 (bloque_a -> estatuto .)
     CB              reduce using rule 38 (bloque_a -> estatuto .)
     ID              shift and go to state 46
-    CLASS           shift and go to state 51
-    CLASS_ID        shift and go to state 52
-    DEF             shift and go to state 54
-    RETURN          shift and go to state 55
-    PRINT           shift and go to state 56
-    IF              shift and go to state 57
-    FOR             shift and go to state 60
+    CLASS           shift and go to state 52
+    CLASS_ID        shift and go to state 53
+    DEF             shift and go to state 55
+    RETURN          shift and go to state 56
+    PRINT           shift and go to state 57
+    IF              shift and go to state 59
+    FOR             shift and go to state 62
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
     DATAFRAME       shift and go to state 17
     FILE            shift and go to state 18
-    WHILE           shift and go to state 61
+    WHILE           shift and go to state 64
 
   ! CB              [ reduce using rule 134 (empty -> .) ]
 
     estatuto                       shift and go to state 32
-    bloque_a                       shift and go to state 91
+    bloque_a                       shift and go to state 92
     empty                          shift and go to state 33
     asignacion                     shift and go to state 34
     condicion                      shift and go to state 35
@@ -839,14 +855,18 @@ state 32
     function                       shift and go to state 43
     return                         shift and go to state 44
     print                          shift and go to state 45
-    condicion_c                    shift and go to state 47
-    llamada_d                      shift and go to state 48
-    while_b                        shift and go to state 49
-    for_a                          shift and go to state 50
-    tiposimple                     shift and go to state 53
+    array_access                   shift and go to state 47
+    condicion_c                    shift and go to state 48
+    llamada_d                      shift and go to state 49
+    while_b                        shift and go to state 50
+    for_a                          shift and go to state 51
+    tiposimple                     shift and go to state 54
     tipocompuesto                  shift and go to state 12
-    llamada_c                      shift and go to state 58
-    while_a                        shift and go to state 59
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    while_a                        shift and go to state 61
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 33
 
@@ -901,7 +921,7 @@ state 36
 
     (42) estatuto -> llamada . SC
 
-    SC              shift and go to state 92
+    SC              shift and go to state 93
 
 
 state 37
@@ -1095,27 +1115,27 @@ state 45
 
 state 46
 
-    (115) asignacion -> ID . asignacion_a asignacion_a EQ expresion SC
+    (115) asignacion -> ID . EQ expresion SC
     (114) llamadafuncionclase -> ID . POINT llamada
     (34) tipocompuesto -> ID .
     (84) llamada_c -> ID .
-    (116) asignacion_a -> . OSB exp CSB
-    (117) asignacion_a -> . empty
-    (134) empty -> .
+    (130) array_access_a -> ID .
 
-  ! shift/reduce conflict for OSB resolved as shift
-    POINT           shift and go to state 94
+    EQ              shift and go to state 94
+    POINT           shift and go to state 95
     ID              reduce using rule 34 (tipocompuesto -> ID .)
     OP              reduce using rule 84 (llamada_c -> ID .)
-    OSB             shift and go to state 95
-    EQ              reduce using rule 134 (empty -> .)
+    OSB             reduce using rule 130 (array_access_a -> ID .)
 
-  ! OSB             [ reduce using rule 134 (empty -> .) ]
-
-    asignacion_a                   shift and go to state 93
-    empty                          shift and go to state 96
 
 state 47
+
+    (116) asignacion -> array_access . EQ expresion SC
+
+    EQ              shift and go to state 96
+
+
+state 48
 
     (106) condicion -> condicion_c . bloque condicion_a
     (36) bloque -> . OB bloque_a CB
@@ -1124,7 +1144,7 @@ state 47
 
     bloque                         shift and go to state 97
 
-state 48
+state 49
 
     (79) llamada -> llamada_d . llamada_a CP
     (80) llamada_a -> . llamada_e llamada_b
@@ -1151,43 +1171,43 @@ state 48
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
     CTE_STRING      shift and go to state 102
     COMMA           shift and go to state 105
     CP              reduce using rule 134 (empty -> .)
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    llamada_d                      shift and go to state 48
+    llamada_d                      shift and go to state 49
     llamada_a                      shift and go to state 98
     llamada_e                      shift and go to state 99
     llamada_b                      shift and go to state 100
     expresion                      shift and go to state 101
     llamada_f                      shift and go to state 103
     empty                          shift and go to state 104
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 49
+state 50
 
     (64) while -> while_b . bloque
     (36) bloque -> . OB bloque_a CB
@@ -1196,7 +1216,7 @@ state 49
 
     bloque                         shift and go to state 106
 
-state 50
+state 51
 
     (73) for -> for_a . for_b bloque
     (75) for_b -> . for_e asignacionsencilla CP
@@ -1211,21 +1231,21 @@ state 50
     for_d                          shift and go to state 109
     for_c                          shift and go to state 110
 
-state 51
+state 52
 
     (98) classcreate -> CLASS . CLASS_ID OB classcreate_a function classcreate_c CB
 
     CLASS_ID        shift and go to state 112
 
 
-state 52
+state 53
 
     (113) classdeclare -> CLASS_ID . ID SC
 
     ID              shift and go to state 113
 
 
-state 53
+state 54
 
     (7) vars -> tiposimple . vars_a SC
     (9) vars_a -> . vars_b
@@ -1240,14 +1260,14 @@ state 53
     vars_b                         shift and go to state 24
     vars_c                         shift and go to state 25
 
-state 54
+state 55
 
-    (119) function -> DEF . function_e bloque
-    (127) function_e -> . function_c OP function_b CP vars
-    (128) function_e -> . function_c OP function_b CP empty
-    (125) function_c -> . function_a ID
-    (120) function_a -> . VOID
-    (121) function_a -> . tiposimple
+    (118) function -> DEF . function_e bloque
+    (126) function_e -> . function_c OP function_b CP vars
+    (127) function_e -> . function_c OP function_b CP empty
+    (124) function_c -> . function_a ID
+    (119) function_a -> . VOID
+    (120) function_a -> . tiposimple
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
@@ -1262,7 +1282,7 @@ state 54
     function_a                     shift and go to state 116
     tiposimple                     shift and go to state 118
 
-state 55
+state 56
 
     (52) return -> RETURN . expresion SC
     (53) expresion -> . m_exp
@@ -1281,77 +1301,168 @@ state 55
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
     expresion                      shift and go to state 119
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 56
+state 57
 
     (89) print -> PRINT . OP expresion CP SC
 
     OP              shift and go to state 120
 
 
-state 57
-
-    (111) condicion_c -> IF . OP exp CP
-
-    OP              shift and go to state 121
-
-
 state 58
 
-    (85) llamada_d -> llamada_c . OP
+    (128) array_access -> array_access_c . array_access_d exp CSB
+    (129) array_access -> array_access_c .
+    (133) array_access_d -> . OSB
 
-    OP              shift and go to state 122
+    EQ              reduce using rule 129 (array_access -> array_access_c .)
+    MULT            reduce using rule 129 (array_access -> array_access_c .)
+    DIV             reduce using rule 129 (array_access -> array_access_c .)
+    ADD             reduce using rule 129 (array_access -> array_access_c .)
+    SUB             reduce using rule 129 (array_access -> array_access_c .)
+    LT              reduce using rule 129 (array_access -> array_access_c .)
+    GT              reduce using rule 129 (array_access -> array_access_c .)
+    NE              reduce using rule 129 (array_access -> array_access_c .)
+    EQEQ            reduce using rule 129 (array_access -> array_access_c .)
+    LE              reduce using rule 129 (array_access -> array_access_c .)
+    GE              reduce using rule 129 (array_access -> array_access_c .)
+    AND             reduce using rule 129 (array_access -> array_access_c .)
+    OR              reduce using rule 129 (array_access -> array_access_c .)
+    CSB             reduce using rule 129 (array_access -> array_access_c .)
+    COMMA           reduce using rule 129 (array_access -> array_access_c .)
+    CP              reduce using rule 129 (array_access -> array_access_c .)
+    SC              reduce using rule 129 (array_access -> array_access_c .)
+    OSB             shift and go to state 122
 
+    array_access_d                 shift and go to state 121
 
 state 59
 
-    (66) while_b -> while_a . OP expresion CP
+    (111) condicion_c -> IF . OP exp CP
 
     OP              shift and go to state 123
 
 
 state 60
 
+    (85) llamada_d -> llamada_c . OP
+
+    OP              shift and go to state 124
+
+
+state 61
+
+    (66) while_b -> while_a . OP expresion CP
+
+    OP              shift and go to state 125
+
+
+state 62
+
     (74) for_a -> FOR .
 
     OP              reduce using rule 74 (for_a -> FOR .)
 
 
-state 61
+state 63
+
+    (132) array_access_c -> array_access_b . exp CSB
+    (67) exp -> . and_exp
+    (68) exp -> . exp_b exp
+    (70) and_exp -> . expresion
+    (71) and_exp -> . and_exp_b and_exp
+    (69) exp_b -> . and_exp OR
+    (53) expresion -> . m_exp
+    (54) expresion -> . m_exp expresion_a m_exp
+    (72) and_exp_b -> . expresion AND
+    (20) m_exp -> . m_exp_b
+    (21) m_exp -> . m_exp_b m_exp_a m_exp
+    (24) m_exp_b -> . term
+    (25) term -> . term_b
+    (26) term -> . term_b term_a term
+    (29) term_b -> . fact
+    (90) fact -> . OP fact_a exp CP
+    (91) fact -> . CTE_I
+    (92) fact -> . CTE_F
+    (93) fact -> . CTE_CHAR
+    (94) fact -> . ID
+    (95) fact -> . llamada
+    (96) fact -> . array_access
+    (79) llamada -> . llamada_d llamada_a CP
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
+    (85) llamada_d -> . llamada_c OP
+    (132) array_access_c -> . array_access_b exp CSB
+    (84) llamada_c -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
+
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
+
+    array_access_b                 shift and go to state 63
+    exp                            shift and go to state 126
+    and_exp                        shift and go to state 75
+    exp_b                          shift and go to state 76
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_a                 shift and go to state 65
+
+state 64
 
     (65) while_a -> WHILE .
 
     OP              reduce using rule 65 (while_a -> WHILE .)
 
 
-state 62
+state 65
+
+    (131) array_access_b -> array_access_a . OSB
+
+    OSB             shift and go to state 127
+
+
+state 66
 
     (7) vars -> tiposimple vars_a SC .
 
@@ -1373,7 +1484,7 @@ state 62
     CB              reduce using rule 7 (vars -> tiposimple vars_a SC .)
 
 
-state 63
+state 67
 
     (12) vars_b -> ID EQ . expresion
     (53) expresion -> . m_exp
@@ -1392,49 +1503,49 @@ state 63
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    expresion                      shift and go to state 124
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    expresion                      shift and go to state 128
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 64
+state 68
 
     (13) vars_c -> vars_b COMMA .
 
     ID              reduce using rule 13 (vars_c -> vars_b COMMA .)
 
 
-state 65
+state 69
 
     (10) vars_a -> vars_c vars_a .
 
     SC              reduce using rule 10 (vars_a -> vars_c vars_a .)
 
 
-state 66
+state 70
 
     (8) vars -> tipocompuesto vars_a SC .
 
@@ -1456,7 +1567,7 @@ state 66
     CB              reduce using rule 8 (vars -> tipocompuesto vars_a SC .)
 
 
-state 67
+state 71
 
     (14) vars_vect_mat -> vars_vect_mat_b vars_vect_mat_a SC .
 
@@ -1470,14 +1581,14 @@ state 67
     DEF             reduce using rule 14 (vars_vect_mat -> vars_vect_mat_b vars_vect_mat_a SC .)
 
 
-state 68
+state 72
 
     (15) vars_vect_mat -> vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d . SC
 
-    SC              shift and go to state 125
+    SC              shift and go to state 129
 
 
-state 69
+state 73
 
     (19) vars_vect_mat_d -> OSB . exp CSB
     (67) exp -> . and_exp
@@ -1502,56 +1613,56 @@ state 69
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    exp                            shift and go to state 126
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    exp                            shift and go to state 130
+    and_exp                        shift and go to state 75
+    exp_b                          shift and go to state 76
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 70
+state 74
 
     (16) vars_vect_mat_a -> vars_vect_mat_c exp . CSB
 
-    CSB             shift and go to state 127
+    CSB             shift and go to state 131
 
 
-state 71
+state 75
 
     (67) exp -> and_exp .
     (69) exp_b -> and_exp . OR
 
     CSB             reduce using rule 67 (exp -> and_exp .)
     CP              reduce using rule 67 (exp -> and_exp .)
-    OR              shift and go to state 128
+    OR              shift and go to state 132
 
 
-state 72
+state 76
 
     (68) exp -> exp_b . exp
     (67) exp -> . and_exp
@@ -1576,39 +1687,39 @@ state 72
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    exp_b                          shift and go to state 72
-    exp                            shift and go to state 129
-    and_exp                        shift and go to state 71
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    exp_b                          shift and go to state 76
+    exp                            shift and go to state 133
+    and_exp                        shift and go to state 75
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 73
+state 77
 
     (70) and_exp -> expresion .
     (72) and_exp_b -> expresion . AND
@@ -1616,10 +1727,10 @@ state 73
     OR              reduce using rule 70 (and_exp -> expresion .)
     CSB             reduce using rule 70 (and_exp -> expresion .)
     CP              reduce using rule 70 (and_exp -> expresion .)
-    AND             shift and go to state 130
+    AND             shift and go to state 134
 
 
-state 74
+state 78
 
     (71) and_exp -> and_exp_b . and_exp
     (70) and_exp -> . expresion
@@ -1641,37 +1752,37 @@ state 74
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    and_exp_b                      shift and go to state 74
-    and_exp                        shift and go to state 131
-    expresion                      shift and go to state 73
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    and_exp_b                      shift and go to state 78
+    and_exp                        shift and go to state 135
+    expresion                      shift and go to state 77
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 75
+state 79
 
     (53) expresion -> m_exp .
     (54) expresion -> m_exp . expresion_a m_exp
@@ -1688,16 +1799,16 @@ state 75
     COMMA           reduce using rule 53 (expresion -> m_exp .)
     CP              reduce using rule 53 (expresion -> m_exp .)
     SC              reduce using rule 53 (expresion -> m_exp .)
-    LT              shift and go to state 133
-    GT              shift and go to state 134
-    NE              shift and go to state 135
-    EQEQ            shift and go to state 136
-    LE              shift and go to state 137
-    GE              shift and go to state 138
+    LT              shift and go to state 137
+    GT              shift and go to state 138
+    NE              shift and go to state 139
+    EQEQ            shift and go to state 140
+    LE              shift and go to state 141
+    GE              shift and go to state 142
 
-    expresion_a                    shift and go to state 132
+    expresion_a                    shift and go to state 136
 
-state 76
+state 80
 
     (20) m_exp -> m_exp_b .
     (21) m_exp -> m_exp_b . m_exp_a m_exp
@@ -1716,12 +1827,12 @@ state 76
     COMMA           reduce using rule 20 (m_exp -> m_exp_b .)
     CP              reduce using rule 20 (m_exp -> m_exp_b .)
     SC              reduce using rule 20 (m_exp -> m_exp_b .)
-    ADD             shift and go to state 140
-    SUB             shift and go to state 141
+    ADD             shift and go to state 144
+    SUB             shift and go to state 145
 
-    m_exp_a                        shift and go to state 139
+    m_exp_a                        shift and go to state 143
 
-state 77
+state 81
 
     (24) m_exp_b -> term .
 
@@ -1741,7 +1852,7 @@ state 77
     SC              reduce using rule 24 (m_exp_b -> term .)
 
 
-state 78
+state 82
 
     (25) term -> term_b .
     (26) term -> term_b . term_a term
@@ -1762,12 +1873,12 @@ state 78
     COMMA           reduce using rule 25 (term -> term_b .)
     CP              reduce using rule 25 (term -> term_b .)
     SC              reduce using rule 25 (term -> term_b .)
-    MULT            shift and go to state 143
-    DIV             shift and go to state 144
+    MULT            shift and go to state 147
+    DIV             shift and go to state 148
 
-    term_a                         shift and go to state 142
+    term_a                         shift and go to state 146
 
-state 79
+state 83
 
     (29) term_b -> fact .
 
@@ -1789,7 +1900,7 @@ state 79
     SC              reduce using rule 29 (term_b -> fact .)
 
 
-state 80
+state 84
 
     (90) fact -> OP . fact_a exp CP
     (97) fact_a -> . empty
@@ -1801,10 +1912,10 @@ state 80
     CTE_CHAR        reduce using rule 134 (empty -> .)
     ID              reduce using rule 134 (empty -> .)
 
-    fact_a                         shift and go to state 145
-    empty                          shift and go to state 146
+    fact_a                         shift and go to state 149
+    empty                          shift and go to state 150
 
-state 81
+state 85
 
     (91) fact -> CTE_I .
 
@@ -1826,7 +1937,7 @@ state 81
     SC              reduce using rule 91 (fact -> CTE_I .)
 
 
-state 82
+state 86
 
     (92) fact -> CTE_F .
 
@@ -1848,7 +1959,7 @@ state 82
     SC              reduce using rule 92 (fact -> CTE_F .)
 
 
-state 83
+state 87
 
     (93) fact -> CTE_CHAR .
 
@@ -1870,11 +1981,11 @@ state 83
     SC              reduce using rule 93 (fact -> CTE_CHAR .)
 
 
-state 84
+state 88
 
     (94) fact -> ID .
     (84) llamada_c -> ID .
-    (131) array_access_a -> ID .
+    (130) array_access_a -> ID .
 
     MULT            reduce using rule 94 (fact -> ID .)
     DIV             reduce using rule 94 (fact -> ID .)
@@ -1893,10 +2004,10 @@ state 84
     CP              reduce using rule 94 (fact -> ID .)
     SC              reduce using rule 94 (fact -> ID .)
     OP              reduce using rule 84 (llamada_c -> ID .)
-    OSB             reduce using rule 131 (array_access_a -> ID .)
+    OSB             reduce using rule 130 (array_access_a -> ID .)
 
 
-state 85
+state 89
 
     (95) fact -> llamada .
 
@@ -1918,7 +2029,7 @@ state 85
     SC              reduce using rule 95 (fact -> llamada .)
 
 
-state 86
+state 90
 
     (96) fact -> array_access .
 
@@ -1940,95 +2051,7 @@ state 86
     SC              reduce using rule 96 (fact -> array_access .)
 
 
-state 87
-
-    (129) array_access -> array_access_c . OSB exp CSB
-    (130) array_access -> array_access_c .
-
-    OSB             shift and go to state 147
-    MULT            reduce using rule 130 (array_access -> array_access_c .)
-    DIV             reduce using rule 130 (array_access -> array_access_c .)
-    ADD             reduce using rule 130 (array_access -> array_access_c .)
-    SUB             reduce using rule 130 (array_access -> array_access_c .)
-    LT              reduce using rule 130 (array_access -> array_access_c .)
-    GT              reduce using rule 130 (array_access -> array_access_c .)
-    NE              reduce using rule 130 (array_access -> array_access_c .)
-    EQEQ            reduce using rule 130 (array_access -> array_access_c .)
-    LE              reduce using rule 130 (array_access -> array_access_c .)
-    GE              reduce using rule 130 (array_access -> array_access_c .)
-    AND             reduce using rule 130 (array_access -> array_access_c .)
-    OR              reduce using rule 130 (array_access -> array_access_c .)
-    CSB             reduce using rule 130 (array_access -> array_access_c .)
-    COMMA           reduce using rule 130 (array_access -> array_access_c .)
-    CP              reduce using rule 130 (array_access -> array_access_c .)
-    SC              reduce using rule 130 (array_access -> array_access_c .)
-
-
-state 88
-
-    (133) array_access_c -> array_access_b . exp CSB
-    (67) exp -> . and_exp
-    (68) exp -> . exp_b exp
-    (70) and_exp -> . expresion
-    (71) and_exp -> . and_exp_b and_exp
-    (69) exp_b -> . and_exp OR
-    (53) expresion -> . m_exp
-    (54) expresion -> . m_exp expresion_a m_exp
-    (72) and_exp_b -> . expresion AND
-    (20) m_exp -> . m_exp_b
-    (21) m_exp -> . m_exp_b m_exp_a m_exp
-    (24) m_exp_b -> . term
-    (25) term -> . term_b
-    (26) term -> . term_b term_a term
-    (29) term_b -> . fact
-    (90) fact -> . OP fact_a exp CP
-    (91) fact -> . CTE_I
-    (92) fact -> . CTE_F
-    (93) fact -> . CTE_CHAR
-    (94) fact -> . ID
-    (95) fact -> . llamada
-    (96) fact -> . array_access
-    (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
-    (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
-    (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
-
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
-
-    array_access_b                 shift and go to state 88
-    exp                            shift and go to state 148
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_a                 shift and go to state 89
-
-state 89
-
-    (132) array_access_b -> array_access_a . OSB
-
-    OSB             shift and go to state 149
-
-
-state 90
+state 91
 
     (36) bloque -> OB bloque_a CB .
 
@@ -2052,14 +2075,14 @@ state 90
     OB              reduce using rule 36 (bloque -> OB bloque_a CB .)
 
 
-state 91
+state 92
 
     (37) bloque_a -> estatuto bloque_a .
 
     CB              reduce using rule 37 (bloque_a -> estatuto bloque_a .)
 
 
-state 92
+state 93
 
     (42) estatuto -> llamada SC .
 
@@ -2080,43 +2103,11 @@ state 92
     CB              reduce using rule 42 (estatuto -> llamada SC .)
 
 
-state 93
-
-    (115) asignacion -> ID asignacion_a . asignacion_a EQ expresion SC
-    (116) asignacion_a -> . OSB exp CSB
-    (117) asignacion_a -> . empty
-    (134) empty -> .
-
-    OSB             shift and go to state 95
-    EQ              reduce using rule 134 (empty -> .)
-
-    asignacion_a                   shift and go to state 150
-    empty                          shift and go to state 96
-
 state 94
 
-    (114) llamadafuncionclase -> ID POINT . llamada
-    (79) llamada -> . llamada_d llamada_a CP
-    (85) llamada_d -> . llamada_c OP
-    (84) llamada_c -> . ID
-
-    ID              shift and go to state 151
-
-    llamada                        shift and go to state 152
-    llamada_d                      shift and go to state 48
-    llamada_c                      shift and go to state 58
-
-state 95
-
-    (116) asignacion_a -> OSB . exp CSB
-    (67) exp -> . and_exp
-    (68) exp -> . exp_b exp
-    (70) and_exp -> . expresion
-    (71) and_exp -> . and_exp_b and_exp
-    (69) exp_b -> . and_exp OR
+    (115) asignacion -> ID EQ . expresion SC
     (53) expresion -> . m_exp
     (54) expresion -> . m_exp expresion_a m_exp
-    (72) and_exp_b -> . expresion AND
     (20) m_exp -> . m_exp_b
     (21) m_exp -> . m_exp_b m_exp_a m_exp
     (24) m_exp_b -> . term
@@ -2131,45 +2122,93 @@ state 95
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    exp                            shift and go to state 153
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    expresion                      shift and go to state 151
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
+
+state 95
+
+    (114) llamadafuncionclase -> ID POINT . llamada
+    (79) llamada -> . llamada_d llamada_a CP
+    (85) llamada_d -> . llamada_c OP
+    (84) llamada_c -> . ID
+
+    ID              shift and go to state 152
+
+    llamada                        shift and go to state 153
+    llamada_d                      shift and go to state 49
+    llamada_c                      shift and go to state 60
 
 state 96
 
-    (117) asignacion_a -> empty .
+    (116) asignacion -> array_access EQ . expresion SC
+    (53) expresion -> . m_exp
+    (54) expresion -> . m_exp expresion_a m_exp
+    (20) m_exp -> . m_exp_b
+    (21) m_exp -> . m_exp_b m_exp_a m_exp
+    (24) m_exp_b -> . term
+    (25) term -> . term_b
+    (26) term -> . term_b term_a term
+    (29) term_b -> . fact
+    (90) fact -> . OP fact_a exp CP
+    (91) fact -> . CTE_I
+    (92) fact -> . CTE_F
+    (93) fact -> . CTE_CHAR
+    (94) fact -> . ID
+    (95) fact -> . llamada
+    (96) fact -> . array_access
+    (79) llamada -> . llamada_d llamada_a CP
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
+    (85) llamada_d -> . llamada_c OP
+    (132) array_access_c -> . array_access_b exp CSB
+    (84) llamada_c -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OSB             reduce using rule 117 (asignacion_a -> empty .)
-    EQ              reduce using rule 117 (asignacion_a -> empty .)
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
+    array_access                   shift and go to state 90
+    expresion                      shift and go to state 154
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 97
 
@@ -2179,7 +2218,7 @@ state 97
     (112) condicion_d -> . ELSE
     (134) empty -> .
 
-    ELSE            shift and go to state 157
+    ELSE            shift and go to state 158
     ID              reduce using rule 134 (empty -> .)
     CLASS           reduce using rule 134 (empty -> .)
     CLASS_ID        reduce using rule 134 (empty -> .)
@@ -2197,15 +2236,15 @@ state 97
     CB              reduce using rule 134 (empty -> .)
     OB              reduce using rule 134 (empty -> .)
 
-    condicion_a                    shift and go to state 154
-    condicion_d                    shift and go to state 155
-    empty                          shift and go to state 156
+    condicion_a                    shift and go to state 155
+    condicion_d                    shift and go to state 156
+    empty                          shift and go to state 157
 
 state 98
 
     (79) llamada -> llamada_d llamada_a . CP
 
-    CP              shift and go to state 158
+    CP              shift and go to state 159
 
 
 state 99
@@ -2219,7 +2258,7 @@ state 99
     COMMA           shift and go to state 105
     CP              reduce using rule 134 (empty -> .)
 
-    llamada_b                      shift and go to state 159
+    llamada_b                      shift and go to state 160
     llamada_f                      shift and go to state 103
     empty                          shift and go to state 104
 
@@ -2273,41 +2312,41 @@ state 103
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
     CTE_STRING      shift and go to state 102
     COMMA           shift and go to state 105
     CP              reduce using rule 134 (empty -> .)
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
     llamada_f                      shift and go to state 103
-    llamada_a                      shift and go to state 160
+    llamada_a                      shift and go to state 161
     llamada_e                      shift and go to state 99
     llamada_b                      shift and go to state 100
     expresion                      shift and go to state 101
     empty                          shift and go to state 104
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 104
 
@@ -2358,22 +2397,22 @@ state 107
 
     OB              shift and go to state 20
 
-    bloque                         shift and go to state 161
+    bloque                         shift and go to state 162
 
 state 108
 
     (75) for_b -> for_e . asignacionsencilla CP
-    (118) asignacionsencilla -> . ID EQ expresion
+    (117) asignacionsencilla -> . ID EQ expresion
 
-    ID              shift and go to state 163
+    ID              shift and go to state 164
 
-    asignacionsencilla             shift and go to state 162
+    asignacionsencilla             shift and go to state 163
 
 state 109
 
     (78) for_e -> for_d . SC
 
-    SC              shift and go to state 164
+    SC              shift and go to state 165
 
 
 state 110
@@ -2395,100 +2434,100 @@ state 110
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    expresion                      shift and go to state 165
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    expresion                      shift and go to state 166
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 111
 
     (76) for_c -> OP . asignacionsencilla SC
-    (118) asignacionsencilla -> . ID EQ expresion
+    (117) asignacionsencilla -> . ID EQ expresion
 
-    ID              shift and go to state 163
+    ID              shift and go to state 164
 
-    asignacionsencilla             shift and go to state 166
+    asignacionsencilla             shift and go to state 167
 
 state 112
 
     (98) classcreate -> CLASS CLASS_ID . OB classcreate_a function classcreate_c CB
 
-    OB              shift and go to state 167
+    OB              shift and go to state 168
 
 
 state 113
 
     (113) classdeclare -> CLASS_ID ID . SC
 
-    SC              shift and go to state 168
+    SC              shift and go to state 169
 
 
 state 114
 
-    (119) function -> DEF function_e . bloque
+    (118) function -> DEF function_e . bloque
     (36) bloque -> . OB bloque_a CB
 
     OB              shift and go to state 20
 
-    bloque                         shift and go to state 169
+    bloque                         shift and go to state 170
 
 state 115
 
-    (127) function_e -> function_c . OP function_b CP vars
-    (128) function_e -> function_c . OP function_b CP empty
+    (126) function_e -> function_c . OP function_b CP vars
+    (127) function_e -> function_c . OP function_b CP empty
 
-    OP              shift and go to state 170
+    OP              shift and go to state 171
 
 
 state 116
 
-    (125) function_c -> function_a . ID
+    (124) function_c -> function_a . ID
 
-    ID              shift and go to state 171
+    ID              shift and go to state 172
 
 
 state 117
 
-    (120) function_a -> VOID .
+    (119) function_a -> VOID .
 
-    ID              reduce using rule 120 (function_a -> VOID .)
+    ID              reduce using rule 119 (function_a -> VOID .)
 
 
 state 118
 
-    (121) function_a -> tiposimple .
+    (120) function_a -> tiposimple .
 
-    ID              reduce using rule 121 (function_a -> tiposimple .)
+    ID              reduce using rule 120 (function_a -> tiposimple .)
 
 
 state 119
 
     (52) return -> RETURN expresion . SC
 
-    SC              shift and go to state 172
+    SC              shift and go to state 173
 
 
 state 120
@@ -2510,35 +2549,103 @@ state 120
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    expresion                      shift and go to state 173
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    expresion                      shift and go to state 174
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
 state 121
+
+    (128) array_access -> array_access_c array_access_d . exp CSB
+    (67) exp -> . and_exp
+    (68) exp -> . exp_b exp
+    (70) and_exp -> . expresion
+    (71) and_exp -> . and_exp_b and_exp
+    (69) exp_b -> . and_exp OR
+    (53) expresion -> . m_exp
+    (54) expresion -> . m_exp expresion_a m_exp
+    (72) and_exp_b -> . expresion AND
+    (20) m_exp -> . m_exp_b
+    (21) m_exp -> . m_exp_b m_exp_a m_exp
+    (24) m_exp_b -> . term
+    (25) term -> . term_b
+    (26) term -> . term_b term_a term
+    (29) term_b -> . fact
+    (90) fact -> . OP fact_a exp CP
+    (91) fact -> . CTE_I
+    (92) fact -> . CTE_F
+    (93) fact -> . CTE_CHAR
+    (94) fact -> . ID
+    (95) fact -> . llamada
+    (96) fact -> . array_access
+    (79) llamada -> . llamada_d llamada_a CP
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
+    (85) llamada_d -> . llamada_c OP
+    (132) array_access_c -> . array_access_b exp CSB
+    (84) llamada_c -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
+
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
+
+    array_access_c                 shift and go to state 58
+    exp                            shift and go to state 175
+    and_exp                        shift and go to state 75
+    exp_b                          shift and go to state 76
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
+
+state 122
+
+    (133) array_access_d -> OSB .
+
+    OP              reduce using rule 133 (array_access_d -> OSB .)
+    CTE_I           reduce using rule 133 (array_access_d -> OSB .)
+    CTE_F           reduce using rule 133 (array_access_d -> OSB .)
+    CTE_CHAR        reduce using rule 133 (array_access_d -> OSB .)
+    ID              reduce using rule 133 (array_access_d -> OSB .)
+
+
+state 123
 
     (111) condicion_c -> IF OP . exp CP
     (67) exp -> . and_exp
@@ -2563,39 +2670,39 @@ state 121
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    exp                            shift and go to state 174
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    exp                            shift and go to state 176
+    and_exp                        shift and go to state 75
+    exp_b                          shift and go to state 76
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 122
+state 124
 
     (85) llamada_d -> llamada_c OP .
 
@@ -2609,7 +2716,7 @@ state 122
     CP              reduce using rule 85 (llamada_d -> llamada_c OP .)
 
 
-state 123
+state 125
 
     (66) while_b -> while_a OP . expresion CP
     (53) expresion -> . m_exp
@@ -2628,35 +2735,53 @@ state 123
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    expresion                      shift and go to state 175
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    expresion                      shift and go to state 177
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 124
+state 126
+
+    (132) array_access_c -> array_access_b exp . CSB
+
+    CSB             shift and go to state 178
+
+
+state 127
+
+    (131) array_access_b -> array_access_a OSB .
+
+    OP              reduce using rule 131 (array_access_b -> array_access_a OSB .)
+    CTE_I           reduce using rule 131 (array_access_b -> array_access_a OSB .)
+    CTE_F           reduce using rule 131 (array_access_b -> array_access_a OSB .)
+    CTE_CHAR        reduce using rule 131 (array_access_b -> array_access_a OSB .)
+    ID              reduce using rule 131 (array_access_b -> array_access_a OSB .)
+
+
+state 128
 
     (12) vars_b -> ID EQ expresion .
 
@@ -2664,7 +2789,7 @@ state 124
     SC              reduce using rule 12 (vars_b -> ID EQ expresion .)
 
 
-state 125
+state 129
 
     (15) vars_vect_mat -> vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d SC .
 
@@ -2678,14 +2803,14 @@ state 125
     DEF             reduce using rule 15 (vars_vect_mat -> vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d SC .)
 
 
-state 126
+state 130
 
     (19) vars_vect_mat_d -> OSB exp . CSB
 
-    CSB             shift and go to state 176
+    CSB             shift and go to state 179
 
 
-state 127
+state 131
 
     (16) vars_vect_mat_a -> vars_vect_mat_c exp CSB .
 
@@ -2693,7 +2818,7 @@ state 127
     OSB             reduce using rule 16 (vars_vect_mat_a -> vars_vect_mat_c exp CSB .)
 
 
-state 128
+state 132
 
     (69) exp_b -> and_exp OR .
 
@@ -2704,7 +2829,7 @@ state 128
     ID              reduce using rule 69 (exp_b -> and_exp OR .)
 
 
-state 129
+state 133
 
     (68) exp -> exp_b exp .
 
@@ -2712,7 +2837,7 @@ state 129
     CP              reduce using rule 68 (exp -> exp_b exp .)
 
 
-state 130
+state 134
 
     (72) and_exp_b -> expresion AND .
 
@@ -2723,7 +2848,7 @@ state 130
     ID              reduce using rule 72 (and_exp_b -> expresion AND .)
 
 
-state 131
+state 135
 
     (71) and_exp -> and_exp_b and_exp .
 
@@ -2732,7 +2857,7 @@ state 131
     CP              reduce using rule 71 (and_exp -> and_exp_b and_exp .)
 
 
-state 132
+state 136
 
     (54) expresion -> m_exp expresion_a . m_exp
     (20) m_exp -> . m_exp_b
@@ -2749,34 +2874,34 @@ state 132
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    m_exp                          shift and go to state 177
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    m_exp                          shift and go to state 180
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 133
+state 137
 
     (55) expresion_a -> LT .
 
@@ -2787,7 +2912,7 @@ state 133
     ID              reduce using rule 55 (expresion_a -> LT .)
 
 
-state 134
+state 138
 
     (56) expresion_a -> GT .
 
@@ -2798,7 +2923,7 @@ state 134
     ID              reduce using rule 56 (expresion_a -> GT .)
 
 
-state 135
+state 139
 
     (57) expresion_a -> NE .
 
@@ -2809,7 +2934,7 @@ state 135
     ID              reduce using rule 57 (expresion_a -> NE .)
 
 
-state 136
+state 140
 
     (58) expresion_a -> EQEQ .
 
@@ -2820,7 +2945,7 @@ state 136
     ID              reduce using rule 58 (expresion_a -> EQEQ .)
 
 
-state 137
+state 141
 
     (59) expresion_a -> LE .
 
@@ -2831,7 +2956,7 @@ state 137
     ID              reduce using rule 59 (expresion_a -> LE .)
 
 
-state 138
+state 142
 
     (60) expresion_a -> GE .
 
@@ -2842,7 +2967,7 @@ state 138
     ID              reduce using rule 60 (expresion_a -> GE .)
 
 
-state 139
+state 143
 
     (21) m_exp -> m_exp_b m_exp_a . m_exp
     (20) m_exp -> . m_exp_b
@@ -2859,34 +2984,34 @@ state 139
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    m_exp_b                        shift and go to state 76
-    m_exp                          shift and go to state 178
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    m_exp_b                        shift and go to state 80
+    m_exp                          shift and go to state 181
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 140
+state 144
 
     (22) m_exp_a -> ADD .
 
@@ -2897,7 +3022,7 @@ state 140
     ID              reduce using rule 22 (m_exp_a -> ADD .)
 
 
-state 141
+state 145
 
     (23) m_exp_a -> SUB .
 
@@ -2908,7 +3033,7 @@ state 141
     ID              reduce using rule 23 (m_exp_a -> SUB .)
 
 
-state 142
+state 146
 
     (26) term -> term_b term_a . term
     (25) term -> . term_b
@@ -2922,32 +3047,32 @@ state 142
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    term_b                         shift and go to state 78
-    term                           shift and go to state 179
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    term_b                         shift and go to state 82
+    term                           shift and go to state 182
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 143
+state 147
 
     (27) term_a -> MULT .
 
@@ -2958,7 +3083,7 @@ state 143
     ID              reduce using rule 27 (term_a -> MULT .)
 
 
-state 144
+state 148
 
     (28) term_a -> DIV .
 
@@ -2969,7 +3094,7 @@ state 144
     ID              reduce using rule 28 (term_a -> DIV .)
 
 
-state 145
+state 149
 
     (90) fact -> OP fact_a . exp CP
     (67) exp -> . and_exp
@@ -2994,39 +3119,39 @@ state 145
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
-    exp                            shift and go to state 180
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    exp                            shift and go to state 183
+    and_exp                        shift and go to state 75
+    exp_b                          shift and go to state 76
+    expresion                      shift and go to state 77
+    and_exp_b                      shift and go to state 78
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 146
+state 150
 
     (97) fact_a -> empty .
 
@@ -3037,96 +3162,21 @@ state 146
     ID              reduce using rule 97 (fact_a -> empty .)
 
 
-state 147
-
-    (129) array_access -> array_access_c OSB . exp CSB
-    (67) exp -> . and_exp
-    (68) exp -> . exp_b exp
-    (70) and_exp -> . expresion
-    (71) and_exp -> . and_exp_b and_exp
-    (69) exp_b -> . and_exp OR
-    (53) expresion -> . m_exp
-    (54) expresion -> . m_exp expresion_a m_exp
-    (72) and_exp_b -> . expresion AND
-    (20) m_exp -> . m_exp_b
-    (21) m_exp -> . m_exp_b m_exp_a m_exp
-    (24) m_exp_b -> . term
-    (25) term -> . term_b
-    (26) term -> . term_b term_a term
-    (29) term_b -> . fact
-    (90) fact -> . OP fact_a exp CP
-    (91) fact -> . CTE_I
-    (92) fact -> . CTE_F
-    (93) fact -> . CTE_CHAR
-    (94) fact -> . ID
-    (95) fact -> . llamada
-    (96) fact -> . array_access
-    (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
-    (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
-    (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
-
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
-
-    array_access_c                 shift and go to state 87
-    exp                            shift and go to state 181
-    and_exp                        shift and go to state 71
-    exp_b                          shift and go to state 72
-    expresion                      shift and go to state 73
-    and_exp_b                      shift and go to state 74
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
-
-state 148
-
-    (133) array_access_c -> array_access_b exp . CSB
-
-    CSB             shift and go to state 182
-
-
-state 149
-
-    (132) array_access_b -> array_access_a OSB .
-
-    OP              reduce using rule 132 (array_access_b -> array_access_a OSB .)
-    CTE_I           reduce using rule 132 (array_access_b -> array_access_a OSB .)
-    CTE_F           reduce using rule 132 (array_access_b -> array_access_a OSB .)
-    CTE_CHAR        reduce using rule 132 (array_access_b -> array_access_a OSB .)
-    ID              reduce using rule 132 (array_access_b -> array_access_a OSB .)
-
-
-state 150
-
-    (115) asignacion -> ID asignacion_a asignacion_a . EQ expresion SC
-
-    EQ              shift and go to state 183
-
-
 state 151
+
+    (115) asignacion -> ID EQ expresion . SC
+
+    SC              shift and go to state 184
+
+
+state 152
 
     (84) llamada_c -> ID .
 
     OP              reduce using rule 84 (llamada_c -> ID .)
 
 
-state 152
+state 153
 
     (114) llamadafuncionclase -> ID POINT llamada .
 
@@ -3147,14 +3197,14 @@ state 152
     CB              reduce using rule 114 (llamadafuncionclase -> ID POINT llamada .)
 
 
-state 153
-
-    (116) asignacion_a -> OSB exp . CSB
-
-    CSB             shift and go to state 184
-
-
 state 154
+
+    (116) asignacion -> array_access EQ expresion . SC
+
+    SC              shift and go to state 185
+
+
+state 155
 
     (106) condicion -> condicion_c bloque condicion_a .
 
@@ -3176,7 +3226,7 @@ state 154
     OB              reduce using rule 106 (condicion -> condicion_c bloque condicion_a .)
 
 
-state 155
+state 156
 
     (107) condicion_a -> condicion_d . condicion_b bloque
     (109) condicion_b -> . condicion
@@ -3186,14 +3236,14 @@ state 155
     (111) condicion_c -> . IF OP exp CP
 
     OB              reduce using rule 134 (empty -> .)
-    IF              shift and go to state 57
+    IF              shift and go to state 59
 
-    condicion_b                    shift and go to state 185
-    condicion                      shift and go to state 186
-    empty                          shift and go to state 187
-    condicion_c                    shift and go to state 47
+    condicion_b                    shift and go to state 186
+    condicion                      shift and go to state 187
+    empty                          shift and go to state 188
+    condicion_c                    shift and go to state 48
 
-state 156
+state 157
 
     (108) condicion_a -> empty .
 
@@ -3215,7 +3265,7 @@ state 156
     OB              reduce using rule 108 (condicion_a -> empty .)
 
 
-state 157
+state 158
 
     (112) condicion_d -> ELSE .
 
@@ -3223,7 +3273,7 @@ state 157
     OB              reduce using rule 112 (condicion_d -> ELSE .)
 
 
-state 158
+state 159
 
     (79) llamada -> llamada_d llamada_a CP .
 
@@ -3260,21 +3310,21 @@ state 158
     CB              reduce using rule 79 (llamada -> llamada_d llamada_a CP .)
 
 
-state 159
+state 160
 
     (80) llamada_a -> llamada_e llamada_b .
 
     CP              reduce using rule 80 (llamada_a -> llamada_e llamada_b .)
 
 
-state 160
+state 161
 
     (82) llamada_b -> llamada_f llamada_a .
 
     CP              reduce using rule 82 (llamada_b -> llamada_f llamada_a .)
 
 
-state 161
+state 162
 
     (73) for -> for_a for_b bloque .
 
@@ -3295,42 +3345,42 @@ state 161
     CB              reduce using rule 73 (for -> for_a for_b bloque .)
 
 
-state 162
+state 163
 
     (75) for_b -> for_e asignacionsencilla . CP
 
-    CP              shift and go to state 188
-
-
-state 163
-
-    (118) asignacionsencilla -> ID . EQ expresion
-
-    EQ              shift and go to state 189
+    CP              shift and go to state 189
 
 
 state 164
+
+    (117) asignacionsencilla -> ID . EQ expresion
+
+    EQ              shift and go to state 190
+
+
+state 165
 
     (78) for_e -> for_d SC .
 
     ID              reduce using rule 78 (for_e -> for_d SC .)
 
 
-state 165
+state 166
 
     (77) for_d -> for_c expresion .
 
     SC              reduce using rule 77 (for_d -> for_c expresion .)
 
 
-state 166
+state 167
 
     (76) for_c -> OP asignacionsencilla . SC
 
-    SC              shift and go to state 190
+    SC              shift and go to state 191
 
 
-state 167
+state 168
 
     (98) classcreate -> CLASS CLASS_ID OB . classcreate_a function classcreate_c CB
     (99) classcreate_a -> . vars classcreate_a
@@ -3357,15 +3407,15 @@ state 167
     ID              shift and go to state 5
     FILE            shift and go to state 18
 
-    classcreate_a                  shift and go to state 191
-    vars                           shift and go to state 192
-    vars_vect_mat                  shift and go to state 193
-    empty                          shift and go to state 194
+    classcreate_a                  shift and go to state 192
+    vars                           shift and go to state 193
+    vars_vect_mat                  shift and go to state 194
+    empty                          shift and go to state 195
     tiposimple                     shift and go to state 11
     tipocompuesto                  shift and go to state 12
     vars_vect_mat_b                shift and go to state 13
 
-state 168
+state 169
 
     (113) classdeclare -> CLASS_ID ID SC .
 
@@ -3386,35 +3436,35 @@ state 168
     CB              reduce using rule 113 (classdeclare -> CLASS_ID ID SC .)
 
 
-state 169
-
-    (119) function -> DEF function_e bloque .
-
-    ID              reduce using rule 119 (function -> DEF function_e bloque .)
-    CLASS           reduce using rule 119 (function -> DEF function_e bloque .)
-    CLASS_ID        reduce using rule 119 (function -> DEF function_e bloque .)
-    DEF             reduce using rule 119 (function -> DEF function_e bloque .)
-    RETURN          reduce using rule 119 (function -> DEF function_e bloque .)
-    PRINT           reduce using rule 119 (function -> DEF function_e bloque .)
-    IF              reduce using rule 119 (function -> DEF function_e bloque .)
-    FOR             reduce using rule 119 (function -> DEF function_e bloque .)
-    INT             reduce using rule 119 (function -> DEF function_e bloque .)
-    FLOAT           reduce using rule 119 (function -> DEF function_e bloque .)
-    CHAR            reduce using rule 119 (function -> DEF function_e bloque .)
-    DATAFRAME       reduce using rule 119 (function -> DEF function_e bloque .)
-    FILE            reduce using rule 119 (function -> DEF function_e bloque .)
-    WHILE           reduce using rule 119 (function -> DEF function_e bloque .)
-    CB              reduce using rule 119 (function -> DEF function_e bloque .)
-
-
 state 170
 
-    (127) function_e -> function_c OP . function_b CP vars
-    (128) function_e -> function_c OP . function_b CP empty
-    (122) function_b -> . function_d
-    (123) function_b -> . function_d COMMA function_b
-    (124) function_b -> . empty
-    (126) function_d -> . tiposimple ID
+    (118) function -> DEF function_e bloque .
+
+    ID              reduce using rule 118 (function -> DEF function_e bloque .)
+    CLASS           reduce using rule 118 (function -> DEF function_e bloque .)
+    CLASS_ID        reduce using rule 118 (function -> DEF function_e bloque .)
+    DEF             reduce using rule 118 (function -> DEF function_e bloque .)
+    RETURN          reduce using rule 118 (function -> DEF function_e bloque .)
+    PRINT           reduce using rule 118 (function -> DEF function_e bloque .)
+    IF              reduce using rule 118 (function -> DEF function_e bloque .)
+    FOR             reduce using rule 118 (function -> DEF function_e bloque .)
+    INT             reduce using rule 118 (function -> DEF function_e bloque .)
+    FLOAT           reduce using rule 118 (function -> DEF function_e bloque .)
+    CHAR            reduce using rule 118 (function -> DEF function_e bloque .)
+    DATAFRAME       reduce using rule 118 (function -> DEF function_e bloque .)
+    FILE            reduce using rule 118 (function -> DEF function_e bloque .)
+    WHILE           reduce using rule 118 (function -> DEF function_e bloque .)
+    CB              reduce using rule 118 (function -> DEF function_e bloque .)
+
+
+state 171
+
+    (126) function_e -> function_c OP . function_b CP vars
+    (127) function_e -> function_c OP . function_b CP empty
+    (121) function_b -> . function_d
+    (122) function_b -> . function_d COMMA function_b
+    (123) function_b -> . empty
+    (125) function_d -> . tiposimple ID
     (134) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
@@ -3425,19 +3475,19 @@ state 170
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
 
-    function_b                     shift and go to state 195
-    empty                          shift and go to state 196
-    function_d                     shift and go to state 197
-    tiposimple                     shift and go to state 198
-
-state 171
-
-    (125) function_c -> function_a ID .
-
-    OP              reduce using rule 125 (function_c -> function_a ID .)
-
+    function_b                     shift and go to state 196
+    empty                          shift and go to state 197
+    function_d                     shift and go to state 198
+    tiposimple                     shift and go to state 199
 
 state 172
+
+    (124) function_c -> function_a ID .
+
+    OP              reduce using rule 124 (function_c -> function_a ID .)
+
+
+state 173
 
     (52) return -> RETURN expresion SC .
 
@@ -3458,35 +3508,66 @@ state 172
     CB              reduce using rule 52 (return -> RETURN expresion SC .)
 
 
-state 173
-
-    (89) print -> PRINT OP expresion . CP SC
-
-    CP              shift and go to state 199
-
-
 state 174
 
-    (111) condicion_c -> IF OP exp . CP
+    (89) print -> PRINT OP expresion . CP SC
 
     CP              shift and go to state 200
 
 
 state 175
 
-    (66) while_b -> while_a OP expresion . CP
+    (128) array_access -> array_access_c array_access_d exp . CSB
 
-    CP              shift and go to state 201
+    CSB             shift and go to state 201
 
 
 state 176
+
+    (111) condicion_c -> IF OP exp . CP
+
+    CP              shift and go to state 202
+
+
+state 177
+
+    (66) while_b -> while_a OP expresion . CP
+
+    CP              shift and go to state 203
+
+
+state 178
+
+    (132) array_access_c -> array_access_b exp CSB .
+
+    OSB             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    EQ              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    MULT            reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    DIV             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    ADD             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    SUB             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    LT              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    GT              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    NE              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    EQEQ            reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    LE              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    GE              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    AND             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    OR              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    CSB             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    COMMA           reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    CP              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    SC              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+
+
+state 179
 
     (19) vars_vect_mat_d -> OSB exp CSB .
 
     SC              reduce using rule 19 (vars_vect_mat_d -> OSB exp CSB .)
 
 
-state 177
+state 180
 
     (54) expresion -> m_exp expresion_a m_exp .
 
@@ -3498,7 +3579,7 @@ state 177
     SC              reduce using rule 54 (expresion -> m_exp expresion_a m_exp .)
 
 
-state 178
+state 181
 
     (21) m_exp -> m_exp_b m_exp_a m_exp .
 
@@ -3516,7 +3597,7 @@ state 178
     SC              reduce using rule 21 (m_exp -> m_exp_b m_exp_a m_exp .)
 
 
-state 179
+state 182
 
     (26) term -> term_b term_a term .
 
@@ -3536,99 +3617,56 @@ state 179
     SC              reduce using rule 26 (term -> term_b term_a term .)
 
 
-state 180
+state 183
 
     (90) fact -> OP fact_a exp . CP
 
-    CP              shift and go to state 202
+    CP              shift and go to state 204
 
-
-state 181
-
-    (129) array_access -> array_access_c OSB exp . CSB
-
-    CSB             shift and go to state 203
-
-
-state 182
-
-    (133) array_access_c -> array_access_b exp CSB .
-
-    OSB             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    MULT            reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    DIV             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    ADD             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    SUB             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    LT              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    GT              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    NE              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    EQEQ            reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    LE              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    GE              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    AND             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    OR              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    CSB             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    COMMA           reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    CP              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-    SC              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
-
-
-state 183
-
-    (115) asignacion -> ID asignacion_a asignacion_a EQ . expresion SC
-    (53) expresion -> . m_exp
-    (54) expresion -> . m_exp expresion_a m_exp
-    (20) m_exp -> . m_exp_b
-    (21) m_exp -> . m_exp_b m_exp_a m_exp
-    (24) m_exp_b -> . term
-    (25) term -> . term_b
-    (26) term -> . term_b term_a term
-    (29) term_b -> . fact
-    (90) fact -> . OP fact_a exp CP
-    (91) fact -> . CTE_I
-    (92) fact -> . CTE_F
-    (93) fact -> . CTE_CHAR
-    (94) fact -> . ID
-    (95) fact -> . llamada
-    (96) fact -> . array_access
-    (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
-    (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
-    (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
-
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
-
-    expresion                      shift and go to state 204
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
 
 state 184
 
-    (116) asignacion_a -> OSB exp CSB .
+    (115) asignacion -> ID EQ expresion SC .
 
-    OSB             reduce using rule 116 (asignacion_a -> OSB exp CSB .)
-    EQ              reduce using rule 116 (asignacion_a -> OSB exp CSB .)
+    ID              reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    CLASS           reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    CLASS_ID        reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    DEF             reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    RETURN          reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    PRINT           reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    IF              reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    FOR             reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    INT             reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    FLOAT           reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    CHAR            reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    DATAFRAME       reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    FILE            reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    WHILE           reduce using rule 115 (asignacion -> ID EQ expresion SC .)
+    CB              reduce using rule 115 (asignacion -> ID EQ expresion SC .)
 
 
 state 185
+
+    (116) asignacion -> array_access EQ expresion SC .
+
+    ID              reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    CLASS           reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    CLASS_ID        reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    DEF             reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    RETURN          reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    PRINT           reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    IF              reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    FOR             reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    INT             reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    FLOAT           reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    CHAR            reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    DATAFRAME       reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    FILE            reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    WHILE           reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+    CB              reduce using rule 116 (asignacion -> array_access EQ expresion SC .)
+
+
+state 186
 
     (107) condicion_a -> condicion_d condicion_b . bloque
     (36) bloque -> . OB bloque_a CB
@@ -3637,30 +3675,30 @@ state 185
 
     bloque                         shift and go to state 205
 
-state 186
+state 187
 
     (109) condicion_b -> condicion .
 
     OB              reduce using rule 109 (condicion_b -> condicion .)
 
 
-state 187
+state 188
 
     (110) condicion_b -> empty .
 
     OB              reduce using rule 110 (condicion_b -> empty .)
 
 
-state 188
+state 189
 
     (75) for_b -> for_e asignacionsencilla CP .
 
     OB              reduce using rule 75 (for_b -> for_e asignacionsencilla CP .)
 
 
-state 189
+state 190
 
-    (118) asignacionsencilla -> ID EQ . expresion
+    (117) asignacionsencilla -> ID EQ . expresion
     (53) expresion -> . m_exp
     (54) expresion -> . m_exp expresion_a m_exp
     (20) m_exp -> . m_exp_b
@@ -3677,35 +3715,35 @@ state 189
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (129) array_access -> . array_access_c OSB exp CSB
-    (130) array_access -> . array_access_c
+    (128) array_access -> . array_access_c array_access_d exp CSB
+    (129) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (133) array_access_c -> . array_access_b exp CSB
+    (132) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (132) array_access_b -> . array_access_a OSB
-    (131) array_access_a -> . ID
+    (131) array_access_b -> . array_access_a OSB
+    (130) array_access_a -> . ID
 
-    OP              shift and go to state 80
-    CTE_I           shift and go to state 81
-    CTE_F           shift and go to state 82
-    CTE_CHAR        shift and go to state 83
-    ID              shift and go to state 84
+    OP              shift and go to state 84
+    CTE_I           shift and go to state 85
+    CTE_F           shift and go to state 86
+    CTE_CHAR        shift and go to state 87
+    ID              shift and go to state 88
 
     expresion                      shift and go to state 206
-    m_exp                          shift and go to state 75
-    m_exp_b                        shift and go to state 76
-    term                           shift and go to state 77
-    term_b                         shift and go to state 78
-    fact                           shift and go to state 79
-    llamada                        shift and go to state 85
-    array_access                   shift and go to state 86
-    llamada_d                      shift and go to state 48
-    array_access_c                 shift and go to state 87
-    llamada_c                      shift and go to state 58
-    array_access_b                 shift and go to state 88
-    array_access_a                 shift and go to state 89
+    m_exp                          shift and go to state 79
+    m_exp_b                        shift and go to state 80
+    term                           shift and go to state 81
+    term_b                         shift and go to state 82
+    fact                           shift and go to state 83
+    llamada                        shift and go to state 89
+    array_access                   shift and go to state 90
+    llamada_d                      shift and go to state 49
+    array_access_c                 shift and go to state 58
+    llamada_c                      shift and go to state 60
+    array_access_b                 shift and go to state 63
+    array_access_a                 shift and go to state 65
 
-state 190
+state 191
 
     (76) for_c -> OP asignacionsencilla SC .
 
@@ -3716,16 +3754,16 @@ state 190
     ID              reduce using rule 76 (for_c -> OP asignacionsencilla SC .)
 
 
-state 191
+state 192
 
     (98) classcreate -> CLASS CLASS_ID OB classcreate_a . function classcreate_c CB
-    (119) function -> . DEF function_e bloque
+    (118) function -> . DEF function_e bloque
 
-    DEF             shift and go to state 54
+    DEF             shift and go to state 55
 
     function                       shift and go to state 207
 
-state 192
+state 193
 
     (99) classcreate_a -> vars . classcreate_a
     (99) classcreate_a -> . vars classcreate_a
@@ -3752,15 +3790,15 @@ state 192
     ID              shift and go to state 5
     FILE            shift and go to state 18
 
-    vars                           shift and go to state 192
+    vars                           shift and go to state 193
     classcreate_a                  shift and go to state 208
-    vars_vect_mat                  shift and go to state 193
-    empty                          shift and go to state 194
+    vars_vect_mat                  shift and go to state 194
+    empty                          shift and go to state 195
     tiposimple                     shift and go to state 11
     tipocompuesto                  shift and go to state 12
     vars_vect_mat_b                shift and go to state 13
 
-state 193
+state 194
 
     (100) classcreate_a -> vars_vect_mat . classcreate_a
     (99) classcreate_a -> . vars classcreate_a
@@ -3787,74 +3825,97 @@ state 193
     ID              shift and go to state 5
     FILE            shift and go to state 18
 
-    vars_vect_mat                  shift and go to state 193
+    vars_vect_mat                  shift and go to state 194
     classcreate_a                  shift and go to state 209
-    vars                           shift and go to state 192
-    empty                          shift and go to state 194
+    vars                           shift and go to state 193
+    empty                          shift and go to state 195
     tiposimple                     shift and go to state 11
     tipocompuesto                  shift and go to state 12
     vars_vect_mat_b                shift and go to state 13
 
-state 194
+state 195
 
     (101) classcreate_a -> empty .
 
     DEF             reduce using rule 101 (classcreate_a -> empty .)
 
 
-state 195
+state 196
 
-    (127) function_e -> function_c OP function_b . CP vars
-    (128) function_e -> function_c OP function_b . CP empty
+    (126) function_e -> function_c OP function_b . CP vars
+    (127) function_e -> function_c OP function_b . CP empty
 
     CP              shift and go to state 210
 
 
-state 196
-
-    (124) function_b -> empty .
-
-    CP              reduce using rule 124 (function_b -> empty .)
-
-
 state 197
 
-    (122) function_b -> function_d .
-    (123) function_b -> function_d . COMMA function_b
+    (123) function_b -> empty .
 
-    CP              reduce using rule 122 (function_b -> function_d .)
-    COMMA           shift and go to state 211
+    CP              reduce using rule 123 (function_b -> empty .)
 
 
 state 198
 
-    (126) function_d -> tiposimple . ID
+    (121) function_b -> function_d .
+    (122) function_b -> function_d . COMMA function_b
+
+    CP              reduce using rule 121 (function_b -> function_d .)
+    COMMA           shift and go to state 211
+
+
+state 199
+
+    (125) function_d -> tiposimple . ID
 
     ID              shift and go to state 212
 
 
-state 199
+state 200
 
     (89) print -> PRINT OP expresion CP . SC
 
     SC              shift and go to state 213
 
 
-state 200
+state 201
+
+    (128) array_access -> array_access_c array_access_d exp CSB .
+
+    EQ              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    MULT            reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    DIV             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    ADD             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    SUB             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    LT              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    GT              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    NE              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    EQEQ            reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    LE              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    GE              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    AND             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    OR              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    CSB             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    COMMA           reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    CP              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    SC              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+
+
+state 202
 
     (111) condicion_c -> IF OP exp CP .
 
     OB              reduce using rule 111 (condicion_c -> IF OP exp CP .)
 
 
-state 201
+state 203
 
     (66) while_b -> while_a OP expresion CP .
 
     OB              reduce using rule 66 (while_b -> while_a OP expresion CP .)
 
 
-state 202
+state 204
 
     (90) fact -> OP fact_a exp CP .
 
@@ -3874,35 +3935,6 @@ state 202
     COMMA           reduce using rule 90 (fact -> OP fact_a exp CP .)
     CP              reduce using rule 90 (fact -> OP fact_a exp CP .)
     SC              reduce using rule 90 (fact -> OP fact_a exp CP .)
-
-
-state 203
-
-    (129) array_access -> array_access_c OSB exp CSB .
-
-    MULT            reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    DIV             reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    ADD             reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    SUB             reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    LT              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    GT              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    NE              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    EQEQ            reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    LE              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    GE              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    AND             reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    OR              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    CSB             reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    COMMA           reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    CP              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-    SC              reduce using rule 129 (array_access -> array_access_c OSB exp CSB .)
-
-
-state 204
-
-    (115) asignacion -> ID asignacion_a asignacion_a EQ expresion . SC
-
-    SC              shift and go to state 214
 
 
 state 205
@@ -3929,10 +3961,10 @@ state 205
 
 state 206
 
-    (118) asignacionsencilla -> ID EQ expresion .
+    (117) asignacionsencilla -> ID EQ expresion .
 
-    CP              reduce using rule 118 (asignacionsencilla -> ID EQ expresion .)
-    SC              reduce using rule 118 (asignacionsencilla -> ID EQ expresion .)
+    CP              reduce using rule 117 (asignacionsencilla -> ID EQ expresion .)
+    SC              reduce using rule 117 (asignacionsencilla -> ID EQ expresion .)
 
 
 state 207
@@ -3940,18 +3972,18 @@ state 207
     (98) classcreate -> CLASS CLASS_ID OB classcreate_a function . classcreate_c CB
     (102) classcreate_c -> . function classcreate_d
     (103) classcreate_c -> . classcreate_d
-    (119) function -> . DEF function_e bloque
+    (118) function -> . DEF function_e bloque
     (104) classcreate_d -> . classcreate_c
     (105) classcreate_d -> . empty
     (134) empty -> .
 
-    DEF             shift and go to state 54
+    DEF             shift and go to state 55
     CB              reduce using rule 134 (empty -> .)
 
-    function                       shift and go to state 215
-    classcreate_c                  shift and go to state 216
-    classcreate_d                  shift and go to state 217
-    empty                          shift and go to state 218
+    function                       shift and go to state 214
+    classcreate_c                  shift and go to state 215
+    classcreate_d                  shift and go to state 216
+    empty                          shift and go to state 217
 
 state 208
 
@@ -3969,8 +4001,8 @@ state 209
 
 state 210
 
-    (127) function_e -> function_c OP function_b CP . vars
-    (128) function_e -> function_c OP function_b CP . empty
+    (126) function_e -> function_c OP function_b CP . vars
+    (127) function_e -> function_c OP function_b CP . empty
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
     (134) empty -> .
@@ -3989,18 +4021,18 @@ state 210
     ID              shift and go to state 5
     FILE            shift and go to state 18
 
-    vars                           shift and go to state 219
-    empty                          shift and go to state 220
-    tiposimple                     shift and go to state 53
+    vars                           shift and go to state 218
+    empty                          shift and go to state 219
+    tiposimple                     shift and go to state 54
     tipocompuesto                  shift and go to state 12
 
 state 211
 
-    (123) function_b -> function_d COMMA . function_b
-    (122) function_b -> . function_d
-    (123) function_b -> . function_d COMMA function_b
-    (124) function_b -> . empty
-    (126) function_d -> . tiposimple ID
+    (122) function_b -> function_d COMMA . function_b
+    (121) function_b -> . function_d
+    (122) function_b -> . function_d COMMA function_b
+    (123) function_b -> . empty
+    (125) function_d -> . tiposimple ID
     (134) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
@@ -4011,17 +4043,17 @@ state 211
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
 
-    function_d                     shift and go to state 197
-    function_b                     shift and go to state 221
-    empty                          shift and go to state 196
-    tiposimple                     shift and go to state 198
+    function_d                     shift and go to state 198
+    function_b                     shift and go to state 220
+    empty                          shift and go to state 197
+    tiposimple                     shift and go to state 199
 
 state 212
 
-    (126) function_d -> tiposimple ID .
+    (125) function_d -> tiposimple ID .
 
-    COMMA           reduce using rule 126 (function_d -> tiposimple ID .)
-    CP              reduce using rule 126 (function_d -> tiposimple ID .)
+    COMMA           reduce using rule 125 (function_d -> tiposimple ID .)
+    CP              reduce using rule 125 (function_d -> tiposimple ID .)
 
 
 state 213
@@ -4047,90 +4079,69 @@ state 213
 
 state 214
 
-    (115) asignacion -> ID asignacion_a asignacion_a EQ expresion SC .
-
-    ID              reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CLASS           reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CLASS_ID        reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    DEF             reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    RETURN          reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    PRINT           reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    IF              reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    FOR             reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    INT             reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    FLOAT           reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CHAR            reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    DATAFRAME       reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    FILE            reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    WHILE           reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-    CB              reduce using rule 115 (asignacion -> ID asignacion_a asignacion_a EQ expresion SC .)
-
-
-state 215
-
     (102) classcreate_c -> function . classcreate_d
     (104) classcreate_d -> . classcreate_c
     (105) classcreate_d -> . empty
     (102) classcreate_c -> . function classcreate_d
     (103) classcreate_c -> . classcreate_d
     (134) empty -> .
-    (119) function -> . DEF function_e bloque
+    (118) function -> . DEF function_e bloque
 
     CB              reduce using rule 134 (empty -> .)
-    DEF             shift and go to state 54
+    DEF             shift and go to state 55
 
-    function                       shift and go to state 215
-    classcreate_d                  shift and go to state 222
-    classcreate_c                  shift and go to state 223
-    empty                          shift and go to state 218
+    function                       shift and go to state 214
+    classcreate_d                  shift and go to state 221
+    classcreate_c                  shift and go to state 222
+    empty                          shift and go to state 217
 
-state 216
+state 215
 
     (98) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c . CB
     (104) classcreate_d -> classcreate_c .
 
   ! shift/reduce conflict for CB resolved as shift
-    CB              shift and go to state 224
+    CB              shift and go to state 223
 
   ! CB              [ reduce using rule 104 (classcreate_d -> classcreate_c .) ]
 
 
-state 217
+state 216
 
     (103) classcreate_c -> classcreate_d .
 
     CB              reduce using rule 103 (classcreate_c -> classcreate_d .)
 
 
-state 218
+state 217
 
     (105) classcreate_d -> empty .
 
     CB              reduce using rule 105 (classcreate_d -> empty .)
 
 
+state 218
+
+    (126) function_e -> function_c OP function_b CP vars .
+
+    OB              reduce using rule 126 (function_e -> function_c OP function_b CP vars .)
+
+
 state 219
 
-    (127) function_e -> function_c OP function_b CP vars .
+    (127) function_e -> function_c OP function_b CP empty .
 
-    OB              reduce using rule 127 (function_e -> function_c OP function_b CP vars .)
+    OB              reduce using rule 127 (function_e -> function_c OP function_b CP empty .)
 
 
 state 220
 
-    (128) function_e -> function_c OP function_b CP empty .
+    (122) function_b -> function_d COMMA function_b .
 
-    OB              reduce using rule 128 (function_e -> function_c OP function_b CP empty .)
+    CP              reduce using rule 122 (function_b -> function_d COMMA function_b .)
 
 
 state 221
-
-    (123) function_b -> function_d COMMA function_b .
-
-    CP              reduce using rule 123 (function_b -> function_d COMMA function_b .)
-
-
-state 222
 
     (102) classcreate_c -> function classcreate_d .
     (103) classcreate_c -> classcreate_d .
@@ -4141,14 +4152,14 @@ state 222
   ! CB              [ reduce using rule 103 (classcreate_c -> classcreate_d .) ]
 
 
-state 223
+state 222
 
     (104) classcreate_d -> classcreate_c .
 
     CB              reduce using rule 104 (classcreate_d -> classcreate_c .)
 
 
-state 224
+state 223
 
     (98) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .
 
@@ -4171,11 +4182,10 @@ state 224
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for OSB in state 46 resolved as shift
-WARNING: shift/reduce conflict for CB in state 216 resolved as shift
+WARNING: shift/reduce conflict for CB in state 215 resolved as shift
 WARNING: reduce/reduce conflict in state 7 resolved using rule (programa_a -> programa_b)
 WARNING: rejected rule (empty -> <empty>) in state 7
 WARNING: reduce/reduce conflict in state 32 resolved using rule (bloque_a -> estatuto)
 WARNING: rejected rule (empty -> <empty>) in state 32
-WARNING: reduce/reduce conflict in state 222 resolved using rule (classcreate_c -> function classcreate_d)
-WARNING: rejected rule (classcreate_c -> classcreate_d) in state 222
+WARNING: reduce/reduce conflict in state 221 resolved using rule (classcreate_c -> function classcreate_d)
+WARNING: rejected rule (classcreate_c -> classcreate_d) in state 221

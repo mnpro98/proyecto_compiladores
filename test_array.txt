@@ -1,11 +1,35 @@
 program patito;
-int b;
-int a[3][3];
+int loquesea;
+int a[2][2];
+int b[2][2];
+int c[2][2];
 {
     def void main()
-    int i, f;
+    int i, j, k;
     {
-        i = 0;
-        f = a[1][1];
+        a[0][0] = 1;
+        a[0][1] = 2;
+        a[1][0] = 3;
+        a[1][1] = 4;
+        b[0][0] = 1;
+        b[0][1] = 1;
+        b[1][0] = 1;
+        b[1][1] = 1;
+
+        for(i = 0; i < 2; i = i + 1) {
+            for(j = 0; j < 2; j = j + 1) {
+                c[i][j] = 0;
+                for(k = 0; k < 2; k = k + 1) {
+                    c[i][j] = a[i][k] * b[k][j];
+                    print(a[1][1]);
+                }
+            }
+        }
+
+        for(i = 0; i < 2; i = i + 1) {
+            for(j = 0; j < 2; j = j + 1) {
+
+            }
+        }
     }
 }

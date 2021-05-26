@@ -349,7 +349,7 @@ t_CTE_STRING = r'\".*\"'
 
 
 def next_pointer(dimensions):
-    if dim > dimensions:
+    if dim >= dimensions:
         return False
     return True
 
@@ -437,6 +437,7 @@ def reset_temp():
     tempFloat = 21001
     tempChar = 24001
 
+
 def array_declaration_1(id, tipo):
     global curr_arr_id
     if function_bool:
@@ -477,10 +478,6 @@ def array_declaration_5(ls):
 def array_declaration_6(ls):
     global dim
     dim += 1
-    if function_bool:
-        function_vars[curr_arr_id]['dimensions'].append({"ls": ls})
-    else:
-        table['variables'][curr_arr_id]['dimensions'].append({"ls": ls})
 
 
 def array_declaration_7():
@@ -495,12 +492,9 @@ def array_declaration_7():
         nodes = table['variables'][curr_arr_id]['dimensions']
 
     for node in nodes:
-        node['m_dim'] = r_array / (node['ls'] + 1)
+        node['m_dim'] = r_array // (node['ls'] + 1)
         r_array = node['m_dim']
         dim += 1
-
-    k = offset_arr
-    nodes[-1]['k'] = -k
 
 
 def array_declaration_8():
@@ -545,12 +539,13 @@ def array_access_2():
 
 
 def array_access_3():
-    dimensions = pila_nodos.pop()
+    global dim
+    dimensions = pila_nodos[0]
     quad.append(["VER", pending_operands[-1], 0, dimensions[dim - 1]['ls']])
     if next_pointer(len(dimensions)):
         tj = avail.next(arr_type)
         aux = pending_operands.pop()
-        quad.append(['*', aux, dimensions[dim - 1]['m_dim'], tj])
+        quad.append(['*', aux, str(dimensions[dim - 1]['m_dim']), tj])
         pending_operands.append(tj)
     if dim > 1:
         tk = avail.next(arr_type)
@@ -569,10 +564,8 @@ def array_access_4():
 def array_access_5():
     global access_id
     aux1 = pending_operands.pop()
-    ti = avail.next(arr_type)
     tn = avail.next(arr_type)
-    quad.append(['+', aux1, 0, ti])
-    quad.append(['+', ti, access_id['vaddr'], tn])
+    quad.append(['+', aux1, str(access_id['vaddr']), tn])
     pending_operands.append('(' + str(tn) + ')')
     pending_operators.pop()
 
@@ -1045,7 +1038,7 @@ def p_vars_vect_mat(p):
 
 def p_vars_vect_mat_a(p):
     '''vars_vect_mat_a : vars_vect_mat_c exp CSB'''
-    array_declaration_5(int(pending_operands[-1]))
+    array_declaration_5(int(pending_operands[-1]) - 1)
 
 
 def p_vars_vect_mat_b(p):
@@ -1061,8 +1054,8 @@ def p_vars_vect_mat_c(p):
 
 def p_vars_vect_mat_d(p):
     '''vars_vect_mat_d : OSB exp CSB'''
-    array_declaration_6(int(pending_operands[-1]))
-    array_declaration_5(int(pending_operands[-1]))
+    array_declaration_6(int(pending_operands[-1]) - 1)
+    array_declaration_5(int(pending_operands[-1]) - 1)
 
 
 def p_m_exp(p):
@@ -1368,23 +1361,22 @@ def p_llamadafuncionclase(p):
 
 
 def p_asignacion(p):
-    '''asignacion : ID asignacion_a asignacion_a EQ expresion SC'''
+    '''asignacion : ID EQ expresion SC
+                | array_access EQ expresion SC'''
 
-    operator = p[4]
+    operator = p[2]
     left_operand = '_'
     right_operand = pending_operands.pop()
-    try:
-        result = table['variables'][p[1]]['vaddr']
-    except KeyError:
-        result = function_vars[p[1]]['vaddr']
+    if p[1] is not None:
+        try:
+            result = table['variables'][p[1]]['vaddr']
+        except KeyError:
+            result = function_vars[p[1]]['vaddr']
+    else:
+        result = pending_operands.pop()
 
     _quad = [operator, left_operand, right_operand, result]
     quad.append(_quad)
-
-
-def p_asignacion_a(p):
-    '''asignacion_a : OSB exp CSB
-                    | empty'''
 
 
 def p_asignacionsencilla(p):
@@ -1446,8 +1438,10 @@ def p_function_e(p):
 
 
 def p_array_access(p):
-    '''array_access : array_access_c OSB exp CSB
+    '''array_access : array_access_c array_access_d exp CSB
                     | array_access_c'''
+    if len(p) > 2:
+        array_access_3()
     array_access_5()
 
 
@@ -1464,6 +1458,10 @@ def p_array_access_b(p):
 def p_array_access_c(p):
     '''array_access_c : array_access_b exp CSB'''
     array_access_3()
+
+
+def p_array_access_d(p):
+    '''array_access_d : OSB'''
     array_access_4()
 
 

@@ -99,6 +99,10 @@ class Memory:
         print("tchar", self.t_chars)
 
 
+def array_dir(dir):
+    return get(int(dir))
+
+
 def insert(dir, value):
     global_max = LOCAL_INT - 1
     local_max = TEMP_INT - 1
@@ -230,7 +234,7 @@ def operand(arg):
         if not getting_param:
             return get(arg)
         else:
-            if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
+            if 9000 < curr_quad[1] <= 18000:
                 return get_param(arg)
             else:
                 return get(arg)
@@ -260,6 +264,7 @@ def exec_print():
     except TypeError:
         print(curr_quad[3])
 
+
 funcion_actual = ""
 getting_param = False
 # TODO reserva espacio para variables locales
@@ -275,6 +280,7 @@ def exec_era():
             getting_param = True
         except KeyError:
             pass
+
 
 def check_float(potential_float):
     try:
@@ -297,7 +303,7 @@ def exec_param():
         else:
             insert(param_checker.pop(0), curr_quad[1])    
     else:
-        if curr_quad[1] > 9000 and curr_quad[1] <= 18000:
+        if 9000 < curr_quad[1] <= 18000:
             insert(param_checker.pop(0), get_param(curr_quad[1]))
         else:
             insert(param_checker.pop(0), get(curr_quad[1]))
@@ -310,6 +316,23 @@ retornos = []
 # TODO regresa valor si es que tiene return
 def exec_ret():
     retornos.append(get(curr_quad[3]))
+
+
+def exec_ver():
+    if type(curr_quad[1]) is str:
+        if 0 <= int(curr_quad[1]) <= int(curr_quad[3]):
+            pass
+        else:
+            print("ERROR: Fuera de limite.")
+            exit(-1)
+    else:
+        value = get(curr_quad[1])
+        if 0 <= value <= int(curr_quad[3]):
+            pass
+        else:
+            print("ERROR: Fuera de limite.")
+            exit(-1)
+
 
 # libera la memoria
 def exec_endfunc():
@@ -446,11 +469,16 @@ def exec_quad(quads):
     global curr_quad
     global curr_quad_num
     while quads[curr_quad_num][0] != 'ENDPROG':
+        for i in range(3):
+            slot = quads[curr_quad_num][i + 1]
+            if type(slot) is str and slot[0] == '(':
+                # Obtener la direccion guardada en esa direccion
+                quads[curr_quad_num][i + 1] = array_dir(slot[1:-1])
+
         func = switch.get(quads[curr_quad_num][0], lambda: "Invalid action")
         curr_quad = quads[curr_quad_num]
         func()
         curr_quad_num += 1
-        #print(curr_quad)
 
 
 switch = {
@@ -461,6 +489,7 @@ switch = {
     'ERA': exec_era,
     'PARAM': exec_param,
     'RET': exec_ret,
+    'VER': exec_ver,
     'ENDFUNC': exec_endfunc,
     'ENDPROG': exec_endprog,
     'or': exec_or,
