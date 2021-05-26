@@ -1477,7 +1477,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_array.txt", "r")
+    f = open("test_11.txt", "r")
     s = f.read()
 
 except EOFError:

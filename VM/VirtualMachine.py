@@ -387,6 +387,8 @@ def exec_divide():
 
 
 def exec_assign():
+    if type(curr_quad[3]) is str and curr_quad[3][0] == '(':
+        curr_quad[3] = get(int(curr_quad[3][1:-1]))
     if curr_quad[1] != '_':  # if it is a function
         insert(curr_quad[3], retornos.pop(0))
     else:
@@ -468,18 +470,18 @@ def exec_eq():
 def exec_quad(quads):
     global curr_quad
     global curr_quad_num
-    while quads[curr_quad_num][0] != 'ENDPROG':
+    curr_quad = quads[curr_quad_num].copy()
+    while curr_quad[0] != 'ENDPROG':
         for i in range(3):
-            slot = quads[curr_quad_num][i + 1]
+            slot = curr_quad[i + 1]
             if type(slot) is str and slot[0] == '(':
                 # Obtener la direccion guardada en esa direccion
-                quads[curr_quad_num][i + 1] = array_dir(slot[1:-1])
-
-        func = switch.get(quads[curr_quad_num][0], lambda: "Invalid action")
-        curr_quad = quads[curr_quad_num]
+                curr_quad[i + 1] = array_dir(slot[1:-1])
+        func = switch.get(curr_quad[0], lambda: "Invalid action")
         func()
         curr_quad_num += 1
-
+        curr_quad = quads[curr_quad_num].copy()
+        #memories[-1].print_mem()
 
 switch = {
     'GOTO': exec_goto,
