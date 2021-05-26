@@ -822,6 +822,8 @@ def math_expression_3(operand):
 def math_expression_4(symbols):
     global avail
     global function_temp
+    print(pending_operators)
+    print(symbols)
 
     if len(pending_operators) != 0:
         if pending_operators[-1] in symbols:
@@ -877,7 +879,8 @@ def math_expression_8(rel_op):
 
 
 def math_expression_9(rel_op):
-    if pending_operators[-1] == rel_op:
+    if pending_operators[-1] == rel_op or '(':
+        print(rel_op)
         math_expression_4(['>', '<', '>=', '<=', '==', '!='])
 
 
@@ -1491,7 +1494,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_array.txt", "r")
+    f = open("test_sort.txt", "r")
     s = f.read()
 
 except EOFError:
