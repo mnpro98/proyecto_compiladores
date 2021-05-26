@@ -281,7 +281,8 @@ reserved = {
     'file': 'FILE',
     'return': 'RETURN',
     'def': 'DEF',
-    'print': 'PRINT'
+    'print': 'PRINT',
+    'input': 'INPUT'
 }
 
 
@@ -314,6 +315,7 @@ t_VOID = r'void'
 t_FOR = r'for'
 t_DEF = r'def'
 t_PRINT = r'print'
+t_INPUT = r'input'
 t_WHILE = r'while'
 t_DATAFRAME = r'dataframe'
 t_FILE = r'file'
@@ -1134,7 +1136,8 @@ def p_estatuto(p):
                 | llamadafuncionclase
                 | function
                 | return
-                | print'''
+                | print
+                | input'''
 
 
 def p_return(p):
@@ -1285,6 +1288,17 @@ def p_print(p):
     '''print : PRINT OP expresion CP SC'''
     quad.append(["PRINT", "_", "_", pending_operands.pop()])
 
+def p_input(p):
+    '''input : INPUT OP ID CP SC'''
+    try:
+        result = table['variables'][p[3]]['vaddr']
+    except KeyError:
+        try:
+            result = function_vars[p[3]]['vaddr']
+        except KeyError:
+            print("ERROR: VARIABLE PUESTA EN INPUT NO EXISTE")
+            exit()
+    quad.append(["INPUT", "_", p[3], result])
 
 def p_fact(p):
     '''fact : OP fact_a exp CP
@@ -1477,7 +1491,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_array.txt", "r")
+    f = open("test_7.txt", "r")
     s = f.read()
 
 except EOFError:

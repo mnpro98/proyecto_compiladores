@@ -1,3 +1,6 @@
+from typing import ValuesView
+
+
 quad = []
 memories = []
 
@@ -260,6 +263,28 @@ def exec_print():
     except TypeError:
         print(curr_quad[3])
 
+def exec_input():
+    if (curr_quad[3] > 9000 and curr_quad[3] <= 12000) or (curr_quad[3] > 0 and curr_quad[3] <= 3000):
+        try:
+            value = int(input("Enter the value of " + curr_quad[2] + ': '))
+        except ValueError:
+            print("ERROR: VALOR TIENE QUE SER INT")
+            exit(-1)
+    elif curr_quad[3] > 12000 and curr_quad[3] <= 15000 or (curr_quad[3] > 3000 and curr_quad[3] <= 6000):
+        try:
+            value = float(input("Enter the value of " + curr_quad[2] + ': '))
+        except ValueError:
+            print("ERROR: VALOR TIENE QUE SER FLOAT")
+            exit(-1)
+    elif curr_quad[3] > 15000 and curr_quad[3] <= 18000 or (curr_quad[3] > 6000 and curr_quad[3] <= 9000):
+        #TODO: validar string en char
+        try:
+            value = input("Enter the value of " + curr_quad[2] + ': ')
+        except ValueError:
+            print("ERROR: VALOR TIENE QUE SER CHAR")
+            exit(-1)
+    insert(curr_quad[3], value)
+
 funcion_actual = ""
 getting_param = False
 # TODO reserva espacio para variables locales
@@ -458,6 +483,7 @@ switch = {
     'GOTOF': exec_gotof,
     'GOSUB': exec_gosub,
     'PRINT': exec_print,
+    'INPUT': exec_input,
     'ERA': exec_era,
     'PARAM': exec_param,
     'RET': exec_ret,
