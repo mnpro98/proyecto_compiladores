@@ -19,7 +19,7 @@ float g;
     def void main()
     {
         b = 5;
-        g = 3.14;
+        input(g);
         fact(b, g);
     }
 }

@@ -1,11 +1,11 @@
 program h;
 {
-    int k;
+    char k;
     def void main(){
         int a, b, c, d;
         int i, j;
         a = 2;
-        k = 'c';
+        input(k);
         print(k);
         for(i = 0; i < 2; i = i + 1) {
             print(i);

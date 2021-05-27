@@ -13,7 +13,7 @@ int b;
     int i;
     {
         i = 0;
-        int b = 10;
+        input(b);
         while(i < b){
             print(fib(i));
             i = i + 1;
