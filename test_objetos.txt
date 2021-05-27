@@ -14,7 +14,7 @@ program patito;
     }
     def void main()
     int i, j, k, l, m;
-    Animal perro;
+    float z;
     {
 
     }

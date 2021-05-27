@@ -1431,11 +1431,15 @@ def p_function_d(p):
 
 
 def p_function_e(p):
-    '''function_e : function_c OP function_b CP vars
-                | function_c OP function_b CP classdeclare
-                | function_c OP function_b CP empty'''
+    '''function_e : function_c OP function_b CP function_f'''
     module_def_5()
     module_def_6()
+
+
+def p_function_f(p):
+    '''function_f : vars function_f
+                | classdeclare function_f
+                | empty'''
 
 
 def p_array_access(p):
@@ -1478,7 +1482,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_objetos.txt", "r")
+    f = open("test_11.txt", "r")
     s = f.read()
 
 except EOFError:
