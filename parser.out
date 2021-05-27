@@ -137,14 +137,15 @@ Rule 123   function_b -> empty
 Rule 124   function_c -> function_a ID
 Rule 125   function_d -> tiposimple ID
 Rule 126   function_e -> function_c OP function_b CP vars
-Rule 127   function_e -> function_c OP function_b CP empty
-Rule 128   array_access -> array_access_c array_access_d exp CSB
-Rule 129   array_access -> array_access_c
-Rule 130   array_access_a -> ID
-Rule 131   array_access_b -> array_access_a OSB
-Rule 132   array_access_c -> array_access_b exp CSB
-Rule 133   array_access_d -> OSB
-Rule 134   empty -> <empty>
+Rule 127   function_e -> function_c OP function_b CP classdeclare
+Rule 128   function_e -> function_c OP function_b CP empty
+Rule 129   array_access -> array_access_c array_access_d exp CSB
+Rule 130   array_access -> array_access_c
+Rule 131   array_access_a -> ID
+Rule 132   array_access_b -> array_access_a OSB
+Rule 133   array_access_c -> array_access_b exp CSB
+Rule 134   array_access_d -> OSB
+Rule 135   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -157,8 +158,8 @@ CLASS                : 98
 CLASS_ID             : 98 113
 COL                  : 
 COMMA                : 13 88 122
-CP                   : 66 75 79 89 90 111 126 127
-CSB                  : 16 19 128 132
+CP                   : 66 75 79 89 90 111 126 127 128
+CSB                  : 16 19 129 133
 CTE_CHAR             : 93
 CTE_F                : 63 92
 CTE_I                : 62 91
@@ -176,7 +177,7 @@ FLOAT                : 31
 FOR                  : 74
 GE                   : 60
 GT                   : 56
-ID                   : 1 11 12 17 34 61 84 94 113 114 115 117 124 125 130
+ID                   : 1 11 12 17 34 61 84 94 113 114 115 117 124 125 131
 IF                   : 111
 INT                  : 30
 LE                   : 59
@@ -185,9 +186,9 @@ LT                   : 55
 MULT                 : 27
 NE                   : 57
 OB                   : 36 98
-OP                   : 66 76 85 89 90 111 126 127
+OP                   : 66 76 85 89 90 111 126 127 128
 OR                   : 69
-OSB                  : 18 19 131 133
+OSB                  : 18 19 132 134
 POINT                : 114
 PRINT                : 89
 PROGRAM              : 1
@@ -203,10 +204,10 @@ Nonterminals, with rules where they appear
 and_exp              : 67 69 71
 and_exp_b            : 71
 array_access         : 96 116
-array_access_a       : 131
-array_access_b       : 132
-array_access_c       : 128 129
-array_access_d       : 128
+array_access_a       : 132
+array_access_b       : 133
+array_access_c       : 129 130
+array_access_d       : 129
 asignacion           : 40
 asignacionsencilla   : 75 76
 bloque               : 1 64 73 106 107 118
@@ -215,15 +216,15 @@ classcreate          : 45
 classcreate_a        : 98 99 100
 classcreate_c        : 98 104
 classcreate_d        : 102 103
-classdeclare         : 47
+classdeclare         : 47 127
 condicion            : 41 109
 condicion_a          : 106
 condicion_b          : 107
 condicion_c          : 106
 condicion_d          : 107
-empty                : 4 39 83 97 101 105 108 110 123 127
+empty                : 4 39 83 97 101 105 108 110 123 128
 estatuto             : 37 38
-exp                  : 16 19 68 90 111 128 132
+exp                  : 16 19 68 90 111 129 133
 exp_b                : 68
 expresion            : 12 52 66 70 72 77 86 89 115 116 117
 expresion_a          : 54
@@ -237,8 +238,8 @@ for_d                : 78
 for_e                : 75
 function             : 49 98 102
 function_a           : 124
-function_b           : 122 126 127
-function_c           : 126 127
+function_b           : 122 126 127 128
+function_c           : 126 127 128
 function_d           : 121 122
 function_e           : 118
 llamada              : 42 95 114
@@ -315,7 +316,7 @@ state 4
     (4) programa_a -> . empty
     (5) programa_b -> . vars
     (6) programa_b -> . vars_vect_mat
-    (134) empty -> .
+    (135) empty -> .
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a SC
@@ -328,7 +329,7 @@ state 4
     (35) tipocompuesto -> . FILE
     (17) vars_vect_mat_b -> . tiposimple ID
 
-    OB              reduce using rule 134 (empty -> .)
+    OB              reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
@@ -370,7 +371,7 @@ state 7
     (4) programa_a -> . empty
     (5) programa_b -> . vars
     (6) programa_b -> . vars_vect_mat
-    (134) empty -> .
+    (135) empty -> .
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a SC
@@ -392,7 +393,7 @@ state 7
     ID              shift and go to state 5
     FILE            shift and go to state 18
 
-  ! OB              [ reduce using rule 134 (empty -> .) ]
+  ! OB              [ reduce using rule 135 (empty -> .) ]
 
     programa_b                     shift and go to state 7
     programa_a                     shift and go to state 21
@@ -539,7 +540,7 @@ state 20
     (49) estatuto -> . function
     (50) estatuto -> . return
     (51) estatuto -> . print
-    (134) empty -> .
+    (135) empty -> .
     (115) asignacion -> . ID EQ expresion SC
     (116) asignacion -> . array_access EQ expresion SC
     (106) condicion -> . condicion_c bloque condicion_a
@@ -554,8 +555,8 @@ state 20
     (118) function -> . DEF function_e bloque
     (52) return -> . RETURN expresion SC
     (89) print -> . PRINT OP expresion CP SC
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (111) condicion_c -> . IF OP exp CP
     (85) llamada_d -> . llamada_c OP
     (66) while_b -> . while_a OP expresion CP
@@ -566,13 +567,13 @@ state 20
     (33) tipocompuesto -> . DATAFRAME
     (34) tipocompuesto -> . ID
     (35) tipocompuesto -> . FILE
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
     (65) while_a -> . WHILE
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
-    CB              reduce using rule 134 (empty -> .)
+    CB              reduce using rule 135 (empty -> .)
     ID              shift and go to state 46
     CLASS           shift and go to state 52
     CLASS_ID        shift and go to state 53
@@ -719,13 +720,13 @@ state 29
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -788,7 +789,7 @@ state 32
     (49) estatuto -> . function
     (50) estatuto -> . return
     (51) estatuto -> . print
-    (134) empty -> .
+    (135) empty -> .
     (115) asignacion -> . ID EQ expresion SC
     (116) asignacion -> . array_access EQ expresion SC
     (106) condicion -> . condicion_c bloque condicion_a
@@ -803,8 +804,8 @@ state 32
     (118) function -> . DEF function_e bloque
     (52) return -> . RETURN expresion SC
     (89) print -> . PRINT OP expresion CP SC
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (111) condicion_c -> . IF OP exp CP
     (85) llamada_d -> . llamada_c OP
     (66) while_b -> . while_a OP expresion CP
@@ -815,11 +816,11 @@ state 32
     (33) tipocompuesto -> . DATAFRAME
     (34) tipocompuesto -> . ID
     (35) tipocompuesto -> . FILE
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
     (65) while_a -> . WHILE
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
   ! reduce/reduce conflict for CB resolved using rule 38 (bloque_a -> estatuto .)
     CB              reduce using rule 38 (bloque_a -> estatuto .)
@@ -838,7 +839,7 @@ state 32
     FILE            shift and go to state 18
     WHILE           shift and go to state 64
 
-  ! CB              [ reduce using rule 134 (empty -> .) ]
+  ! CB              [ reduce using rule 135 (empty -> .) ]
 
     estatuto                       shift and go to state 32
     bloque_a                       shift and go to state 92
@@ -1119,13 +1120,13 @@ state 46
     (114) llamadafuncionclase -> ID . POINT llamada
     (34) tipocompuesto -> ID .
     (84) llamada_c -> ID .
-    (130) array_access_a -> ID .
+    (131) array_access_a -> ID .
 
     EQ              shift and go to state 94
     POINT           shift and go to state 95
     ID              reduce using rule 34 (tipocompuesto -> ID .)
     OP              reduce using rule 84 (llamada_c -> ID .)
-    OSB             reduce using rule 130 (array_access_a -> ID .)
+    OSB             reduce using rule 131 (array_access_a -> ID .)
 
 
 state 47
@@ -1156,7 +1157,7 @@ state 49
     (53) expresion -> . m_exp
     (54) expresion -> . m_exp expresion_a m_exp
     (88) llamada_f -> . COMMA
-    (134) empty -> .
+    (135) empty -> .
     (20) m_exp -> . m_exp_b
     (21) m_exp -> . m_exp_b m_exp_a m_exp
     (24) m_exp_b -> . term
@@ -1171,17 +1172,17 @@ state 49
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     CTE_STRING      shift and go to state 102
     COMMA           shift and go to state 105
-    CP              reduce using rule 134 (empty -> .)
+    CP              reduce using rule 135 (empty -> .)
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
     CTE_F           shift and go to state 86
@@ -1264,7 +1265,8 @@ state 55
 
     (118) function -> DEF . function_e bloque
     (126) function_e -> . function_c OP function_b CP vars
-    (127) function_e -> . function_c OP function_b CP empty
+    (127) function_e -> . function_c OP function_b CP classdeclare
+    (128) function_e -> . function_c OP function_b CP empty
     (124) function_c -> . function_a ID
     (119) function_a -> . VOID
     (120) function_a -> . tiposimple
@@ -1301,13 +1303,13 @@ state 56
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -1338,27 +1340,27 @@ state 57
 
 state 58
 
-    (128) array_access -> array_access_c . array_access_d exp CSB
-    (129) array_access -> array_access_c .
-    (133) array_access_d -> . OSB
+    (129) array_access -> array_access_c . array_access_d exp CSB
+    (130) array_access -> array_access_c .
+    (134) array_access_d -> . OSB
 
-    EQ              reduce using rule 129 (array_access -> array_access_c .)
-    MULT            reduce using rule 129 (array_access -> array_access_c .)
-    DIV             reduce using rule 129 (array_access -> array_access_c .)
-    ADD             reduce using rule 129 (array_access -> array_access_c .)
-    SUB             reduce using rule 129 (array_access -> array_access_c .)
-    LT              reduce using rule 129 (array_access -> array_access_c .)
-    GT              reduce using rule 129 (array_access -> array_access_c .)
-    NE              reduce using rule 129 (array_access -> array_access_c .)
-    EQEQ            reduce using rule 129 (array_access -> array_access_c .)
-    LE              reduce using rule 129 (array_access -> array_access_c .)
-    GE              reduce using rule 129 (array_access -> array_access_c .)
-    AND             reduce using rule 129 (array_access -> array_access_c .)
-    OR              reduce using rule 129 (array_access -> array_access_c .)
-    CSB             reduce using rule 129 (array_access -> array_access_c .)
-    COMMA           reduce using rule 129 (array_access -> array_access_c .)
-    CP              reduce using rule 129 (array_access -> array_access_c .)
-    SC              reduce using rule 129 (array_access -> array_access_c .)
+    EQ              reduce using rule 130 (array_access -> array_access_c .)
+    MULT            reduce using rule 130 (array_access -> array_access_c .)
+    DIV             reduce using rule 130 (array_access -> array_access_c .)
+    ADD             reduce using rule 130 (array_access -> array_access_c .)
+    SUB             reduce using rule 130 (array_access -> array_access_c .)
+    LT              reduce using rule 130 (array_access -> array_access_c .)
+    GT              reduce using rule 130 (array_access -> array_access_c .)
+    NE              reduce using rule 130 (array_access -> array_access_c .)
+    EQEQ            reduce using rule 130 (array_access -> array_access_c .)
+    LE              reduce using rule 130 (array_access -> array_access_c .)
+    GE              reduce using rule 130 (array_access -> array_access_c .)
+    AND             reduce using rule 130 (array_access -> array_access_c .)
+    OR              reduce using rule 130 (array_access -> array_access_c .)
+    CSB             reduce using rule 130 (array_access -> array_access_c .)
+    COMMA           reduce using rule 130 (array_access -> array_access_c .)
+    CP              reduce using rule 130 (array_access -> array_access_c .)
+    SC              reduce using rule 130 (array_access -> array_access_c .)
     OSB             shift and go to state 122
 
     array_access_d                 shift and go to state 121
@@ -1393,7 +1395,7 @@ state 62
 
 state 63
 
-    (132) array_access_c -> array_access_b . exp CSB
+    (133) array_access_c -> array_access_b . exp CSB
     (67) exp -> . and_exp
     (68) exp -> . exp_b exp
     (70) and_exp -> . expresion
@@ -1416,13 +1418,13 @@ state 63
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -1457,7 +1459,7 @@ state 64
 
 state 65
 
-    (131) array_access_b -> array_access_a . OSB
+    (132) array_access_b -> array_access_a . OSB
 
     OSB             shift and go to state 127
 
@@ -1503,13 +1505,13 @@ state 67
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -1613,13 +1615,13 @@ state 73
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -1687,13 +1689,13 @@ state 76
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -1752,13 +1754,13 @@ state 78
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -1904,13 +1906,13 @@ state 84
 
     (90) fact -> OP . fact_a exp CP
     (97) fact_a -> . empty
-    (134) empty -> .
+    (135) empty -> .
 
-    OP              reduce using rule 134 (empty -> .)
-    CTE_I           reduce using rule 134 (empty -> .)
-    CTE_F           reduce using rule 134 (empty -> .)
-    CTE_CHAR        reduce using rule 134 (empty -> .)
-    ID              reduce using rule 134 (empty -> .)
+    OP              reduce using rule 135 (empty -> .)
+    CTE_I           reduce using rule 135 (empty -> .)
+    CTE_F           reduce using rule 135 (empty -> .)
+    CTE_CHAR        reduce using rule 135 (empty -> .)
+    ID              reduce using rule 135 (empty -> .)
 
     fact_a                         shift and go to state 149
     empty                          shift and go to state 150
@@ -1985,7 +1987,7 @@ state 88
 
     (94) fact -> ID .
     (84) llamada_c -> ID .
-    (130) array_access_a -> ID .
+    (131) array_access_a -> ID .
 
     MULT            reduce using rule 94 (fact -> ID .)
     DIV             reduce using rule 94 (fact -> ID .)
@@ -2004,7 +2006,7 @@ state 88
     CP              reduce using rule 94 (fact -> ID .)
     SC              reduce using rule 94 (fact -> ID .)
     OP              reduce using rule 84 (llamada_c -> ID .)
-    OSB             reduce using rule 130 (array_access_a -> ID .)
+    OSB             reduce using rule 131 (array_access_a -> ID .)
 
 
 state 89
@@ -2122,13 +2124,13 @@ state 94
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2182,13 +2184,13 @@ state 96
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2216,25 +2218,25 @@ state 97
     (107) condicion_a -> . condicion_d condicion_b bloque
     (108) condicion_a -> . empty
     (112) condicion_d -> . ELSE
-    (134) empty -> .
+    (135) empty -> .
 
     ELSE            shift and go to state 158
-    ID              reduce using rule 134 (empty -> .)
-    CLASS           reduce using rule 134 (empty -> .)
-    CLASS_ID        reduce using rule 134 (empty -> .)
-    DEF             reduce using rule 134 (empty -> .)
-    RETURN          reduce using rule 134 (empty -> .)
-    PRINT           reduce using rule 134 (empty -> .)
-    IF              reduce using rule 134 (empty -> .)
-    FOR             reduce using rule 134 (empty -> .)
-    INT             reduce using rule 134 (empty -> .)
-    FLOAT           reduce using rule 134 (empty -> .)
-    CHAR            reduce using rule 134 (empty -> .)
-    DATAFRAME       reduce using rule 134 (empty -> .)
-    FILE            reduce using rule 134 (empty -> .)
-    WHILE           reduce using rule 134 (empty -> .)
-    CB              reduce using rule 134 (empty -> .)
-    OB              reduce using rule 134 (empty -> .)
+    ID              reduce using rule 135 (empty -> .)
+    CLASS           reduce using rule 135 (empty -> .)
+    CLASS_ID        reduce using rule 135 (empty -> .)
+    DEF             reduce using rule 135 (empty -> .)
+    RETURN          reduce using rule 135 (empty -> .)
+    PRINT           reduce using rule 135 (empty -> .)
+    IF              reduce using rule 135 (empty -> .)
+    FOR             reduce using rule 135 (empty -> .)
+    INT             reduce using rule 135 (empty -> .)
+    FLOAT           reduce using rule 135 (empty -> .)
+    CHAR            reduce using rule 135 (empty -> .)
+    DATAFRAME       reduce using rule 135 (empty -> .)
+    FILE            reduce using rule 135 (empty -> .)
+    WHILE           reduce using rule 135 (empty -> .)
+    CB              reduce using rule 135 (empty -> .)
+    OB              reduce using rule 135 (empty -> .)
 
     condicion_a                    shift and go to state 155
     condicion_d                    shift and go to state 156
@@ -2253,10 +2255,10 @@ state 99
     (82) llamada_b -> . llamada_f llamada_a
     (83) llamada_b -> . empty
     (88) llamada_f -> . COMMA
-    (134) empty -> .
+    (135) empty -> .
 
     COMMA           shift and go to state 105
-    CP              reduce using rule 134 (empty -> .)
+    CP              reduce using rule 135 (empty -> .)
 
     llamada_b                      shift and go to state 160
     llamada_f                      shift and go to state 103
@@ -2297,7 +2299,7 @@ state 103
     (53) expresion -> . m_exp
     (54) expresion -> . m_exp expresion_a m_exp
     (88) llamada_f -> . COMMA
-    (134) empty -> .
+    (135) empty -> .
     (20) m_exp -> . m_exp_b
     (21) m_exp -> . m_exp_b m_exp_a m_exp
     (24) m_exp_b -> . term
@@ -2312,17 +2314,17 @@ state 103
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     CTE_STRING      shift and go to state 102
     COMMA           shift and go to state 105
-    CP              reduce using rule 134 (empty -> .)
+    CP              reduce using rule 135 (empty -> .)
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
     CTE_F           shift and go to state 86
@@ -2434,13 +2436,13 @@ state 110
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2497,7 +2499,8 @@ state 114
 state 115
 
     (126) function_e -> function_c . OP function_b CP vars
-    (127) function_e -> function_c . OP function_b CP empty
+    (127) function_e -> function_c . OP function_b CP classdeclare
+    (128) function_e -> function_c . OP function_b CP empty
 
     OP              shift and go to state 171
 
@@ -2549,13 +2552,13 @@ state 120
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2579,7 +2582,7 @@ state 120
 
 state 121
 
-    (128) array_access -> array_access_c array_access_d . exp CSB
+    (129) array_access -> array_access_c array_access_d . exp CSB
     (67) exp -> . and_exp
     (68) exp -> . exp_b exp
     (70) and_exp -> . expresion
@@ -2602,13 +2605,13 @@ state 121
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2636,13 +2639,13 @@ state 121
 
 state 122
 
-    (133) array_access_d -> OSB .
+    (134) array_access_d -> OSB .
 
-    OP              reduce using rule 133 (array_access_d -> OSB .)
-    CTE_I           reduce using rule 133 (array_access_d -> OSB .)
-    CTE_F           reduce using rule 133 (array_access_d -> OSB .)
-    CTE_CHAR        reduce using rule 133 (array_access_d -> OSB .)
-    ID              reduce using rule 133 (array_access_d -> OSB .)
+    OP              reduce using rule 134 (array_access_d -> OSB .)
+    CTE_I           reduce using rule 134 (array_access_d -> OSB .)
+    CTE_F           reduce using rule 134 (array_access_d -> OSB .)
+    CTE_CHAR        reduce using rule 134 (array_access_d -> OSB .)
+    ID              reduce using rule 134 (array_access_d -> OSB .)
 
 
 state 123
@@ -2670,13 +2673,13 @@ state 123
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2735,13 +2738,13 @@ state 125
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2765,20 +2768,20 @@ state 125
 
 state 126
 
-    (132) array_access_c -> array_access_b exp . CSB
+    (133) array_access_c -> array_access_b exp . CSB
 
     CSB             shift and go to state 178
 
 
 state 127
 
-    (131) array_access_b -> array_access_a OSB .
+    (132) array_access_b -> array_access_a OSB .
 
-    OP              reduce using rule 131 (array_access_b -> array_access_a OSB .)
-    CTE_I           reduce using rule 131 (array_access_b -> array_access_a OSB .)
-    CTE_F           reduce using rule 131 (array_access_b -> array_access_a OSB .)
-    CTE_CHAR        reduce using rule 131 (array_access_b -> array_access_a OSB .)
-    ID              reduce using rule 131 (array_access_b -> array_access_a OSB .)
+    OP              reduce using rule 132 (array_access_b -> array_access_a OSB .)
+    CTE_I           reduce using rule 132 (array_access_b -> array_access_a OSB .)
+    CTE_F           reduce using rule 132 (array_access_b -> array_access_a OSB .)
+    CTE_CHAR        reduce using rule 132 (array_access_b -> array_access_a OSB .)
+    ID              reduce using rule 132 (array_access_b -> array_access_a OSB .)
 
 
 state 128
@@ -2874,13 +2877,13 @@ state 136
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -2984,13 +2987,13 @@ state 143
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -3047,13 +3050,13 @@ state 146
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -3119,13 +3122,13 @@ state 149
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -3232,10 +3235,10 @@ state 156
     (109) condicion_b -> . condicion
     (110) condicion_b -> . empty
     (106) condicion -> . condicion_c bloque condicion_a
-    (134) empty -> .
+    (135) empty -> .
     (111) condicion_c -> . IF OP exp CP
 
-    OB              reduce using rule 134 (empty -> .)
+    OB              reduce using rule 135 (empty -> .)
     IF              shift and go to state 59
 
     condicion_b                    shift and go to state 186
@@ -3390,7 +3393,7 @@ state 168
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a SC
     (15) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d SC
-    (134) empty -> .
+    (135) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
@@ -3399,7 +3402,7 @@ state 168
     (35) tipocompuesto -> . FILE
     (17) vars_vect_mat_b -> . tiposimple ID
 
-    DEF             reduce using rule 134 (empty -> .)
+    DEF             reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
@@ -3434,6 +3437,7 @@ state 169
     FILE            reduce using rule 113 (classdeclare -> CLASS_ID ID SC .)
     WHILE           reduce using rule 113 (classdeclare -> CLASS_ID ID SC .)
     CB              reduce using rule 113 (classdeclare -> CLASS_ID ID SC .)
+    OB              reduce using rule 113 (classdeclare -> CLASS_ID ID SC .)
 
 
 state 170
@@ -3460,17 +3464,18 @@ state 170
 state 171
 
     (126) function_e -> function_c OP . function_b CP vars
-    (127) function_e -> function_c OP . function_b CP empty
+    (127) function_e -> function_c OP . function_b CP classdeclare
+    (128) function_e -> function_c OP . function_b CP empty
     (121) function_b -> . function_d
     (122) function_b -> . function_d COMMA function_b
     (123) function_b -> . empty
     (125) function_d -> . tiposimple ID
-    (134) empty -> .
+    (135) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
 
-    CP              reduce using rule 134 (empty -> .)
+    CP              reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
@@ -3517,7 +3522,7 @@ state 174
 
 state 175
 
-    (128) array_access -> array_access_c array_access_d exp . CSB
+    (129) array_access -> array_access_c array_access_d exp . CSB
 
     CSB             shift and go to state 201
 
@@ -3538,26 +3543,26 @@ state 177
 
 state 178
 
-    (132) array_access_c -> array_access_b exp CSB .
+    (133) array_access_c -> array_access_b exp CSB .
 
-    OSB             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    EQ              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    MULT            reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    DIV             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    ADD             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    SUB             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    LT              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    GT              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    NE              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    EQEQ            reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    LE              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    GE              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    AND             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    OR              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    CSB             reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    COMMA           reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    CP              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
-    SC              reduce using rule 132 (array_access_c -> array_access_b exp CSB .)
+    OSB             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    EQ              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    MULT            reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    DIV             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    ADD             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    SUB             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    LT              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    GT              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    NE              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    EQEQ            reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    LE              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    GE              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    AND             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    OR              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    CSB             reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    COMMA           reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    CP              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
+    SC              reduce using rule 133 (array_access_c -> array_access_b exp CSB .)
 
 
 state 179
@@ -3715,13 +3720,13 @@ state 190
     (95) fact -> . llamada
     (96) fact -> . array_access
     (79) llamada -> . llamada_d llamada_a CP
-    (128) array_access -> . array_access_c array_access_d exp CSB
-    (129) array_access -> . array_access_c
+    (129) array_access -> . array_access_c array_access_d exp CSB
+    (130) array_access -> . array_access_c
     (85) llamada_d -> . llamada_c OP
-    (132) array_access_c -> . array_access_b exp CSB
+    (133) array_access_c -> . array_access_b exp CSB
     (84) llamada_c -> . ID
-    (131) array_access_b -> . array_access_a OSB
-    (130) array_access_a -> . ID
+    (132) array_access_b -> . array_access_a OSB
+    (131) array_access_a -> . ID
 
     OP              shift and go to state 84
     CTE_I           shift and go to state 85
@@ -3773,7 +3778,7 @@ state 193
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a SC
     (15) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d SC
-    (134) empty -> .
+    (135) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
@@ -3782,7 +3787,7 @@ state 193
     (35) tipocompuesto -> . FILE
     (17) vars_vect_mat_b -> . tiposimple ID
 
-    DEF             reduce using rule 134 (empty -> .)
+    DEF             reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
@@ -3808,7 +3813,7 @@ state 194
     (8) vars -> . tipocompuesto vars_a SC
     (14) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a SC
     (15) vars_vect_mat -> . vars_vect_mat_b vars_vect_mat_a vars_vect_mat_d SC
-    (134) empty -> .
+    (135) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
@@ -3817,7 +3822,7 @@ state 194
     (35) tipocompuesto -> . FILE
     (17) vars_vect_mat_b -> . tiposimple ID
 
-    DEF             reduce using rule 134 (empty -> .)
+    DEF             reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
@@ -3843,7 +3848,8 @@ state 195
 state 196
 
     (126) function_e -> function_c OP function_b . CP vars
-    (127) function_e -> function_c OP function_b . CP empty
+    (127) function_e -> function_c OP function_b . CP classdeclare
+    (128) function_e -> function_c OP function_b . CP empty
 
     CP              shift and go to state 210
 
@@ -3880,25 +3886,25 @@ state 200
 
 state 201
 
-    (128) array_access -> array_access_c array_access_d exp CSB .
+    (129) array_access -> array_access_c array_access_d exp CSB .
 
-    EQ              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    MULT            reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    DIV             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    ADD             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    SUB             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    LT              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    GT              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    NE              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    EQEQ            reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    LE              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    GE              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    AND             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    OR              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    CSB             reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    COMMA           reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    CP              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
-    SC              reduce using rule 128 (array_access -> array_access_c array_access_d exp CSB .)
+    EQ              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    MULT            reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    DIV             reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    ADD             reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    SUB             reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    LT              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    GT              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    NE              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    EQEQ            reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    LE              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    GE              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    AND             reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    OR              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    CSB             reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    COMMA           reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    CP              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
+    SC              reduce using rule 129 (array_access -> array_access_c array_access_d exp CSB .)
 
 
 state 202
@@ -3975,10 +3981,10 @@ state 207
     (118) function -> . DEF function_e bloque
     (104) classcreate_d -> . classcreate_c
     (105) classcreate_d -> . empty
-    (134) empty -> .
+    (135) empty -> .
 
     DEF             shift and go to state 55
-    CB              reduce using rule 134 (empty -> .)
+    CB              reduce using rule 135 (empty -> .)
 
     function                       shift and go to state 214
     classcreate_c                  shift and go to state 215
@@ -4002,10 +4008,12 @@ state 209
 state 210
 
     (126) function_e -> function_c OP function_b CP . vars
-    (127) function_e -> function_c OP function_b CP . empty
+    (127) function_e -> function_c OP function_b CP . classdeclare
+    (128) function_e -> function_c OP function_b CP . empty
     (7) vars -> . tiposimple vars_a SC
     (8) vars -> . tipocompuesto vars_a SC
-    (134) empty -> .
+    (113) classdeclare -> . CLASS_ID ID SC
+    (135) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
@@ -4013,7 +4021,8 @@ state 210
     (34) tipocompuesto -> . ID
     (35) tipocompuesto -> . FILE
 
-    OB              reduce using rule 134 (empty -> .)
+    CLASS_ID        shift and go to state 53
+    OB              reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
@@ -4022,7 +4031,8 @@ state 210
     FILE            shift and go to state 18
 
     vars                           shift and go to state 218
-    empty                          shift and go to state 219
+    classdeclare                   shift and go to state 219
+    empty                          shift and go to state 220
     tiposimple                     shift and go to state 54
     tipocompuesto                  shift and go to state 12
 
@@ -4033,18 +4043,18 @@ state 211
     (122) function_b -> . function_d COMMA function_b
     (123) function_b -> . empty
     (125) function_d -> . tiposimple ID
-    (134) empty -> .
+    (135) empty -> .
     (30) tiposimple -> . INT
     (31) tiposimple -> . FLOAT
     (32) tiposimple -> . CHAR
 
-    CP              reduce using rule 134 (empty -> .)
+    CP              reduce using rule 135 (empty -> .)
     INT             shift and go to state 14
     FLOAT           shift and go to state 15
     CHAR            shift and go to state 16
 
     function_d                     shift and go to state 198
-    function_b                     shift and go to state 220
+    function_b                     shift and go to state 221
     empty                          shift and go to state 197
     tiposimple                     shift and go to state 199
 
@@ -4084,15 +4094,15 @@ state 214
     (105) classcreate_d -> . empty
     (102) classcreate_c -> . function classcreate_d
     (103) classcreate_c -> . classcreate_d
-    (134) empty -> .
+    (135) empty -> .
     (118) function -> . DEF function_e bloque
 
-    CB              reduce using rule 134 (empty -> .)
+    CB              reduce using rule 135 (empty -> .)
     DEF             shift and go to state 55
 
     function                       shift and go to state 214
-    classcreate_d                  shift and go to state 221
-    classcreate_c                  shift and go to state 222
+    classcreate_d                  shift and go to state 222
+    classcreate_c                  shift and go to state 223
     empty                          shift and go to state 217
 
 state 215
@@ -4101,7 +4111,7 @@ state 215
     (104) classcreate_d -> classcreate_c .
 
   ! shift/reduce conflict for CB resolved as shift
-    CB              shift and go to state 223
+    CB              shift and go to state 224
 
   ! CB              [ reduce using rule 104 (classcreate_d -> classcreate_c .) ]
 
@@ -4129,19 +4139,26 @@ state 218
 
 state 219
 
-    (127) function_e -> function_c OP function_b CP empty .
+    (127) function_e -> function_c OP function_b CP classdeclare .
 
-    OB              reduce using rule 127 (function_e -> function_c OP function_b CP empty .)
+    OB              reduce using rule 127 (function_e -> function_c OP function_b CP classdeclare .)
 
 
 state 220
+
+    (128) function_e -> function_c OP function_b CP empty .
+
+    OB              reduce using rule 128 (function_e -> function_c OP function_b CP empty .)
+
+
+state 221
 
     (122) function_b -> function_d COMMA function_b .
 
     CP              reduce using rule 122 (function_b -> function_d COMMA function_b .)
 
 
-state 221
+state 222
 
     (102) classcreate_c -> function classcreate_d .
     (103) classcreate_c -> classcreate_d .
@@ -4152,14 +4169,14 @@ state 221
   ! CB              [ reduce using rule 103 (classcreate_c -> classcreate_d .) ]
 
 
-state 222
+state 223
 
     (104) classcreate_d -> classcreate_c .
 
     CB              reduce using rule 104 (classcreate_d -> classcreate_c .)
 
 
-state 223
+state 224
 
     (98) classcreate -> CLASS CLASS_ID OB classcreate_a function classcreate_c CB .
 
@@ -4187,5 +4204,5 @@ WARNING: reduce/reduce conflict in state 7 resolved using rule (programa_a -> pr
 WARNING: rejected rule (empty -> <empty>) in state 7
 WARNING: reduce/reduce conflict in state 32 resolved using rule (bloque_a -> estatuto)
 WARNING: rejected rule (empty -> <empty>) in state 32
-WARNING: reduce/reduce conflict in state 221 resolved using rule (classcreate_c -> function classcreate_d)
-WARNING: rejected rule (classcreate_c -> classcreate_d) in state 221
+WARNING: reduce/reduce conflict in state 222 resolved using rule (classcreate_c -> function classcreate_d)
+WARNING: rejected rule (classcreate_c -> classcreate_d) in state 222

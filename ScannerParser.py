@@ -1432,6 +1432,7 @@ def p_function_d(p):
 
 def p_function_e(p):
     '''function_e : function_c OP function_b CP vars
+                | function_c OP function_b CP classdeclare
                 | function_c OP function_b CP empty'''
     module_def_5()
     module_def_6()
@@ -1477,7 +1478,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_11.txt", "r")
+    f = open("test_objetos.txt", "r")
     s = f.read()
 
 except EOFError:

@@ -1,0 +1,21 @@
+program patito;
+{
+    class Animal {
+        float estatura;
+        float peso;
+
+        def void setEstatura(float e) {
+            estatura = e;
+        }
+
+        def float getEstatura() {
+            return estatura;
+        }
+    }
+    def void main()
+    int i, j, k, l, m;
+    Animal perro;
+    {
+
+    }
+}
