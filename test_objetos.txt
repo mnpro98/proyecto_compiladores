@@ -15,7 +15,10 @@ program patito;
     def void main()
     int i, j, k, l, m;
     float z;
+    Animal perro;
     {
-
+        z = 3.11;
+        perro.setEstatura(z);
+        perro.getEstatura();
     }
 }

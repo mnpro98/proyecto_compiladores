@@ -535,7 +535,7 @@ switch = {
 }
 
 
-def start_vm(_quad, functions):
+def start_vm(_quad, functions, clases):
     global funciones
     funciones = functions
     print("VM")

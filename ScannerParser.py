@@ -68,8 +68,9 @@ class State(Enum):
 
 tabla_constantes = {}
 
-curr_state = 0
+class_func_call = False
 function_bool = False
+class_bool = False
 function_temp = {
     "total": 0,
     "int": 0,
@@ -80,6 +81,8 @@ rel_op = ""
 curr_arr_id = ""
 access_id = ""
 arr_type = ""
+curr_class = ""
+class_func_call_type = ""
 dim = 0
 r_array = 0
 offset_arr = 0
@@ -384,15 +387,26 @@ def add_localarrvaddr():
 
 def add_localvaddr():
     global localChar, localFloat, localInt
-    if function_vars[token_dic['id']]['tipo'] == "int":
-        function_vars[token_dic['id']]['vaddr'] = localInt
-        localInt += 1
-    elif function_vars[token_dic['id']]['tipo'] == "float":
-        function_vars[token_dic['id']]['vaddr'] = localFloat
-        localFloat += 1
-    elif function_vars[token_dic['id']]['tipo'] == "char":
-        function_vars[token_dic['id']]['vaddr'] = localChar
-        localChar += 1
+    if function_bool:
+        if function_vars[token_dic['id']]['tipo'] == "int":
+            function_vars[token_dic['id']]['vaddr'] = localInt
+            localInt += 1
+        elif function_vars[token_dic['id']]['tipo'] == "float":
+            function_vars[token_dic['id']]['vaddr'] = localFloat
+            localFloat += 1
+        elif function_vars[token_dic['id']]['tipo'] == "char":
+            function_vars[token_dic['id']]['vaddr'] = localChar
+            localChar += 1
+    elif class_bool:
+        if table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "int":
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = localInt
+            localInt += 1
+        elif table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "float":
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = localFloat
+            localFloat += 1
+        elif table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "char":
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = localChar
+            localChar += 1
     
 
 def add_globalvaddr():
@@ -425,6 +439,7 @@ def add_paramvaddr():
     elif temporal_dic['tipo'] == "char":
         temporal_dic['vaddr'] = localChar
         localChar += 1
+
 
 def reset_local():
     global localChar, localFloat, localInt
@@ -581,13 +596,21 @@ def module_def_1(proc_name):
     global function_bool
     function_bool = True
     funciones_dic["id"] = proc_name
-    table["funciones"][funciones_dic['id']] = {
-        "tipo": funciones_dic['tipo'],
-        "parametros": [],
-        "variables": {},
-    }
-    reset_local()
-    reset_temp()
+    if class_bool:
+        table['clases'][curr_class]['funciones'][funciones_dic['id']] = {
+            "tipo": funciones_dic['tipo'],
+            "parametros": [],
+            "variables": {},
+        }
+    else:
+        table["funciones"][funciones_dic['id']] = {
+            "tipo": funciones_dic['tipo'],
+            "parametros": [],
+            "variables": {},
+        }
+    if not class_bool:
+        reset_local()
+        reset_temp()
 
 
 def module_def_2(param):
@@ -597,48 +620,80 @@ def module_def_2(param):
             "vaddr": ""
         }
     add_paramvaddr()
-    table["funciones"][funciones_dic['id']]["variables"][param["id"]] = temporal_dic
+    if class_bool:
+        table['clases'][curr_class]['funciones'][funciones_dic['id']]["variables"][param["id"]] = temporal_dic
+    else:
+        table["funciones"][funciones_dic['id']]["variables"][param["id"]] = temporal_dic
 
 
 def module_def_3(param):
-    table["funciones"][funciones_dic['id']]["parametros"].append(param['tipo'])
-    try:
-        table["funciones"][funciones_dic['id']]["parametros_vaddr"].append(temporal_dic['vaddr'])
-    except KeyError:
-        table["funciones"][funciones_dic['id']]["parametros_vaddr"] = [temporal_dic['vaddr']]
+    if class_bool:
+        table['clases'][curr_class]['funciones'][funciones_dic['id']]["parametros"].append(param['tipo'])
+        try:
+            table['clases'][curr_class]['funciones'][funciones_dic['id']]["parametros_vaddr"].append(temporal_dic['vaddr'])
+        except KeyError:
+            table['clases'][curr_class]['funciones'][funciones_dic['id']]["parametros_vaddr"] = [temporal_dic['vaddr']]
+    else:
+        table["funciones"][funciones_dic['id']]["parametros"].append(param['tipo'])
+        try:
+            table["funciones"][funciones_dic['id']]["parametros_vaddr"].append(temporal_dic['vaddr'])
+        except KeyError:
+            table["funciones"][funciones_dic['id']]["parametros_vaddr"] = [temporal_dic['vaddr']]
 
 
 # Insert the number of parameters.
 def module_def_4():
-    table["funciones"][funciones_dic['id']]["param_cont"] = len(table["funciones"][funciones_dic['id']]["parametros"])
+    if class_bool:
+        table['clases'][curr_class]['funciones'][funciones_dic['id']]["param_cont"] = len(
+            table['clases'][curr_class]['funciones'][funciones_dic['id']]["parametros"])
+    else:
+        table["funciones"][funciones_dic['id']]["param_cont"] = len(
+            table["funciones"][funciones_dic['id']]["parametros"])
 
 
 def module_def_5():
-    function_vars.update(table["funciones"][funciones_dic['id']]["variables"])
-    table["funciones"][funciones_dic['id']]["variables"] = function_vars
-    table["funciones"][funciones_dic['id']]["var_cont"] = len(table["funciones"][funciones_dic['id']]["variables"])
-    #print(str(table["funciones"][funciones_dic['id']]["variables"]))
+    if class_bool:
+        function_vars.update(table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables"])
+        table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables"] = function_vars
+        table['clases'][curr_class]["funciones"][funciones_dic['id']]["var_cont"] = len(table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables"])
+    else:
+        function_vars.update(table["funciones"][funciones_dic['id']]["variables"])
+        table["funciones"][funciones_dic['id']]["variables"] = function_vars
+        table["funciones"][funciones_dic['id']]["var_cont"] = len(table["funciones"][funciones_dic['id']]["variables"])
 
 
 def module_def_6():
-    table["funciones"][funciones_dic['id']]["linea"] = len(quad)
+    if class_bool:
+        table['clases'][curr_class]["funciones"][funciones_dic['id']]["linea"] = len(quad)
+    else:
+        table["funciones"][funciones_dic['id']]["linea"] = len(quad)
 
 
 def module_def_7():
     global function_bool
     global function_temp
     global quad
-    table["funciones"][funciones_dic['id']]["variables"] = {}
-    function_vars.clear()
-    if funciones_dic['id'] != 'main' and quad[-1] != ["ENDFUNC", "_", "_", "_"]:
-        quad.append(["ENDFUNC", "_", "_", "_"])
-    if funciones_dic['id'] == 'main':
-        quad[0] = ['GOTO', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]
-        quad.append(["ENDPROG", "_", "_", "_"])
-    table["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
+
+    if class_bool:
+        table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables"] = {}
+        function_vars.clear()
+        if funciones_dic['id'] != 'main' and quad[-1] != ["ENDFUNC", "_", "_", "_"]:
+            quad.append(["ENDFUNC", "_", "_", "_"])
+        if funciones_dic['id'] == 'main':
+            quad[0] = ['GOTO', '_', '_', table['clases'][curr_class]["funciones"][funciones_dic['id']]["linea"]]
+            quad.append(["ENDPROG", "_", "_", "_"])
+        table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
+    else:
+        table["funciones"][funciones_dic['id']]["variables"] = {}
+        function_vars.clear()
+        if funciones_dic['id'] != 'main' and quad[-1] != ["ENDFUNC", "_", "_", "_"]:
+            quad.append(["ENDFUNC", "_", "_", "_"])
+        if funciones_dic['id'] == 'main':
+            quad[0] = ['GOTO', '_', '_', table["funciones"][funciones_dic['id']]["linea"]]
+            quad.append(["ENDPROG", "_", "_", "_"])
+        table["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
     funciones_dic_clear()
     function_bool = False
-    # TODO: NOS FALTO EL ULTIMO PASO
     function_temp = {
         "total": 0,
         "int": 0,
@@ -651,7 +706,7 @@ def module_def_7():
 def module_call_1(_id):
     global func_call_id
     func_call_id = _id
-    if _id not in table["funciones"]:
+    if _id not in table["funciones"] and _id not in table['clases'][class_func_call_type]['funciones']:
         print("ERROR: funcion no existe")
         exit(-1)
 
@@ -666,10 +721,16 @@ def module_call_2():
 def module_call_3():
     argument = pending_operands.pop()
     arg_type = corresponding_types.pop()
-    if table["funciones"][func_call_id]["parametros"][k - 1] != arg_type:
-        print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
-        exit(-1)
+    if class_func_call:
+        if table['clases'][class_func_call_type]['funciones'][func_call_id]["parametros"][k - 1] != arg_type:
+            print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
+            exit(-1)
+    else:
+        if table["funciones"][func_call_id]["parametros"][k - 1] != arg_type:
+            print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
+            exit(-1)
     quad.append(["PARAM", argument, "_", "PARAM" + str(k)])
+
 
 def module_call_4():
     global k
@@ -677,18 +738,30 @@ def module_call_4():
 
 
 def module_call_5():
-    if k != len(table["funciones"][func_call_id]["parametros"]) and len(table["funciones"][func_call_id]["parametros"]) != 0:
-        print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
-        exit(-1)
+    if class_func_call:
+        if k != len(table['clases'][class_func_call_type]['funciones'][func_call_id]["parametros"]) and len(table['clases'][class_func_call_type]['funciones'][func_call_id]["parametros"]) != 0:
+            print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
+            exit(-1)
+    else:
+        if k != len(table["funciones"][func_call_id]["parametros"]) and len(table["funciones"][func_call_id]["parametros"]) != 0:
+            print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
+            exit(-1)
     pending_operators.pop()
 
 
 def module_call_6():
-    result = avail.next(table["funciones"][func_call_id]["tipo"])
-    quad.append(["GOSUB", func_call_id, "_", table["funciones"][func_call_id]["linea"]])
-    if table["funciones"][func_call_id]["tipo"] != 'void':
-        quad.append(["=", func_call_id, "_", result])
-    pending_operands.append(result)
+    if class_func_call:
+        result = avail.next(table['clases'][class_func_call_type]['funciones'][func_call_id]["tipo"])
+        quad.append(["GOSUB", func_call_id, "_", table['clases'][class_func_call_type]['funciones'][func_call_id]["linea"]])
+        if table['clases'][class_func_call_type]['funciones'][func_call_id]["tipo"] != 'void':
+            quad.append(["=", func_call_id, "_", result])
+        pending_operands.append(result)
+    else:
+        result = avail.next(table["funciones"][func_call_id]["tipo"])
+        quad.append(["GOSUB", func_call_id, "_", table["funciones"][func_call_id]["linea"]])
+        if table["funciones"][func_call_id]["tipo"] != 'void':
+            quad.append(["=", func_call_id, "_", result])
+        pending_operands.append(result)
 
 
 def for_1():
@@ -790,10 +863,18 @@ def math_expression_1(id):
         if id.isnumeric() or check_float(id) or id[0] == '\'':
             pending_operands.append(id)
         else:
-            try:
-                pending_operands.append(table['variables'][id]['vaddr'])
-            except KeyError:
-                pending_operands.append(function_vars[id]['vaddr'])
+            if not class_bool:
+                try:  # Checar si existe el id en variables para meter el virtual address a la pila.
+                    pending_operands.append(table['variables'][id]['vaddr'])
+                except KeyError:  # Si no, checa el de funciones
+                    pending_operands.append(function_vars[id]['vaddr'])
+            else:
+                if id in table['clases'][curr_class]['variables']:
+                    pending_operands.append(table['clases'][curr_class]['variables'][id]['vaddr'])
+                else:
+                    pending_operands.append(function_vars[id]['vaddr'])
+
+    # Sacar el tipo
 
     if id in function_vars:
         corresponding_types.append(function_vars[id]['tipo'])
@@ -802,7 +883,11 @@ def math_expression_1(id):
     elif id in table['funciones']:
         corresponding_types.append(table['funciones'][id]['tipo'])
     else:
-        infer_type(id)
+        if curr_class != '':
+            if id in table['clases'][curr_class]['variables']:
+                corresponding_types.append(table['clases'][curr_class]['variables'][id]['vaddr'])
+        else:
+            infer_type(id)
 
 
 def math_expression_2(operand):
@@ -972,20 +1057,26 @@ def p_vars(p):
 
     global function_vars
 
-    if not function_bool:
-        table['variables'][token_dic['id']]['tipo'] = token_dic['tipo']
-        table['variables'][token_dic['id']]['valor'] = token_dic['valor']
-        try:
-            table['variables'][token_dic['id']]['vaddr']
-        except KeyError:
-            add_globalvaddr()
-    else:
+    if function_bool:
         function_vars[token_dic['id']]['tipo'] = token_dic['tipo']
         function_vars[token_dic['id']]['valor'] = token_dic['valor']
         try:
             function_vars[token_dic['id']]['vaddr']
         except KeyError:
             add_localvaddr()
+    elif class_bool:
+        table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] = token_dic['tipo']
+        try:
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr']
+        except KeyError:
+            add_localvaddr()
+    else:
+        table['variables'][token_dic['id']]['tipo'] = token_dic['tipo']
+        table['variables'][token_dic['id']]['valor'] = token_dic['valor']
+        try:
+            table['variables'][token_dic['id']]['vaddr']
+        except KeyError:
+            add_globalvaddr()
     token_dic_clear()
 
 
@@ -998,7 +1089,24 @@ def p_vars_b(p):
     '''vars_b : ID
             | ID EQ expresion'''
     token_dic['id'] = p[1]
-    if not function_bool:
+    if function_bool:
+        function_vars[token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+        }
+        try:
+            function_vars[token_dic['id']]['vaddr']
+        except KeyError:
+            add_localvaddr()
+    elif class_bool:
+        table['clases'][curr_class]['variables'][token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+            "valor": token_dic['valor'],
+        }
+        try:
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr']
+        except KeyError:
+            add_localvaddr()
+    else:
         table['variables'][token_dic['id']] = {
             "tipo": token_dic['tipo'],
             "valor": token_dic['valor']
@@ -1007,15 +1115,7 @@ def p_vars_b(p):
             table['variables'][token_dic['id']]['vaddr']
         except KeyError:
             add_globalvaddr()
-    else:
-        function_vars[token_dic['id']] = {
-            "tipo": token_dic['tipo'],
-            "valor": token_dic['valor'],
-        }
-        try:
-            function_vars[token_dic['id']]['vaddr']
-        except KeyError:
-            add_localvaddr()
+
     if len(p) > 2:
         operator = p[2]
         left_operand = '_'
@@ -1277,9 +1377,11 @@ def p_llamada_f(p):
     '''llamada_f : COMMA'''
     module_call_4()
 
+
 def p_print(p):
     '''print : PRINT OP expresion CP SC'''
     quad.append(["PRINT", "_", "_", pending_operands.pop()])
+
 
 def p_input(p):
     '''input : INPUT OP ID CP SC'''
@@ -1300,6 +1402,7 @@ def p_fact(p):
             | CTE_CHAR
             | ID
             | llamada
+            | llamadafuncionclase
             | array_access'''
 
     if p[1] == "(":
@@ -1318,11 +1421,9 @@ def p_fact_a(p):
 
 
 def p_classcreate(p):
-    '''classcreate : CLASS CLASS_ID OB classcreate_a function classcreate_c CB'''
-    global curr_state
-    curr_state = 0
-
-    table['clases'][p[2]] = {}
+    '''classcreate : classcreate_e OB classcreate_a function classcreate_c CB'''
+    global class_bool
+    class_bool = False
 
 
 def p_classcreate_a(p):
@@ -1339,6 +1440,15 @@ def p_classcreate_c(p):
 def p_classcreate_d(p):
     '''classcreate_d : classcreate_c
                     | empty'''
+
+
+def p_classcreate_e(p):
+    '''classcreate_e : CLASS CLASS_ID'''
+    global curr_class, class_bool
+    class_bool = True
+    curr_class = p[2]
+    table['clases'][p[2]] = {'variables': {},
+                             'funciones': {}}
 
 
 def p_condicion(p):
@@ -1368,10 +1478,30 @@ def p_condicion_d(p):
 
 def p_classdeclare(p):
     '''classdeclare : CLASS_ID ID SC'''
+    token_dic['tipo'] = p[1]
+    token_dic['id'] = p[2]
+    if function_bool:
+        function_vars[token_dic['id']] = {
+            "tipo": token_dic['tipo'],
+        }
+        try:
+            function_vars[token_dic['id']]['vaddr']
+        except KeyError:
+            add_localvaddr()
 
 
 def p_llamadafuncionclase(p):
-    '''llamadafuncionclase : ID POINT llamada'''
+    '''llamadafuncionclase : llamadafuncionclase_a POINT llamada
+                            | llamadafuncionclase_a POINT llamada SC'''
+
+
+def p_llamadafuncionclase_a(p):
+    '''llamadafuncionclase_a : ID'''
+    global class_func_call, class_func_call_type
+    class_func_call = True
+    class_func_call_id = p[1]
+    class_func_call_type = table['funciones'][funciones_dic['id']]['variables'][class_func_call_id]['tipo']
+
 
 
 def p_asignacion(p):
@@ -1382,10 +1512,13 @@ def p_asignacion(p):
     left_operand = '_'
     right_operand = pending_operands.pop()
     if p[1] is not None:
-        try:
-            result = table['variables'][p[1]]['vaddr']
-        except KeyError:
-            result = function_vars[p[1]]['vaddr']
+        if not class_bool:
+            try:
+                result = table['variables'][p[1]]['vaddr']
+            except KeyError:
+                result = function_vars[p[1]]['vaddr']
+        else:
+            result = table['clases'][curr_class]['variables'][p[1]]['vaddr']
     else:
         result = pending_operands.pop()
 
@@ -1407,7 +1540,6 @@ def p_asignacionsencilla(p):
     quad.append(_quad)
 
 
-#TODO falta guardar los parametros de las funciones en la tabla
 def p_function(p):
     '''function : DEF function_e bloque'''
     module_def_7()
@@ -1496,7 +1628,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_sort.txt", "r")
+    f = open("test_objetos.txt", "r")
     s = f.read()
 
 except EOFError:
@@ -1508,4 +1640,5 @@ pp = PrettyPrinter(indent=4)
 pp.pprint(quad)
 #pp.pprint(table)
 
-start_vm(quad, table['funciones'])
+
+start_vm(quad, table['funciones'], table['clases'])
