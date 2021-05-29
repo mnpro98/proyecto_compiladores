@@ -1,11 +1,11 @@
 from typing import ValuesView
-
+#variables globales
 quad = []
 memories = []
 
 curr_quad = []
 curr_quad_num = 0
-
+#rangos de vaddr's
 GLOBAL_INT = 1
 GLOBAL_FLOAT = 3001
 GLOBAL_CHAR = 6001
@@ -24,7 +24,7 @@ funciones = {}
 tclases = {}
 class_attr_dic = {}
 
-
+#clase de la memoria que utiliza la virtual machine
 class Memory:
     integers: list
     floats: list
@@ -138,11 +138,13 @@ class Memory:
         print("tchar", self.t_chars)
         print("cvars", self.c_vars)
 
-
+#regresa la direccion de un arreglo
 def array_dir(dir):
     return get(int(dir))
 
-
+#funcion para insertar valores a las direcciones vrituales en memoria
+#checa que sean globales para insertar en la memoria global
+#o locales para insertar en la memoria local actual
 def insert(dir, value):
     global_max = LOCAL_INT - 1
     local_max = TEMP_INT - 1
@@ -232,7 +234,7 @@ def insert(dir, value):
         else:
             memories[-2].change_c_vars(index, value)
 
-
+#funcion para regresar el valor de las direcciones virtuales en memoria
 def get(dir):
     global_max = LOCAL_INT - 1
     local_max = TEMP_INT - 1
@@ -262,7 +264,7 @@ def get(dir):
     else:  # Class vars
         return memories[-2].get_c_vars(dir - CLASS_VAR)
 
-
+#funcion que ayuda para obtener los valores de los parametros, busca no en la memoria actual local sino en la pasada
 def get_param(dir):
     if dir < LOCAL_FLOAT:  # int
         return memories[-2].get_int(dir - LOCAL_INT)
@@ -272,7 +274,7 @@ def get_param(dir):
         return memories[-2].get_char(dir - LOCAL_CHAR)
 
 
-# Differentiates between a constant and an id.
+# diferencia entre una constante y un id.
 def operand(arg):
     if type(arg) == str:
         try:
@@ -291,12 +293,14 @@ def operand(arg):
             else:
                 return get(arg)
 
-
+#funcion que ejecuta el cuadruplo de goto
+#cambia currquad a el numero que viene en el quadruplo
 def exec_goto():
     global curr_quad_num
     curr_quad_num = curr_quad[3] - 1
 
-
+#funcion que ejecuta el cuadruplo de gotof
+#si es falso ejecuta el goto
 def exec_gotof():
     if get(curr_quad[2]) == 0:
         exec_goto()
@@ -305,20 +309,22 @@ def exec_gotof():
 last_quad = []
 
 
-# TODO
+#funcion que ejecuta el cuadruplo de gosub
+#guarda linea actual de cuadruplo y se va a goto
 def exec_gosub():
     global last_quad
     last_quad.append(curr_quad_num)
     exec_goto()
 
-
+#funcion que ejecuta el cuadruplo de print
 def exec_print():
     try:
         print(get(curr_quad[3]))
     except TypeError:
         print(curr_quad[3])
 
-
+#funcion que ejecuta el cuadruplo de input
+#revisa que el valo sea de un tipo correcto
 def exec_input():
     if (9000 < curr_quad[3] <= 12000) or (0 < curr_quad[3] <= 3000):
         try:
@@ -346,7 +352,8 @@ funcion_actual = ""
 getting_param = False
 
 
-# TODO reserva espacio para variables locales
+# funcion que ejecuta el cuadruplo de era
+#revisa si necesita parametros, agrega una nueva memoria local y la pone en la pila de memorias
 def exec_era():
     global funcion_actual, getting_param
     local_mem = Memory()
@@ -366,7 +373,7 @@ def exec_era():
                     except KeyError:
                         pass
 
-
+#funcion que revisa si una variable es float
 def check_float(potential_float):
     try:
         float(potential_float)
@@ -379,7 +386,8 @@ def check_float(potential_float):
 param_checker = []
 
 
-# TODO pasas los parametros y validas mismo numero
+# funcion que ejecuta el cuadruplo de param
+#saca los valores de la pila de parametros
 def exec_param():
     global param_checker, getting_param
     if isinstance(curr_quad[1], str):
@@ -400,7 +408,7 @@ def exec_param():
 retornos = []
 
 
-# TODO regresa valor si es que tiene return
+# funcion que ejecuta el cuadruplo de return si la funcion tiene retornos agrega valor a la pila de retornos
 def exec_ret():
     val = get(curr_quad[3])
     if type(val) is str and val[0] == '[':
@@ -408,7 +416,8 @@ def exec_ret():
     else:
         retornos.append(get(curr_quad[3]))
 
-
+#funcion que ejecuta el cuadruplo de verifica para los arreglos
+#checa si esta dentro de los limites
 def exec_ver():
     if type(curr_quad[1]) is str:
         if 0 <= int(curr_quad[1]) <= int(curr_quad[3]):
@@ -424,8 +433,8 @@ def exec_ver():
             print("ERROR: Fuera de limite.")
             exit(-1)
 
-
-# libera la memoria
+#funcion que ejecuta el cuadruplo de endfunc
+# libera la memoria activa local y regresa al cudruplo donde se quedo
 def exec_endfunc():
     global curr_quad_num
     memories.pop()
@@ -434,52 +443,54 @@ def exec_endfunc():
         class_attr_dic[key] = False
         insert(key, None)
 
-
+#funcion que ejecuta el cuadruplo de endprog
 def exec_endprog():
     exit(0)
 
-
+#funcion que ejecuta el cuadruplo de or
 def exec_or():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
     insert(curr_quad[3], left_operand or right_operand)
 
-
+#funcion que ejecuta el cuadruplo de and
 def exec_and():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
     insert(curr_quad[3], left_operand and right_operand)
 
-
+#funcion que ejecuta el cuadruplo de suma +
 def exec_add():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
     insert(curr_quad[3], left_operand + right_operand)
 
-
+#funcion que ejecuta el cuadruplo de resta -
 def exec_subtract():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
     insert(curr_quad[3], left_operand - right_operand)
 
-
+#funcion que ejecuta el cuadruplo de multiplicacion *
 def exec_multiply():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
     insert(curr_quad[3], left_operand * right_operand)
 
-
+#funcion que ejecuta el cuadruplo de division /
 def exec_divide():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
 
     insert(curr_quad[3], left_operand / right_operand)
 
-
+#funcion que ejecuta el cuadruplo de assign =
+#si el operando empieza con ( o [ es una direccion primero saca esa direccion
+#si no es direccion saca el valor e inserta
 def exec_assign():
     if type(curr_quad[3]) is str and curr_quad[3][0] == '(':
         curr_quad[3] = get(int(curr_quad[3][1:-1]))
@@ -502,7 +513,7 @@ def exec_assign():
             else:
                 insert(curr_quad[3], operand(curr_quad[2]))
 
-
+#funcion que ejecuta el cuadruplo de >
 def exec_gt():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -514,7 +525,7 @@ def exec_gt():
 
     insert(curr_quad[3], result)
 
-
+#funcion que ejecuta el cuadruplo de <
 def exec_lt():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -526,7 +537,7 @@ def exec_lt():
 
     insert(curr_quad[3], result)
 
-
+#funcion que ejecuta el cuadruplo de >=
 def exec_ge():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -538,7 +549,7 @@ def exec_ge():
 
     insert(curr_quad[3], result)
 
-
+#funcion que ejecuta el cuadruplo de <=
 def exec_le():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -550,7 +561,8 @@ def exec_le():
 
     insert(curr_quad[3], result)
 
-
+#funcion que ejecuta el cuadruplo de !=
+#revisa que los dos operandos no sean iguales
 def exec_ne():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -562,7 +574,8 @@ def exec_ne():
 
     insert(curr_quad[3], result)
 
-
+#funcion que ejecuta el cuadruplo de ==
+#revisa que los dos operandos sean iguales
 def exec_eq():
     left_operand = operand(curr_quad[1])
     right_operand = operand(curr_quad[2])
@@ -574,7 +587,7 @@ def exec_eq():
 
     insert(curr_quad[3], result)
 
-
+#funcion que recorre cada cuadruplo hasta ver el de endprog
 def exec_quad(quads):
     global curr_quad
     global curr_quad_num
@@ -593,7 +606,7 @@ def exec_quad(quads):
         #print(curr_quad)
         #print(get(3001))
 
-
+#switch para ver que funcion ejecutar en cada cuadruplo
 switch = {
     'GOTO': exec_goto,
     'GOTOF': exec_gotof,
@@ -621,7 +634,7 @@ switch = {
     '==': exec_eq,
 }
 
-
+#funcion para empezar la vm recibe los quadruplos, dir de funciones, y dir de clases, crea una memoria global y local(main)
 def start_vm(_quad, functions, clases):
     global funciones, tclases
     funciones = functions
@@ -629,7 +642,14 @@ def start_vm(_quad, functions, clases):
         for variable in clase['variables'].values():
             class_attr_dic[variable['vaddr']] = False
     tclases = clases
-    print("VM")
+    print(" __      ___      _               _   __  __            _     _            ")
+    print(" \ \    / (_)    | |             | | |  \/  |          | |   (_)           ")
+    print("  \ \  / / _ _ __| |_ _   _  __ _| | | \  / | __ _  ___| |__  _ _ __   ___ ")
+    print("   \ \/ / | | '__| __| | | |/ _` | | | |\/| |/ _` |/ __| '_ \| | '_ \ / _ \ ")
+    print("    \  /  | | |  | |_| |_| | (_| | | | |  | | (_| | (__| | | | | | | |  __/")
+    print("     \/   |_|_|   \__|\__,_|\__,_|_| |_|  |_|\__,_|\___|_| |_|_|_| |_|\___|")
+    print("\nOutput:")
+
     global quad
     quad = _quad
     global_mem = Memory()

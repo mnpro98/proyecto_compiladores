@@ -1,0 +1,22 @@
+program patito;
+int b;
+{
+
+    def void main()
+    int i, prevprev, prev, curr;
+    {
+        prev = 0;
+        curr = 1;
+        i = 0;
+        input(b);
+        print(prev);
+        print(curr);
+        while(i < b - 2){
+            prevprev = prev;
+            prev = curr;
+            curr = prevprev + prev;
+            print(curr);
+            i = i + 1;
+        }
+    }
+}

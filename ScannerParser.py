@@ -36,7 +36,7 @@ tempChar = 24001
 
 classVar = 27001
 
-
+#Manejador de direcciones de memoria
 class MemoryRegister:
     array: list
     index: int
@@ -107,7 +107,7 @@ psaltos = []
 pila_dim = []
 pila_nodos = []
 
-
+#funcion para saber si valor recibido es float
 def check_float(potential_float):
     try:
         float(potential_float)
@@ -116,7 +116,7 @@ def check_float(potential_float):
     except ValueError:
         return False
 
-
+#Cubo semantico para obtener que se tendria si se hace una operacion
 semantics = {
     'int': {
         'int': {
@@ -273,7 +273,7 @@ table = {
     "variables": {},
     "funciones": {}
 }
-
+#palabras reservadas
 reserved = {
     'int': 'INT',
     'float': 'FLOAT',
@@ -295,7 +295,7 @@ reserved = {
     'input': 'INPUT'
 }
 
-
+#Tokens
 tokens = [
     'DIGIT', 'DIGITS', 'LETTER',
     'CAPT', 'ID', 'CLASS_ID',
@@ -359,13 +359,13 @@ t_CTE_F = r'-?[0-9]+.[0-9]+'
 t_CTE_CHAR = r'\'.\''
 t_CTE_STRING = r'\".*\"'
 
-
+#funcion para ver si hay otra dimension en arreglos
 def next_pointer(dimensions):
     if dim >= dimensions:
         return False
     return True
 
-
+#funcion que agrega virtual address global de arreglos
 def add_globalarrvaddr():
     global globalChar, globalInt, globalFloat
     if table['variables'][curr_arr_id]['tipo'] == "int":
@@ -378,7 +378,7 @@ def add_globalarrvaddr():
         table['variables'][curr_arr_id]['vaddr'] = globalChar
         globalChar += size_arr
 
-
+#funcion que agrega virtual address local de arreglos
 def add_localarrvaddr():
     global localChar, localFloat, localInt
     if function_vars[curr_arr_id]['tipo'] == "int":
@@ -391,7 +391,7 @@ def add_localarrvaddr():
         function_vars[curr_arr_id]['vaddr'] = localChar
         localChar += size_arr
 
-
+#funcion que agrega virtual address local ademas de agregar global a las clases
 def add_localvaddr():
     global localChar, localFloat, localInt, globalInt, globalFloat, globalChar, classVar
     if function_bool:
@@ -418,7 +418,7 @@ def add_localvaddr():
             table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = globalChar
             globalChar += 1    
 
-
+#funcion que agrega virtual address global
 def add_globalvaddr():
     global globalChar
     global globalInt
@@ -437,7 +437,7 @@ def add_globalvaddr():
 
 temporal_dic = {}
 
-
+#funcion que agrega virtual address a los parametros
 def add_paramvaddr():
     global localChar, localFloat, localInt
     if temporal_dic['tipo'] == "int":
@@ -450,21 +450,22 @@ def add_paramvaddr():
         temporal_dic['vaddr'] = localChar
         localChar += 1
 
-
+#funcion que hace un reset a direcciones de variables locales
 def reset_local():
     global localChar, localFloat, localInt
     localInt = 9001
     localFloat = 12001
     localChar = 15001
 
-
+#funcion que hace un reset a direcciones de variables temporales
 def reset_temp():
     global tempChar, tempInt, tempFloat
     tempInt = 18001
     tempFloat = 21001
     tempChar = 24001
 
-
+#Funcion para el punto neuralgico uno de la declaracion de arreglos
+#agrega a tabla de variables
 def array_declaration_1(id, tipo):
     global curr_arr_id
     if function_bool:
@@ -473,14 +474,16 @@ def array_declaration_1(id, tipo):
         table['variables'][id] = {"tipo": tipo}
     curr_arr_id = id
 
-
+#Funcion para el punto neuralgico dos de la declaracion de arreglos
+#agrega is Array a tabla de variables
 def array_declaration_2():
     if function_bool:
         function_vars[curr_arr_id]['isArray'] = True
     else:
         table['variables'][curr_arr_id]['isArray'] = True
 
-
+#Funcion para el punto neuralgico tres de la declaracion de arreglos
+#agrega tabla de dimensiones
 def array_declaration_3():
     global dim
     global r_array
@@ -492,7 +495,8 @@ def array_declaration_3():
     else:
         table['variables'][curr_arr_id]['dimensions'] = []
 
-
+#Funcion para el punto neuralgico cinco de la declaracion de arreglos
+#agrega el limite superior y hace calculo de R
 def array_declaration_5(ls):
     global r_array
     if function_bool:
@@ -501,12 +505,14 @@ def array_declaration_5(ls):
         table['variables'][curr_arr_id]['dimensions'].append({"ls": ls})
     r_array = (int(ls) + 1) * r_array
 
-
+#Funcion para el punto neuralgico seis de la declaracion de arreglos
+#cambia de dimension
 def array_declaration_6(ls):
     global dim
     dim += 1
 
-
+#Funcion para el punto neuralgico siete de la declaracion de arreglos
+#hace el recorrido por la tabla de dimensiones y agrega informacion correspondiente de m dim
 def array_declaration_7():
     global dim, offset_arr, size_arr, r_array
     dim = 1
@@ -523,14 +529,16 @@ def array_declaration_7():
         r_array = node['m_dim']
         dim += 1
 
-
+#Funcion para el punto neuralgico ocho de la declaracion de arreglos
+#agrega la direccion correspondiente
 def array_declaration_8():
     if function_bool:
         add_localarrvaddr()
     else:
         add_globalarrvaddr()
 
-
+#Funcion para el punto neuralgico uno de accesso a arreglos
+#hace variable con el nombre del array y mete a tabla de tipos el tipo
 def array_access_1(id):
     global access_id
 
@@ -542,7 +550,8 @@ def array_access_1(id):
         corresponding_types.append(table['variables'][id]['tipo'])
         access_id = table['variables'][id]
 
-
+#Funcion para el punto neuralgico dos de accesso a arreglos
+#revisa que si sea un arreglo y pone fondo falso en pila de operandos ademas de poner info en pila dim y piila nodos
 def array_access_2():
     global arr_type, dim
     id = pending_operands.pop()
@@ -555,6 +564,7 @@ def array_access_2():
             pending_operators.append('(')
         else:
             print("ERROR: 'dimensions' no existe en el id.")
+            exit(-1)
     elif id in table['variables']:
         if 'dimensions' in table['variables'][id]:
             dim = 1
@@ -563,8 +573,11 @@ def array_access_2():
             pending_operators.append('(')
         else:
             print("ERROR: 'dimensions' no existe en el id.")
+            exit(-1)
 
-
+#Funcion para el punto neuralgico tres de accesso a arreglos
+#hace el cuadruplo de la verificacion del arreglo
+#y revisa si es matriz o arreglo para ver que cuadruplo sigue
 def array_access_3():
     global dim
     dimensions = pila_nodos[0]
@@ -581,13 +594,15 @@ def array_access_3():
         quad.append(['+', aux1, aux2, tk])
         pending_operands.append(tk)
 
-
+#Funcion para el punto neuralgico cuatro de accesso a arreglos
+#suma 1 al dim y se updatea el dim en pila de dim
 def array_access_4():
     global dim
     dim += 1
     pila_dim[-1][1] = dim
 
-
+#Funcion para el punto neuralgico cinco de accesso a arreglos
+#crea el cuadruplo y agrega a pila de operandos el apuntador ademas de quitar el fake bottom
 def array_access_5():
     global access_id
     aux1 = pending_operands.pop()
@@ -596,12 +611,13 @@ def array_access_5():
     pending_operands.append('(' + str(tn) + ')')
     pending_operators.pop()
 
-
+#funcion para generar cuadruplo de return y endfunc despues del return
 def return_1():
     quad.append(["RET", "_", "_", pending_operands.pop()])
     quad.append(["ENDFUNC", '_', '_', '_'])
 
-
+#Funcion para el punto neuralgico uno para declarar una funcion
+#mete la funcion y el tipo en la tabla de funciones
 def module_def_1(proc_name):
     global function_bool
     function_bool = True
@@ -622,7 +638,8 @@ def module_def_1(proc_name):
         reset_local()
         reset_temp()
 
-
+#Funcion para el punto neuralgico dos para declarar una funcion
+#inserta los parametros a la tabla actual
 def module_def_2(param):
     global temporal_dic
     temporal_dic = {
@@ -635,7 +652,8 @@ def module_def_2(param):
     else:
         table["funciones"][funciones_dic['id']]["variables"][param["id"]] = temporal_dic
 
-
+#Funcion para el punto neuralgico tres para declarar una funcion
+#le agrega a la tabla actual todos los tipos de los parametros
 def module_def_3(param):
     if class_bool:
         table['clases'][curr_class]['funciones'][funciones_dic['id']]["parametros"].append(param['tipo'])
@@ -651,7 +669,8 @@ def module_def_3(param):
             table["funciones"][funciones_dic['id']]["parametros_vaddr"] = [temporal_dic['vaddr']]
 
 
-# Insert the number of parameters.
+#Funcion para el punto neuralgico cuatro para declarar una funcion
+#inserta el numero de parametros
 def module_def_4():
     if class_bool:
         table['clases'][curr_class]['funciones'][funciones_dic['id']]["param_cont"] = len(
@@ -660,7 +679,8 @@ def module_def_4():
         table["funciones"][funciones_dic['id']]["param_cont"] = len(
             table["funciones"][funciones_dic['id']]["parametros"])
 
-
+#Funcion para el punto neuralgico cinco para declarar una funcion
+#inserta el numero de variables locales
 def module_def_5():
     if class_bool:
         function_vars.update(table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables"])
@@ -671,14 +691,17 @@ def module_def_5():
         table["funciones"][funciones_dic['id']]["variables"] = function_vars
         table["funciones"][funciones_dic['id']]["var_cont"] = len(table["funciones"][funciones_dic['id']]["variables"])
 
-
+#Funcion para el punto neuralgico seis para declarar una funcion
+#inserta la linea o en que quadruplo empieza la funcion
 def module_def_6():
     if class_bool:
         table['clases'][curr_class]["funciones"][funciones_dic['id']]["linea"] = len(quad)
     else:
         table["funciones"][funciones_dic['id']]["linea"] = len(quad)
 
-
+#Funcion para el punto neuralgico siete para declarar una funcion
+#resetea la tabla local de variables genera un endfunc inserta el numero de variables temporales que se usaron
+#si la funcion es el main se agrega la linea en el primer cuadruplo y un endprog
 def module_def_7():
     global function_bool
     global function_temp
@@ -713,7 +736,8 @@ def module_def_7():
     }
     avail.clear_avail()
 
-
+#Funcion para el punto neuralgico uno para llamar una funcion
+#verifica que la funcion existe en el dir de funciones
 def module_call_1(_id):
     global func_call_id
     func_call_id = _id
@@ -721,14 +745,16 @@ def module_call_1(_id):
         print("ERROR: funcion no existe")
         exit(-1)
 
-
+#Funcion para el punto neuralgico dos para llamar una funcion
+#genera el era pone un piso falso y inicializa la k
 def module_call_2():
     global k, pending_operators
     pending_operators.append("(")
     quad.append(["ERA", func_call_id, "_", "_"])
     k = 1
 
-
+#Funcion para el punto neuralgico tres para llamar una funcion
+#saca el tipo y argumento para ver que sean correctos de acuerdo con los parametros
 def module_call_3():
     argument = pending_operands.pop()
     arg_type = corresponding_types.pop()
@@ -742,12 +768,14 @@ def module_call_3():
             exit(-1)
     quad.append(["PARAM", argument, "_", "PARAM" + str(k)])
 
-
+#Funcion para el punto neuralgico cuatro para llamar una funcion
+#suma uno a k para pasar al siguiente parametro
 def module_call_4():
     global k
     k = k + 1
 
-
+#Funcion para el punto neuralgico cinco para llamar una funcion
+#verificar que se hayan pasado los parametros exactos de la funcion
 def module_call_5():
     if class_func_call:
         if k != len(table['clases'][class_func_call_type]['funciones'][func_call_id]["parametros"]) and len(table['clases'][class_func_call_type]['funciones'][func_call_id]["parametros"]) != 0:
@@ -759,7 +787,8 @@ def module_call_5():
             exit(-1)
     pending_operators.pop()
 
-
+#Funcion para el punto neuralgico seis para llamar una funcion
+#genera los cuadruplos del gosub y si el tipo no es void tambien se genera un cuadruplo para el recibir el return
 def module_call_6():
     if class_func_call:
         result = avail.next(table['clases'][class_func_call_type]['funciones'][func_call_id]["tipo"])
@@ -774,69 +803,82 @@ def module_call_6():
             quad.append(["=", func_call_id, "_", result])
         pending_operands.append(result)
 
-
+#Funcion para el punto neuralgico uno para los for loops
+#agrega un dicionario vacio a la pila_for
 def for_1():
     pila_fors.append({})
 
-
+#Funcion para el punto neuralgico dos para los for loops
+#agrega a que linea tiene que regresar para regresar a la condicion
 def for_2():
     pila_fors[-1]["condicion"] = len(quad)
 
-
+#Funcion para el punto neuralgico tres para los for loops
+#verifica que la condicion sea del tipo correcto y hace el append de los cuadruplos de goto, gotof
 def for_3():
     cond = pending_operands.pop()
     t_cond_for = corresponding_types.pop()
 
     if t_cond_for != "int":
         print("Tcond ERROR")
+        exit(-1)
     else:
         quad.append(["GOTOF", "_", cond, "_"])
         pila_fors[-1]["GOTOF"] = len(quad) - 1
         quad.append(["GOTO", "_", "_", "_"])
         pila_fors[-1]["GOTO1"] = len(quad) - 1
 
-
+#Funcion para el punto neuralgico cuatro para los for loops
+#agrega goto2 al diccionario de fors
 def for_4():
     pila_fors[-1]["GOTO2"] = len(quad)
 
-
+#Funcion para el punto neuralgico cinco para los for loops
+#hace el cuadruplo para regresar a la condicion y rellena el goto1 con la linea donde estamos
 def for_5():
     quad.append(["GOTO", "_", "_", pila_fors[-1]["condicion"]])
     quad[pila_fors[-1]["GOTO1"]][3] = len(quad)
 
-
+#Funcion para el punto neuralgico seis para los for loops
+#hace el cuadruplo del goto2 y rellena el gotof con la linea donde estamos
 def for_6():
     quad.append(["GOTO", "_", "_", pila_fors[-1]["GOTO2"]])
     quad[pila_fors[-1]["GOTOF"]][3] = len(quad)
     pila_fors.pop()
 
-
+#Funcion para el punto neuralgico uno para los if's
+#saca condicion y tipo y revisa que sea int hace el quadruplo de gotof agrega linea a pila de saltos
 def if_1():
     cond = pending_operands.pop()
     t_cond_if = corresponding_types.pop()
     if t_cond_if != 'int':
         print("ERROR: Cond is not int")
+        exit(-1)
     else:
         quad.append(["GOTOF", "_", cond, "_"])
         psaltos.append(len(quad) - 1)
 
-
+#Funcion para el punto neuralgico dos para los if's
+#saca de pila de saltos y regresa a llenar donde termina el if
 def if_2():
     fin = psaltos.pop()
     quad[fin][3] = len(quad)
 
-
+#Funcion para el punto neuralgico tres para los if's
+#regresa a falso y llena con linea actual agrega aun goto y linea a pila de saltos
 def if_3():
     falso = psaltos.pop()
     quad.append(["GOTO", "_", "_", "_"])
     psaltos.append(len(quad) - 1)
     quad[falso][3] = len(quad)
 
-
+#Funcion para el punto neuralgico uno para el while loop
+#agrega la linea a la pila de saltos para regresar
 def while_1():
     psaltos.append(len(quad))
 
-
+#Funcion para el punto neuralgico dos para el while loop
+#checa que la condicion sea del tipo correcto genera el cuadruplo de gotof y agrega linea a pila de saltos
 def while_2():
     cond = pending_operands.pop()
     t_cond = corresponding_types.pop()
@@ -845,20 +887,22 @@ def while_2():
         print(t_cond)
         print("Tcond ")
         print("ERROR")
+        exit(-1)
     else:
         quad.append(["GOTOF", "_", cond, "_"])
         psaltos.append(len(quad) - 1)
 
-
+#Funcion para el punto neuralgico tres para el while loop
+#rellena gotof con linea actual y genera cuadruplo para regresar a la condicion del while
 def while_3():
     falso = psaltos.pop()
     ret = psaltos.pop()
     quad.append(["GOTO", "_", "_", ret])
     quad[falso][3] = len(quad)
 
-
+#funcion para ver que tipo de variable es
 def infer_type(id):
-    try:  # TODO Detectar cuando es float
+    try:
         int(id)
         corresponding_types.append('int')
     except ValueError:
@@ -868,7 +912,8 @@ def infer_type(id):
         except ValueError:
             corresponding_types.append('char')
 
-
+#funcion para el punto neuralgico 1 de las expresiones
+#hace push a la pila de operandos y a la de tipos
 def math_expression_1(id):
     type_converter = {
         "<class 'str'>": "char"
@@ -905,21 +950,25 @@ def math_expression_1(id):
     else:
         infer_type(id)
 
-
+#funcion para el punto neuralgico 2 de las expresiones
+#revisa que los operadors sean + o -
 def math_expression_2(operand):
     if operand == '+' or operand == '-':
         pending_operators.append(operand)
     else:
         print("ERROR: operands should be either + or -")
+        exit(-1)
 
-
+#funcion para el punto neuralgico 3 de las expresiones
+#revisa que los operadors sean * o /
 def math_expression_3(operand):
     if operand == '*' or operand == '/':
         pending_operators.append(operand)
     else:
         print("ERROR: operands should be either * or /")
 
-
+#funcion para el punto neuralgico 4 de las expresiones
+#genera el cuadruplo de la expresion matematica
 def math_expression_4(symbols):
     global avail
     global function_temp
@@ -957,65 +1006,63 @@ def math_expression_4(symbols):
                 print("ERROR: Type mismatch")
                 exit(-1)
 
-
+#funcion para el punto neuralgico 5 de las expresiones
+#checa si los siguientes operadores son ya sea * o /
 def math_expression_5():
     if len(pending_operators) != 0:
         if pending_operators[-1] == '*' or pending_operators[-1] == '/':
             math_expression_4(['*', '/'])
 
-
+#funcion para el punto neuralgico 6 de las expresiones
+#agrega fondo falso a la pilo
 def math_expression_6():
     pending_operators.append('|')
 
-
+#funcion para el punto neuralgico 7 de las expresiones
+#saca fondo falso
 def math_expression_7():
     if pending_operators.pop() != '|':
         print("ERROR: False bottom mark missing.")
+        exit(-1)
 
-
+#funcion para el punto neuralgico 8 de las expresiones
+#agrega el relop a la pilop
 def math_expression_8(rel_op):
     pending_operators.append(rel_op)
 
-
+#funcion para el punto neuralgico 9 de las expresiones
+#checa si los siguientes operadores son ya sea un relop o (
 def math_expression_9(rel_op):
     if pending_operators[-1] == rel_op or '(':
         math_expression_4(['>', '<', '>=', '<=', '==', '!='])
 
-
+#funcion para el punto neuralgico 10 de las expresiones
+#agrega and o or a la pilop
 def math_expression_10(operand):
     if operand == "and" or operand == "or":
         pending_operators.append(operand)
     else:
         print("ERROR: operands should be either 'and' or 'or'")
+        exit(-1)
 
-
+#funcion para el punto neuralgico 11 de las expresiones
+#manda llamar math expresion 4 con and
 def math_expression_11(rel_op):
     if pending_operators[-1] == rel_op:
         math_expression_4(["and"])
 
-
+#funcion para el punto neuralgico 12 de las expresiones
+#manda llamar math expresion 4 con or
 def math_expression_12(rel_op):
     if pending_operators[-1] == rel_op:
         math_expression_4(["or"])
 
-
-def create_class_variable():
-    pass
-
-
-def state_switcher(arg):
-    switcher = {
-        State.CLASS_CREATE: create_class_variable
-    }
-    func = switcher.get(arg, "Invalid state")
-    func()
-
-
+#funcion para hacer clear al dic
 def funciones_dic_clear():
     funciones_dic["id"] = ""
     funciones_dic["tipo"] = ""
 
-
+#funcion para hacer clear al dic
 def token_dic_clear():
     token_dic["tipo"] = ""
     token_dic["id"] = ""
@@ -1051,7 +1098,7 @@ def t_error(t):
 lex.lex()
 names = {}
 
-
+#GRAMATICAS
 def p_programa(p):
     '''programa : PROGRAM ID SC programa_a bloque'''
 
@@ -1066,7 +1113,9 @@ def p_programa_b(p):
     '''programa_b : vars
                 | vars_vect_mat'''
 
-
+#gramatica de vars
+#revisa si es funcion y hace un diccionario temporal con las variables de esa funcion
+#si no lo mete a la tabla
 def p_vars(p):
     '''vars : tiposimple vars_a SC
             | tipocompuesto vars_a SC'''
@@ -1100,7 +1149,8 @@ def p_vars_a(p):
     '''vars_a : vars_b
             | vars_c vars_a'''
 
-
+#revisa si esta en funcion o clase y mete a lugar correspondiente
+#si el length es mayor a dos genera cuadruplo de resultado
 def p_vars_b(p):
     '''vars_b : ID
             | ID EQ expresion'''
@@ -1276,7 +1326,7 @@ def p_expresion_a(p):
 #    global expresion_helper
 #    expresion_helper = expresion_helper + p[1]
 
-
+#agrega operando a la pila
 def p_varcte(p):
     '''varcte : ID
             | CTE_I
@@ -1372,7 +1422,7 @@ def p_llamada_b(p):
     '''llamada_b : llamada_f llamada_a
                 | empty'''
 
-
+#si es una llamada a una funcion de una clase se hace un quadruplo con una direccion
 def p_llamada_c(p):
     '''llamada_c : ID'''
     if class_func_call:
@@ -1399,12 +1449,12 @@ def p_llamada_f(p):
     '''llamada_f : COMMA'''
     module_call_4()
 
-
+#genera cuadruplo para el print
 def p_print(p):
     '''print : PRINT OP expresion CP SC'''
     quad.append(["PRINT", "_", "_", pending_operands.pop()])
 
-
+#genera cuadruplo para el input
 def p_input(p):
     '''input : INPUT OP ID CP SC'''
     try:
@@ -1463,7 +1513,7 @@ def p_classcreate_d(p):
     '''classcreate_d : classcreate_c
                     | empty'''
 
-
+#agrega clase a tabla de clases
 def p_classcreate_e(p):
     '''classcreate_e : CLASS CLASS_ID'''
     global curr_class, class_bool
@@ -1497,7 +1547,7 @@ def p_condicion_d(p):
     '''condicion_d : ELSE'''
     if_3()
 
-
+#se agrega id ,tipo y virtual address a dicionario temporal
 def p_classdeclare(p):
     '''classdeclare : CLASS_ID ID SC'''
     token_dic['tipo'] = p[1]
@@ -1528,7 +1578,8 @@ def p_llamadafuncionclase_a(p):
     class_func_call_id = p[1]
     class_func_call_type = table['funciones'][funciones_dic['id']]['variables'][class_func_call_id]['tipo']
 
-
+#se genera cuadruplo para la asignacion
+#si p[1] es non es un arreglo y busca a donde se le tiene que asignar
 def p_asignacion(p):
     '''asignacion : ID EQ expresion SC
                 | array_access EQ expresion SC
@@ -1553,7 +1604,7 @@ def p_asignacion(p):
     _quad = [operator, left_operand, right_operand, result]
     quad.append(_quad)
 
-
+#genera cuadruplo para la asignacion sencilla, y agrega su vaddr
 def p_asignacionsencilla(p):
     '''asignacionsencilla : ID EQ expresion'''
 
@@ -1572,7 +1623,7 @@ def p_function(p):
     '''function : DEF function_e bloque'''
     module_def_7()
 
-
+#agrega tipo a diccionario temporal de funciones
 def p_function_a(p):
     '''function_a : VOID
                 | tiposimple'''
@@ -1656,7 +1707,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_objetos.txt", "r")
+    f = open("test_13.txt", "r")
     s = f.read()
 
 except EOFError:
