@@ -10,6 +10,10 @@
 #   int:        18001 - 21000
 #   float:      21001 - 24000
 #   char:       24001 - 27000
+#Classes    27001-36000
+#   int:        27001-30000
+#   float:      30001-33000
+#   char:       33001-36000
 
 import ply.lex as lex
 import ply.yacc as yacc
@@ -30,6 +34,7 @@ tempInt = 18001
 tempFloat = 21001
 tempChar = 24001
 
+classVar = 27001
 
 class MemoryRegister:
     array: list
@@ -83,6 +88,7 @@ access_id = ""
 arr_type = ""
 curr_class = ""
 class_func_call_type = ""
+class_func_call_id = ""
 dim = 0
 r_array = 0
 offset_arr = 0
@@ -386,7 +392,7 @@ def add_localarrvaddr():
 
 
 def add_localvaddr():
-    global localChar, localFloat, localInt
+    global localChar, localFloat, localInt, globalInt, globalFloat, globalChar, classVar
     if function_bool:
         if function_vars[token_dic['id']]['tipo'] == "int":
             function_vars[token_dic['id']]['vaddr'] = localInt
@@ -397,17 +403,19 @@ def add_localvaddr():
         elif function_vars[token_dic['id']]['tipo'] == "char":
             function_vars[token_dic['id']]['vaddr'] = localChar
             localChar += 1
+        else:
+            function_vars[token_dic['id']]['vaddr'] = classVar
+            classVar += len(table['clases'][token_dic['tipo']]['variables'])
     elif class_bool:
         if table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "int":
-            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = localInt
-            localInt += 1
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = globalInt
+            globalInt += 1
         elif table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "float":
-            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = localFloat
-            localFloat += 1
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = globalFloat
+            globalFloat += 1
         elif table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "char":
-            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = localChar
-            localChar += 1
-    
+            table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = globalChar
+            globalChar += 1    
 
 def add_globalvaddr():
     global globalChar
@@ -683,6 +691,7 @@ def module_def_7():
             quad[0] = ['GOTO', '_', '_', table['clases'][curr_class]["funciones"][funciones_dic['id']]["linea"]]
             quad.append(["ENDPROG", "_", "_", "_"])
         table['clases'][curr_class]["funciones"][funciones_dic['id']]["variables_temporales"] = function_temp
+        table['funciones'][funciones_dic['id']] = table['clases'][curr_class]["funciones"][funciones_dic['id']]
     else:
         table["funciones"][funciones_dic['id']]["variables"] = {}
         function_vars.clear()
@@ -858,7 +867,6 @@ def math_expression_1(id):
     type_converter = {
         "<class 'str'>": "char"
     }
-
     if id not in table['funciones']:
         if id.isnumeric() or check_float(id) or id[0] == '\'':
             pending_operands.append(id)
@@ -1359,6 +1367,8 @@ def p_llamada_b(p):
 
 def p_llamada_c(p):
     '''llamada_c : ID'''
+    if class_func_call:
+        quad.append(["CC", class_func_call_type, class_func_call_id, p[1]])
     module_call_1(p[1])
 
 
@@ -1488,25 +1498,30 @@ def p_classdeclare(p):
             function_vars[token_dic['id']]['vaddr']
         except KeyError:
             add_localvaddr()
+    quad.append(["CD", "_" , token_dic['tipo'], token_dic['id']])
 
 
 def p_llamadafuncionclase(p):
     '''llamadafuncionclase : llamadafuncionclase_a POINT llamada
                             | llamadafuncionclase_a POINT llamada SC'''
+    global class_func_call_type, class_func_call
+    class_func_call_type = ''
+    class_func_call = False
 
 
 def p_llamadafuncionclase_a(p):
     '''llamadafuncionclase_a : ID'''
-    global class_func_call, class_func_call_type
+    print(p[1])
+    global class_func_call, class_func_call_type, class_func_call_id
     class_func_call = True
     class_func_call_id = p[1]
     class_func_call_type = table['funciones'][funciones_dic['id']]['variables'][class_func_call_id]['tipo']
 
 
-
 def p_asignacion(p):
     '''asignacion : ID EQ expresion SC
-                | array_access EQ expresion SC'''
+                | array_access EQ expresion SC
+                |  ID EQ expresion'''
 
     operator = p[2]
     left_operand = '_'

@@ -13,12 +13,19 @@ program patito;
         }
     }
     def void main()
-    int i, j, k, l, m;
-    float z;
+    int i, j;
+    float z, m;
     Animal perro;
+    Animal gato;
     {
         z = 3.11;
+        m = 100;
+        i = 3;
+        j = i;
+        j = i +100;
         perro.setEstatura(z);
-        perro.getEstatura();
+        gato.setEstatura(m);
+        print(perro.getEstatura());
+        print(gato.getEstatura());
     }
 }

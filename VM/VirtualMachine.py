@@ -20,6 +20,7 @@ TEMP_FLOAT = 21001
 TEMP_CHAR = 24001
 
 funciones = {}
+tclases = {}
 
 
 class Memory:
@@ -30,6 +31,8 @@ class Memory:
     t_integers: list
     t_floats: list
     t_chars: list
+
+    c_vars: list
 
     def __init__(self):
         self.integers = []
@@ -303,7 +306,13 @@ def exec_era():
             param_checker = [] + funciones[funcion_actual]['parametros_vaddr']
             getting_param = True
         except KeyError:
-            pass
+            for clase in tclases:
+                if funcion_actual in tclases[clase]['funciones']:
+                    try:
+                        param_checker = [] + tclases[clase]['funciones'][funcion_actual]['parametros_vaddr']
+                        getting_param = True
+                    except KeyError:
+                        pass
 
 
 def check_float(potential_float):
@@ -536,8 +545,9 @@ switch = {
 
 
 def start_vm(_quad, functions, clases):
-    global funciones
+    global funciones, tclases
     funciones = functions
+    tclases = clases
     print("VM")
     global quad
     quad = _quad
