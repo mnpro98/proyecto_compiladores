@@ -1,6 +1,5 @@
 from typing import ValuesView
 
-
 quad = []
 memories = []
 
@@ -19,8 +18,11 @@ TEMP_INT = 18001
 TEMP_FLOAT = 21001
 TEMP_CHAR = 24001
 
+CLASS_VAR = 27001
+
 funciones = {}
 tclases = {}
+class_attr_dic = {}
 
 
 class Memory:
@@ -41,6 +43,7 @@ class Memory:
         self.t_integers = []
         self.t_floats = []
         self.t_chars = []
+        self.c_vars = []
 
     def push_int(self, value):
         self.integers.append(value)
@@ -60,6 +63,9 @@ class Memory:
     def push_t_char(self, value):
         self.t_chars.append(value)
 
+    def push_c_vars(self, value):
+        self.c_vars.append(value)
+
     def change_int(self, index, value):
         self.integers[index] = value
 
@@ -78,24 +84,51 @@ class Memory:
     def change_t_char(self, index, value):
         self.t_chars[index] = value
 
+    def change_c_vars(self, index, value):
+        self.c_vars[index] = value
+
     def get_int(self, index):
-        return self.integers[index]
+        try:
+            return self.integers[index]
+        except IndexError:
+            return None
 
     def get_float(self, index):
-        return self.floats[index]
+        try:
+            return self.floats[index]
+        except IndexError:
+            return None
 
     def get_char(self, index):
-        return self.chars[index]
+        try:
+            return self.chars[index]
+        except IndexError:
+            return None
 
     def get_t_int(self, index):
-        return self.t_integers[index]
+        try:
+            return self.t_integers[index]
+        except IndexError:
+            return None
 
     def get_t_float(self, index):
-        return self.t_floats[index]
+        try:
+            return self.t_floats[index]
+        except IndexError:
+            return None
 
     def get_t_char(self, index):
-        return self.t_chars[index]
-    
+        try:
+            return self.t_chars[index]
+        except IndexError:
+            return None
+
+    def get_c_vars(self, index):
+        try:
+            return self.c_vars[index]
+        except IndexError:
+            return None
+
     def print_mem(self):
         print("int", self.integers)
         print("float", self.floats)
@@ -103,6 +136,7 @@ class Memory:
         print("tint", self.t_integers)
         print("tfloat", self.t_floats)
         print("tchar", self.t_chars)
+        print("cvars", self.c_vars)
 
 
 def array_dir(dir):
@@ -112,6 +146,7 @@ def array_dir(dir):
 def insert(dir, value):
     global_max = LOCAL_INT - 1
     local_max = TEMP_INT - 1
+    temp_max = CLASS_VAR - 1
 
     if dir <= global_max:  # Global
         if dir < GLOBAL_FLOAT:  # int
@@ -163,7 +198,7 @@ def insert(dir, value):
                 memories[-1].push_char(value)
             else:
                 memories[-1].change_char(index, value)
-    else:  # Temp
+    elif local_max < dir <= temp_max:  # Temp
         if dir < TEMP_FLOAT:  # int
             index = dir - TEMP_INT
             if len(memories[-1].t_integers) <= index:
@@ -188,11 +223,20 @@ def insert(dir, value):
                 memories[-1].push_t_char(value)
             else:
                 memories[-1].change_t_char(index, value)
+    else:
+        index = dir - CLASS_VAR
+        if len(memories[-2].c_vars) <= index:
+            while len(memories[-2].c_vars) < index:
+                memories[-2].push_c_vars(None)
+            memories[-2].push_c_vars(value)
+        else:
+            memories[-2].change_c_vars(index, value)
 
 
 def get(dir):
     global_max = LOCAL_INT - 1
     local_max = TEMP_INT - 1
+    temp_max = CLASS_VAR - 1
 
     if dir <= global_max:  # Global
         if dir < GLOBAL_FLOAT:  # int
@@ -208,13 +252,15 @@ def get(dir):
             return memories[-1].get_float(dir - LOCAL_FLOAT)
         else:  # char
             return memories[-1].get_char(dir - LOCAL_CHAR)
-    else:  # Temp
+    elif local_max < dir <= temp_max:  # Temp
         if dir < TEMP_FLOAT:  # int
             return memories[-1].get_t_int(dir - TEMP_INT)
         elif TEMP_FLOAT <= dir < TEMP_CHAR:  # float
             return memories[-1].get_t_float(dir - TEMP_FLOAT)
         else:  # char
             return memories[-1].get_t_char(dir - TEMP_CHAR)
+    else:  # Class vars
+        return memories[-2].get_c_vars(dir - CLASS_VAR)
 
 
 def get_param(dir):
@@ -246,7 +292,6 @@ def operand(arg):
                 return get(arg)
 
 
-
 def exec_goto():
     global curr_quad_num
     curr_quad_num = curr_quad[3] - 1
@@ -256,7 +301,10 @@ def exec_gotof():
     if get(curr_quad[2]) == 0:
         exec_goto()
 
+
 last_quad = []
+
+
 # TODO
 def exec_gosub():
     global last_quad
@@ -270,21 +318,22 @@ def exec_print():
     except TypeError:
         print(curr_quad[3])
 
+
 def exec_input():
-    if (curr_quad[3] > 9000 and curr_quad[3] <= 12000) or (curr_quad[3] > 0 and curr_quad[3] <= 3000):
+    if (9000 < curr_quad[3] <= 12000) or (0 < curr_quad[3] <= 3000):
         try:
             value = int(input("Enter the value of " + curr_quad[2] + ': '))
         except ValueError:
             print("ERROR: VALOR TIENE QUE SER INT")
             exit(-1)
-    elif curr_quad[3] > 12000 and curr_quad[3] <= 15000 or (curr_quad[3] > 3000 and curr_quad[3] <= 6000):
+    elif 12000 < curr_quad[3] <= 15000 or (3000 < curr_quad[3] <= 6000):
         try:
             value = float(input("Enter the value of " + curr_quad[2] + ': '))
         except ValueError:
             print("ERROR: VALOR TIENE QUE SER FLOAT")
             exit(-1)
-    elif curr_quad[3] > 15000 and curr_quad[3] <= 18000 or (curr_quad[3] > 6000 and curr_quad[3] <= 9000):
-        #TODO: validar string en char
+    elif 15000 < curr_quad[3] <= 18000 or (6000 < curr_quad[3] <= 9000):
+        # TODO: validar string en char
         try:
             value = input("Enter the value of " + curr_quad[2] + ': ')
         except ValueError:
@@ -292,8 +341,11 @@ def exec_input():
             exit(-1)
     insert(curr_quad[3], value)
 
+
 funcion_actual = ""
 getting_param = False
+
+
 # TODO reserva espacio para variables locales
 def exec_era():
     global funcion_actual, getting_param
@@ -325,6 +377,8 @@ def check_float(potential_float):
 
 
 param_checker = []
+
+
 # TODO pasas los parametros y validas mismo numero
 def exec_param():
     global param_checker, getting_param
@@ -334,7 +388,7 @@ def exec_param():
         elif check_float(curr_quad[1]):
             insert(param_checker.pop(0), float(curr_quad[1]))
         else:
-            insert(param_checker.pop(0), curr_quad[1])    
+            insert(param_checker.pop(0), curr_quad[1])
     else:
         if 9000 < curr_quad[1] <= 18000:
             insert(param_checker.pop(0), get_param(curr_quad[1]))
@@ -348,7 +402,11 @@ retornos = []
 
 # TODO regresa valor si es que tiene return
 def exec_ret():
-    retornos.append(get(curr_quad[3]))
+    val = get(curr_quad[3])
+    if type(val) is str and val[0] == '[':
+        retornos.append(get(int(val[1:-1])))
+    else:
+        retornos.append(get(curr_quad[3]))
 
 
 def exec_ver():
@@ -372,6 +430,9 @@ def exec_endfunc():
     global curr_quad_num
     memories.pop()
     curr_quad_num = last_quad.pop()
+    for key in class_attr_dic.keys():
+        class_attr_dic[key] = False
+        insert(key, None)
 
 
 def exec_endprog():
@@ -422,10 +483,24 @@ def exec_divide():
 def exec_assign():
     if type(curr_quad[3]) is str and curr_quad[3][0] == '(':
         curr_quad[3] = get(int(curr_quad[3][1:-1]))
-    if curr_quad[1] != '_':  # if it is a function
-        insert(curr_quad[3], retornos.pop(0))
+
+    if type(curr_quad[2]) is str and curr_quad[2][0] == '[':
+        class_attr_dic[curr_quad[3]] = True
+
+    val = get(curr_quad[3])
+    if type(val) is not str:
+        if curr_quad[1] != '_':  # if it is a function
+            insert(curr_quad[3], retornos.pop(0))
+        else:
+            insert(curr_quad[3], operand(curr_quad[2]))
     else:
-        insert(curr_quad[3], operand(curr_quad[2]))
+        if val[0] == '[' and class_attr_dic[curr_quad[3]] is True:
+            insert(int(val[1:-1]), operand(curr_quad[2]))
+        else:
+            if curr_quad[1] != '_':  # if it is a function
+                insert(curr_quad[3], retornos.pop(0))
+            else:
+                insert(curr_quad[3], operand(curr_quad[2]))
 
 
 def exec_gt():
@@ -514,7 +589,10 @@ def exec_quad(quads):
         func()
         curr_quad_num += 1
         curr_quad = quads[curr_quad_num].copy()
-        #memories[-1].print_mem()
+        # memories[-1].print_mem()
+        #print(curr_quad)
+        #print(get(3001))
+
 
 switch = {
     'GOTO': exec_goto,
@@ -547,6 +625,9 @@ switch = {
 def start_vm(_quad, functions, clases):
     global funciones, tclases
     funciones = functions
+    for clase in clases.values():
+        for variable in clase['variables'].values():
+            class_attr_dic[variable['vaddr']] = False
     tclases = clases
     print("VM")
     global quad
@@ -558,3 +639,5 @@ def start_vm(_quad, functions, clases):
     memories.append(local_mem)
 
     exec_quad(quad)
+
+    #print(tclases)

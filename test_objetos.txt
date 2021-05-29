@@ -5,15 +5,23 @@ program patito;
         float peso;
 
         def void setEstatura(float e) {
-            estatura = e;
+            estatura = e * 5;
+        }
+
+        def void setPeso(float p) {
+            peso = p * 5;
         }
 
         def float getEstatura() {
             return estatura;
         }
+
+        def float getPeso() {
+            return peso;
+        }
     }
     def void main()
-    int i, j;
+    float i, j;
     float z, m;
     Animal perro;
     Animal gato;
@@ -23,9 +31,13 @@ program patito;
         i = 3;
         j = i;
         j = i +100;
-        perro.setEstatura(z);
-        gato.setEstatura(m);
+        perro.setEstatura(10.0);
+        perro.setPeso(1.0);
+        gato.setEstatura(10.0);
+        gato.setPeso(2.0);
         print(perro.getEstatura());
+        print(perro.getPeso());
         print(gato.getEstatura());
+        print(gato.getPeso());
     }
 }

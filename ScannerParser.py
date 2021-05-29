@@ -36,6 +36,7 @@ tempChar = 24001
 
 classVar = 27001
 
+
 class MemoryRegister:
     array: list
     index: int
@@ -416,6 +417,7 @@ def add_localvaddr():
         elif table['clases'][curr_class]['variables'][token_dic['id']]['tipo'] == "char":
             table['clases'][curr_class]['variables'][token_dic['id']]['vaddr'] = globalChar
             globalChar += 1    
+
 
 def add_globalvaddr():
     global globalChar
@@ -860,13 +862,18 @@ def infer_type(id):
         int(id)
         corresponding_types.append('int')
     except ValueError:
-        corresponding_types.append('char')
+        try:
+            float(id)
+            corresponding_types.append('float')
+        except ValueError:
+            corresponding_types.append('char')
 
 
 def math_expression_1(id):
     type_converter = {
         "<class 'str'>": "char"
     }
+
     if id not in table['funciones']:
         if id.isnumeric() or check_float(id) or id[0] == '\'':
             pending_operands.append(id)
@@ -890,12 +897,13 @@ def math_expression_1(id):
         corresponding_types.append(table['variables'][id]['tipo'])
     elif id in table['funciones']:
         corresponding_types.append(table['funciones'][id]['tipo'])
-    else:
-        if curr_class != '':
-            if id in table['clases'][curr_class]['variables']:
-                corresponding_types.append(table['clases'][curr_class]['variables'][id]['vaddr'])
+    elif curr_class != '':
+        if id in table['clases'][curr_class]['variables']:
+            corresponding_types.append(table['clases'][curr_class]['variables'][id]['vaddr'])
         else:
             infer_type(id)
+    else:
+        infer_type(id)
 
 
 def math_expression_2(operand):
@@ -1368,7 +1376,11 @@ def p_llamada_b(p):
 def p_llamada_c(p):
     '''llamada_c : ID'''
     if class_func_call:
-        quad.append(["CC", class_func_call_type, class_func_call_id, p[1]])
+        class_vars = table['clases'][token_dic['tipo']]['variables']
+        cont = 0
+        for i in class_vars.values():
+            quad.append(["=", '_', '[' + str(function_vars[class_func_call_id]['vaddr'] + cont) + ']', i['vaddr']])
+            cont += 1
     module_call_1(p[1])
 
 
@@ -1498,7 +1510,6 @@ def p_classdeclare(p):
             function_vars[token_dic['id']]['vaddr']
         except KeyError:
             add_localvaddr()
-    quad.append(["CD", "_" , token_dic['tipo'], token_dic['id']])
 
 
 def p_llamadafuncionclase(p):
@@ -1522,6 +1533,8 @@ def p_asignacion(p):
     '''asignacion : ID EQ expresion SC
                 | array_access EQ expresion SC
                 |  ID EQ expresion'''
+
+    debug_num = 0
 
     operator = p[2]
     left_operand = '_'
