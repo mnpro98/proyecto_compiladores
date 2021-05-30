@@ -1,4 +1,5 @@
 program pelos;
+int global;
 {
     int a, b, c, d, i;
     while(i > 0) {

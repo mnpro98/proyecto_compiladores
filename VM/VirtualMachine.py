@@ -323,27 +323,28 @@ def exec_print():
     except TypeError:
         print(curr_quad[3])
 
+
 #funcion que ejecuta el cuadruplo de input
-#revisa que el valo sea de un tipo correcto
+#revisa que el valor sea de un tipo correcto
 def exec_input():
     if (9000 < curr_quad[3] <= 12000) or (0 < curr_quad[3] <= 3000):
         try:
             value = int(input("Enter the value of " + curr_quad[2] + ': '))
         except ValueError:
-            print("ERROR: VALOR TIENE QUE SER INT")
+            print("ERROR: VALOR DE ENTRADA TIENE QUE SER INT")
             exit(-1)
     elif 12000 < curr_quad[3] <= 15000 or (3000 < curr_quad[3] <= 6000):
         try:
             value = float(input("Enter the value of " + curr_quad[2] + ': '))
         except ValueError:
-            print("ERROR: VALOR TIENE QUE SER FLOAT")
+            print("ERROR: VALOR DE ENTRADA TIENE QUE SER FLOAT")
             exit(-1)
     elif 15000 < curr_quad[3] <= 18000 or (6000 < curr_quad[3] <= 9000):
         # TODO: validar string en char
         try:
             value = input("Enter the value of " + curr_quad[2] + ': ')
         except ValueError:
-            print("ERROR: VALOR TIENE QUE SER CHAR")
+            print("ERROR: VALOR DE ENTRADA TIENE QUE SER CHAR")
             exit(-1)
     insert(curr_quad[3], value)
 

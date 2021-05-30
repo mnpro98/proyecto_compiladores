@@ -1,3 +1,9 @@
+# ScannerParser.py
+
+# Codigo principal. Ejecutar este.
+
+# DIRECCIONES DE MEMORIA
+
 # Global:   1 - 9000
 #   int:        1 - 3000
 #   float:      3001 - 6000
@@ -35,6 +41,7 @@ tempFloat = 21001
 tempChar = 24001
 
 classVar = 27001
+
 
 #Manejador de direcciones de memoria
 class MemoryRegister:
@@ -107,11 +114,11 @@ psaltos = []
 pila_dim = []
 pila_nodos = []
 
+
 #funcion para saber si valor recibido es float
 def check_float(potential_float):
     try:
         float(potential_float)
-
         return True
     except ValueError:
         return False
@@ -550,6 +557,7 @@ def array_access_1(id):
         corresponding_types.append(table['variables'][id]['tipo'])
         access_id = table['variables'][id]
 
+
 #Funcion para el punto neuralgico dos de accesso a arreglos
 #revisa que si sea un arreglo y pone fondo falso en pila de operandos ademas de poner info en pila dim y piila nodos
 def array_access_2():
@@ -774,6 +782,7 @@ def module_call_4():
     global k
     k = k + 1
 
+
 #Funcion para el punto neuralgico cinco para llamar una funcion
 #verificar que se hayan pasado los parametros exactos de la funcion
 def module_call_5():
@@ -852,7 +861,7 @@ def if_1():
     cond = pending_operands.pop()
     t_cond_if = corresponding_types.pop()
     if t_cond_if != 'int':
-        print("ERROR: Cond is not int")
+        print("ERROR: la condicion no es entera.")
         exit(-1)
     else:
         quad.append(["GOTOF", "_", cond, "_"])
@@ -950,13 +959,14 @@ def math_expression_1(id):
     else:
         infer_type(id)
 
+
 #funcion para el punto neuralgico 2 de las expresiones
-#revisa que los operadors sean + o -
+#revisa que los operadores sean + o -
 def math_expression_2(operand):
     if operand == '+' or operand == '-':
         pending_operators.append(operand)
     else:
-        print("ERROR: operands should be either + or -")
+        print("ERROR: los operadores deberian de ser + or -")
         exit(-1)
 
 #funcion para el punto neuralgico 3 de las expresiones
@@ -965,7 +975,7 @@ def math_expression_3(operand):
     if operand == '*' or operand == '/':
         pending_operators.append(operand)
     else:
-        print("ERROR: operands should be either * or /")
+        print("ERROR: los operadores deberian de ser * or /")
 
 #funcion para el punto neuralgico 4 de las expresiones
 #genera el cuadruplo de la expresion matematica
@@ -1003,7 +1013,7 @@ def math_expression_4(symbols):
                 # if right_operand[0] == "t":
                 #     avail.clear_space(right_operand[1])
             else:
-                print("ERROR: Type mismatch")
+                print("ERROR: Los tipos no coinciden")
                 exit(-1)
 
 #funcion para el punto neuralgico 5 de las expresiones
@@ -1022,7 +1032,7 @@ def math_expression_6():
 #saca fondo falso
 def math_expression_7():
     if pending_operators.pop() != '|':
-        print("ERROR: False bottom mark missing.")
+        print("ERROR: Falta el fondo falso.")
         exit(-1)
 
 #funcion para el punto neuralgico 8 de las expresiones
@@ -1042,7 +1052,7 @@ def math_expression_10(operand):
     if operand == "and" or operand == "or":
         pending_operators.append(operand)
     else:
-        print("ERROR: operands should be either 'and' or 'or'")
+        print("ERROR: los operadores deberian de ser 'and' o 'or'")
         exit(-1)
 
 #funcion para el punto neuralgico 11 de las expresiones
