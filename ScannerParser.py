@@ -79,6 +79,8 @@ class MemoryRegister:
 class State(Enum):
     CLASS_CREATE = 1
 
+# VARIABLES GLOBALES
+
 tabla_constantes = {}
 
 class_func_call = False
@@ -1719,7 +1721,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_string.txt", "r")
+    f = open("test_find.txt", "r")
     s = f.read()
 
 except EOFError:
