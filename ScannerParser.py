@@ -1719,7 +1719,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_and_or.txt", "r")
+    f = open("test_find.txt", "r")
     s = f.read()
 
 except EOFError:

@@ -1,0 +1,37 @@
+program patito;
+int a[5];
+{
+
+
+    def int find(int e)
+    int j, k, si, no;
+    {
+        si = 1;
+        no = 0;
+        for(j = 0; j < 5; j = j + 1){
+            if(a[j] == e){
+                return si;
+            }
+        }
+        return no;
+    }
+
+
+
+    def void main()
+    int i, k, encontrar;
+    {
+        for(i = 0; i < 5; i = i + 1) {
+            input(k);
+            a[i] = k;
+        }
+        input(encontrar);
+        encontrar = find(encontrar);
+        if(encontrar == 1){
+            print('s');
+        }else{
+            print('n');
+        }
+
+    }
+}
