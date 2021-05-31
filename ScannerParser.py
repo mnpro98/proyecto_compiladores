@@ -1006,7 +1006,6 @@ def math_expression_4(symbols):
                 quad.append(_quad)
                 pending_operands.append(result)
                 corresponding_types.append(result_type)
-                #TODO: revisar esto (da out of bounds cuando reseteas el avail)
                 # If any operand were a temporal space, return it to AVAIL
                 # if left_operand[0] == "t":
                 #     avail.clear_space(left_operand[1])
@@ -1605,7 +1604,11 @@ def p_asignacion(p):
             try:
                 result = table['variables'][p[1]]['vaddr']
             except KeyError:
-                result = function_vars[p[1]]['vaddr']
+                try:
+                    result = function_vars[p[1]]['vaddr']
+                except KeyError:
+                    print("ERROR: variable ", p[1], " no existe.")
+                    exit(-1)
         else:
             result = table['clases'][curr_class]['variables'][p[1]]['vaddr']
     else:
@@ -1717,7 +1720,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_13.txt", "r")
+    f = open("test_string.txt", "r")
     s = f.read()
 
 except EOFError:

@@ -343,6 +343,9 @@ def exec_input():
         # TODO: validar string en char
         try:
             value = input("Enter the value of " + curr_quad[2] + ': ')
+            if len(value) != 1:
+                print("ERROR: Solo se debe de dar un caracter")
+                exit(-1)
         except ValueError:
             print("ERROR: VALOR DE ENTRADA TIENE QUE SER CHAR")
             exit(-1)
