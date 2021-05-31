@@ -1,14 +1,9 @@
 program patito;
 int a[5];
 {
-    def void main()
-    int i, k, temp;
+    def void sort(int k)
+    int i, temp;
     {
-        for(i = 0; i < 5; i = i + 1) {
-            input(k);
-            a[i] = k;
-        }
-
         for(i = 0; i < 5; i = i + 1) {
             for(k = 0; k < 5 - 1; k = k + 1){
                 if(a[k] > a[k + 1]){
@@ -21,5 +16,15 @@ int a[5];
         for(i = 0; i < 5; i = i + 1) {
             print(a[i]);
         }
+    }
+
+    def void main()
+    int k, i;
+    {
+        for(i = 0; i < 5; i = i + 1) {
+            input(k);
+            a[i] = k;
+        }
+        sort(k);
     }
 }
