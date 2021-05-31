@@ -1581,7 +1581,6 @@ def p_llamadafuncionclase(p):
 
 def p_llamadafuncionclase_a(p):
     '''llamadafuncionclase_a : ID'''
-    print(p[1])
     global class_func_call, class_func_call_type, class_func_call_id
     class_func_call = True
     class_func_call_id = p[1]
@@ -1720,7 +1719,7 @@ def p_error(p):
 yacc.yacc()
 
 try:
-    f = open("test_string.txt", "r")
+    f = open("test_and_or.txt", "r")
     s = f.read()
 
 except EOFError:
