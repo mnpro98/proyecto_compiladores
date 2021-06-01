@@ -17,12 +17,76 @@
 <p>Para correr el compilador, es necesario descargar la última version de Python. Es necesario saber cómo correr archivos .py de Python.</p>
 <p>Correr este compilador es bastante sencillo, lo primero que debes de hacer es descargar este repositorio y guardarlo en tu máquina.</p>
 <p>Para crear tu programa, deberás crear un archivo .txt con el código y guardarlo dentro de la carpeta del repositorio que descargaste.</p>
+
+```
+program patito;
+char c[10];
+{
+    def void main()
+    int i;
+    char d;
+    {
+        for(i = 0; i < 10; i = i + 1){
+            input(d);
+            c[i] = d;
+        }
+        for(i = 0; i < 10; i = i + 1){
+            print(c[i]);
+        }
+    }
+}
+```
+
 <p>Después, utilizando un IDE o el método que gustes, corre el archivo llamado ScannerParser.py. Te deberá aparecer un mensaje para escribir el nombre de tu archivo.</p>
 <p>¡Y listo! Una vez que hayas escrito el nombre del código que creaste, el compilador lo intentará ejecutar.</p>
 
 <h2>Estatutos Secuenciales</h2>
+<h3>Declaración y Asignación</h3>
+<p>A diferencia de otros lenguajes de programación, en este se deberán de declarar las variables sin inicializar justo antes de las llaves de cada función si son locales, o bien, justo después de definir en nombre del programa. De esta manera:</p>
+
+```
+program decas;
+int global;
+{
+    def void main()
+    float local;
+    {
+        local = 2;
+    }
+}
+```
+
+<h3>Lectura</h3>
+<p>Para la entrada del usuario, se debe llamar a la función 'input(variable)' y poner adentro la variable que se desea guardar.</p>
+
+```
+program lectura;
+{
+    def void main()
+    char a;
+    {
+        input(a);
+    }
+}
+```
+
+<h3>Print</h3>
+<p>Para imprimir, es igual que Python. El usuario deberá llamar a la función 'print(var)' y meter como argumento la variable que se desea imprimir.</p>
+
+```
+program imprime;
+{
+    def void main()
+    char a;
+    {
+        input(a);
+        print(a);
+    }
+}
+```
 
 <h2>Expresiones Aritméticas</h2>
+<p>Las expresiones aritméticas funcionan iu</p>
 
 <h2>Estatutos Condicionales</h2>
 
