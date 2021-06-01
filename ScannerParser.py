@@ -1720,8 +1720,9 @@ def p_error(p):
 
 yacc.yacc()
 
+test = input("Ingresa el nombre del archivo que quieres ejecutar: ")
 try:
-    f = open("test_find.txt", "r")
+    f = open(test, "r")
     s = f.read()
 
 except EOFError:
@@ -1730,7 +1731,7 @@ except EOFError:
 yacc.parse(s)
 
 pp = PrettyPrinter(indent=4)
-pp.pprint(quad)
+#pp.pprint(quad)
 #pp.pprint(table)
 
 

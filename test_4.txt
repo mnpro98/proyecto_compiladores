@@ -1,9 +1,10 @@
 program h;
+char k;
 {
-    char k;
-    def void main(){
-        int a, b, c, d;
-        int i, j;
+    def void main()
+    int a, b, c, d;
+    int i, j;
+    {
         a = 2;
         input(k);
         print(k);

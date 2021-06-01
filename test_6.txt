@@ -14,7 +14,6 @@ float f;
     {
         b = 2;
         i = 0;
-        print(i);
         while(i < 10) {
             if(i < 5){
                 print(i);
