@@ -86,12 +86,194 @@ program imprime;
 ```
 
 <h2>Expresiones Aritméticas</h2>
-<p>Las expresiones aritméticas funcionan iu</p>
+<p>Las expresiones aritméticas funcionan igual que Python, es decir, se utilizan 'and' y 'or' para las hiper expresiones, todo lo demás es igual.</p>
+
+```
+program aritmetica;
+{
+    def void main()
+    float a;
+    {
+        a = 5 / 2 * (20 + 13);
+        b = 1 and 0;
+        print(a);
+        print(b);
+    }
+}
+```
 
 <h2>Estatutos Condicionales</h2>
+<p>Los estatutos condicionales funcionan igual que C. Estos son algunos ejemplos.</p>
+
+```
+program forif;
+int a[5];
+char c;
+{
+    def void main()
+    int i, k, temp, arr1, arr2;
+    {
+        for(i = 0; i < 5; i = i + 1) {
+            input(k);
+            a[i] = k;
+        }
+        if(a[0] < a[1]){
+            print(i);
+        } else {
+            print(k);
+        }
+    }
+}
+```
+
+```
+program while;
+int resp;
+{
+    def void main()
+    int i;
+    {
+        i = 0;
+        resp = 1;
+        input(i);
+        while(i > 0){
+            resp = resp * i;
+            i = i - 1;
+        }
+        print(resp);
+    }
+}
+```
 
 <h2>Funciones</h2>
+<p>Las funciones se definen poniendo la palabra 'def' al principio de cada inicialización seguido de su tipo y su nombre. Al igual que C, puedes definir funciones de tipo void, int, float, o char.</p>
+
+```
+program funciones;
+int a[5];
+{
+    def void sort(int k)
+    int i, temp;
+    {
+        for(i = 0; i < 5; i = i + 1) {
+            for(k = 0; k < 5 - 1; k = k + 1){
+                if(a[k] > a[k + 1]){
+                    temp = a[k];
+                    a[k] = a[k + 1];
+                    a[k + 1] = temp;
+                }
+            }
+        }
+        for(i = 0; i < 5; i = i + 1) {
+            print(a[i]);
+        }
+    }
+
+    def void main()
+    int k, i;
+    {
+        for(i = 0; i < 5; i = i + 1) {
+            input(k);
+            a[i] = k;
+        }
+        sort(k);
+    }
+}
+```
 
 <h2>Arreglos y Matrices</h2>
+<p>En este lenguaje puedes crear arreglos y matrices. Se inicializan y asignan de manera similar al lenguaje C.</p>
+
+```
+program matrices;
+int loquesea;
+int a[2][2];
+int b[2][2];
+int c[2][2];
+{
+    def void multmat()
+    int i, j, k, l, m;
+    {
+        i = 0;
+        for(i = 0; i < 2; i = i + 1) {
+            for(j = 0; j < 2; j = j + 1) {
+                c[i][j] = 0;
+                for(k = 0; k < 2; k = k + 1) {
+                    c[i][j] = a[i][k] * b[k][j] + c[i][j];
+                }
+            }
+        }
+
+        for(i = 0; i < 2; i = i + 1) {
+            for(j = 0; j < 2; j = j + 1) {
+                print(c[i][j]);
+            }
+        }
+    }
+
+    def void main()
+    {
+        a[0][0] = 1;
+        a[0][1] = 2;
+        a[1][0] = 3;
+        a[1][1] = 4;
+        b[0][0] = 1;
+        b[0][1] = 1;
+        b[1][0] = 1;
+        b[1][1] = 1;
+
+        multmat();
+    }
+}
+```
 
 <h2>Clases</h2>
+<p>También puedes crear objetos como en cualquier lenguaje orientado a objetos.</p>
+
+```
+program clases;
+{
+    class Animal {
+        float estatura;
+        float peso;
+
+        def void setEstatura(float e) {
+            estatura = e * 5;
+        }
+
+        def void setPeso(float p) {
+            peso = p * 5;
+        }
+
+        def float getEstatura() {
+            return estatura;
+        }
+
+        def float getPeso() {
+            return peso;
+        }
+    }
+    def void main()
+    float i, j;
+    float z, m;
+    Animal perro;
+    Animal gato;
+    {
+        z = 3.11;
+        m = 100;
+        i = 3;
+        j = i;
+        j = i +100;
+        perro.setEstatura(10.0);
+        perro.setPeso(1.0);
+        gato.setEstatura(10.0);
+        gato.setPeso(2.0);
+        print(perro.getEstatura());
+        print(perro.getPeso());
+        print(gato.getEstatura());
+        print(gato.getPeso());
+    }
+}
+```
+
+<p>Esperemos que disfruten de este lenguaje.</p>
