@@ -376,6 +376,12 @@ def exec_era():
                         getting_param = True
                     except KeyError:
                         pass
+    else:
+        param_checker.append('|')
+        param_checker = param_checker + funciones[funcion_actual]['parametros_vaddr']
+        getting_param = True
+
+
 
 #funcion que revisa si una variable es float
 def check_float(potential_float):
@@ -407,6 +413,9 @@ def exec_param():
         else:
             insert(param_checker.pop(0), get(curr_quad[1]))
     getting_param = False
+    if len(param_checker) > 1:
+        if param_checker[0] == '|':
+            param_checker.pop(0)
 
 
 retornos = []
@@ -606,7 +615,7 @@ def exec_quad(quads):
         func()
         curr_quad_num += 1
         curr_quad = quads[curr_quad_num].copy()
-        # memories[-1].print_mem()
+        #memories[-1].print_mem()
         #print(curr_quad)
         #print(get(3001))
 

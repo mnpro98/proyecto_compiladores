@@ -276,6 +276,7 @@ funciones_dic = {
 }
 
 func_call_id = ""
+func_call_id2 = []
 
 table = {
     "clases": {},
@@ -751,6 +752,7 @@ def module_def_7():
 def module_call_1(_id):
     global func_call_id
     func_call_id = _id
+    func_call_id2.append(_id)
     if _id not in table["funciones"] and _id not in table['clases'][class_func_call_type]['funciones']:
         print("ERROR: funcion no existe")
         exit(-1)
@@ -760,7 +762,7 @@ def module_call_1(_id):
 def module_call_2():
     global k, pending_operators
     pending_operators.append("(")
-    quad.append(["ERA", func_call_id, "_", "_"])
+    quad.append(["ERA", func_call_id2[-1], "_", "_"])
     k = 1
 
 #Funcion para el punto neuralgico tres para llamar una funcion
@@ -773,7 +775,7 @@ def module_call_3():
             print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
             exit(-1)
     else:
-        if table["funciones"][func_call_id]["parametros"][k - 1] != arg_type:
+        if table["funciones"][func_call_id2[-1]]["parametros"][k - 1] != arg_type:
             print("ERROR: el argumento " + str(k) + " de la funcion " + func_call_id + " es del tipo incorrecto")
             exit(-1)
     quad.append(["PARAM", argument, "_", "PARAM" + str(k)])
@@ -793,7 +795,7 @@ def module_call_5():
             print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
             exit(-1)
     else:
-        if k != len(table["funciones"][func_call_id]["parametros"]) and len(table["funciones"][func_call_id]["parametros"]) != 0:
+        if k != len(table["funciones"][func_call_id2[-1]]["parametros"]) and len(table["funciones"][func_call_id]["parametros"]) != 0:
             print("ERROR: se paso un numero incorrecto de argumentos en la llamada.")
             exit(-1)
     pending_operators.pop()
@@ -808,11 +810,12 @@ def module_call_6():
             quad.append(["=", func_call_id, "_", result])
         pending_operands.append(result)
     else:
-        result = avail.next(table["funciones"][func_call_id]["tipo"])
-        quad.append(["GOSUB", func_call_id, "_", table["funciones"][func_call_id]["linea"]])
-        if table["funciones"][func_call_id]["tipo"] != 'void':
-            quad.append(["=", func_call_id, "_", result])
+        result = avail.next(table["funciones"][func_call_id2[-1]]["tipo"])
+        quad.append(["GOSUB", func_call_id2[-1], "_", table["funciones"][func_call_id2[-1]]["linea"]])
+        if table["funciones"][func_call_id2[-1]]["tipo"] != 'void':
+            quad.append(["=", func_call_id2[-1], "_", result])
         pending_operands.append(result)
+        func_call_id2.pop()
 
 #Funcion para el punto neuralgico uno para los for loops
 #agrega un dicionario vacio a la pila_for

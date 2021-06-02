@@ -1,0 +1,29 @@
+program patito;
+int b;
+float g;
+{
+    def int patito(int d) {
+        return d * 3;
+    }
+
+    def int pelos(int a) {
+        return patito(a * 2);
+    }
+
+    def int fact(int n)
+    {
+        if(n == 1){
+            return n;
+        }else{
+            return n * fact(n - 1);
+        }
+    }
+
+    def void main()
+    {
+        input(b);
+        print(fact(b));
+        print(pelos(2));
+        print(pelos(3) + fact(pelos(1)));
+    }
+}
